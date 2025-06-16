@@ -9,12 +9,15 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
+    "@workspace/ui": "workspace:*",
     "next": "15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "fumadocs-ui": "15.5.3",
     "fumadocs-core": "15.5.3",
-    "fumadocs-mdx": "11.6.9"
+    "fumadocs-mdx": "11.6.9",
+    "lucide-react": "^0.482.0",
+    "motion": "^12.9.4"
   },
   "devDependencies": {
     "@types/node": "24.0.1",

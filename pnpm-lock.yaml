@@ -59,6 +59,9 @@ importers:
 
   apps/www:
     dependencies:
+      '@workspace/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       fumadocs-core:
         specifier: 15.5.3
         version: 15.5.3(@types/react@19.1.8)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -68,6 +71,12 @@ importers:
       fumadocs-ui:
         specifier: 15.5.3
         version: 15.5.3(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.10)
+      lucide-react:
+        specifier: ^0.482.0
+        version: 0.482.0(react@19.1.0)
+      motion:
+        specifier: ^12.9.4
+        version: 12.18.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next:
         specifier: 15.3.3
         version: 15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
