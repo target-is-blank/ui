@@ -6,11 +6,14 @@ import ShadcnIcon from "@workspace/ui/components/icons/shadcn-icon";
 import TailwindIcon from "@workspace/ui/components/icons/tailwind-icon";
 import TSIcon from "@workspace/ui/components/icons/ts-icon";
 import { Button } from "@workspace/ui/components/ui/button";
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { ArrowRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 
 export const Hero = () => {
+  const isMobile = useIsMobile();
+
   return (
     <div className="relative mx-auto max-w-7xl px-6 pt-8 w-full flex flex-col gap-10">
       <div className="flex flex-col items-center sm:items-start lg:items-center justify-start gap-6 mt-8">
@@ -27,20 +30,19 @@ export const Hero = () => {
         </p>
 
         <div className="w-full sm:w-full lg:w-3/4 flex items-center justify-start relative">
-          <button className="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-[#59BF00] focus-visible:ring-[#59BF00]/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-secondary/80 px-4 py-2 has-[>svg]:px-3 bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64">
-            <span className="hidden lg:inline-flex">
-              Search documentation...
-            </span>
-            <span className="inline-flex lg:hidden">Search...</span>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1">
-              <kbd className="bg-gray-50 dark:bg-gray-900 text-neutral-500 dark:text-neutral-400 pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&_svg:not([class*='size-'])]:size-3">
-                ⌘
-              </kbd>
-              <kbd className="bg-gray-50 dark:bg-gray-900 text-neutral-500 dark:text-neutral-400 pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&_svg:not([class*='size-'])]:size-3">
-                K
-              </kbd>
-            </div>
-          </button>
+          <input
+            type="text"
+            placeholder={isMobile ? "Search..." : "Search components..."}
+            className="w-3/4 sm:w-1/2 mx-auto sm:mx-0 text-sm h-10 px-4 pr-12 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder:text-neutral-500 dark:placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#59BF00] focus:border-transparent"
+          />
+          <div className="absolute right-[12%] sm:right-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center gap-1">
+            <kbd className="bg-gray-50 dark:bg-gray-900 text-neutral-500 dark:text-neutral-400 pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&_svg:not([class*='size-'])]:size-3">
+              ⌘
+            </kbd>
+            <kbd className="bg-gray-50 dark:bg-gray-900 text-neutral-500 dark:text-neutral-400 pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&_svg:not([class*='size-'])]:size-3">
+              K
+            </kbd>
+          </div>
         </div>
 
         <div className="sm:w-full lg:w-3/4 flex sm:flex-row flex-col sm:gap-5 gap-5 my-8">
