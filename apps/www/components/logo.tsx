@@ -1,8 +1,8 @@
 "use client";
 
+import config from "@workspace/ui/config";
 import { cn } from "@workspace/ui/lib/utils";
 import { easeInOut, motion, type SVGMotionProps } from "motion/react";
-
 const pathVariants = {
   hidden: {
     pathLength: 0,
@@ -21,21 +21,25 @@ const pathVariants = {
 const sizes = {
   sm: {
     svg: "h-6",
-    betaTag: "bottom-[2px] left-[calc(100%+6px)] px-1.5 py-0.5 text-[9px]",
+    betaTag: "px-1.5 py-0.5 text-[9px]",
+    text: "text-md font-medium",
   },
   lg: {
     svg: "h-12",
-    betaTag: "bottom-[4px] left-[calc(100%+10px)] px-2 py-0.5 text-base",
+    betaTag: "px-2 py-0.5 text-base",
+    text: "text-lg font-medium",
   },
   xl: {
     svg: "h-14",
-    betaTag: "bottom-[7px] left-[calc(100%+15px)] px-2.5 py-1 text-base",
+    betaTag: "px-2.5 py-1 text-base",
+    text: "text-xl font-medium",
   },
 };
 
 export const Logo = ({
   betaTag = false,
   draw = false,
+  text = false,
   size = "sm",
   className,
   containerClassName,
@@ -44,10 +48,16 @@ export const Logo = ({
   containerClassName?: string;
   betaTag?: boolean;
   draw?: boolean;
+  text?: boolean;
   size?: keyof typeof sizes;
 } & SVGMotionProps<SVGSVGElement>) => {
   return (
-    <div className={cn("relative", containerClassName)}>
+    <div
+      className={cn(
+        "relative flex items-center justify-center gap-4",
+        containerClassName,
+      )}
+    >
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 455 468"
@@ -60,8 +70,8 @@ export const Logo = ({
           initial={draw ? "hidden" : false}
           animate={draw ? "visible" : false}
           d="M340.247 179.702C475.209 -51.5579 -12.291 -65.5579 143.747 187.702C-144.791 141.942 71.7093 613.942 225.709 353.442C357.209 577.442 594.209 187.702 340.247 179.702Z"
-          fill="#59BF00"
-          stroke="#59BF00"
+          fill={config.color.primary}
+          stroke={config.color.primary}
           strokeWidth={4}
         />
         <motion.path
@@ -87,27 +97,36 @@ export const Logo = ({
           initial={draw ? "hidden" : false}
           animate={draw ? "visible" : false}
           d="M184.089 447.061C182.342 440.978 203.87 444.154 226.553 354C229.577 448.448 218.15 466.599 211.275 465.595C204.399 464.592 185.836 453.144 184.089 447.061Z"
-          fill="#59BF00"
-          stroke="#59BF00"
+          fill={config.color.primary}
+          stroke={config.color.primary}
           strokeWidth={4}
         />
       </motion.svg>
+
+      {text && (
+        <motion.span
+          className={cn(sizes[size].text)}
+          initial={draw ? { opacity: 0 } : undefined}
+          animate={draw ? { opacity: 1 } : undefined}
+          transition={{ duration: 2, ease: "easeInOut" }}
+        >
+          Target Blank
+        </motion.span>
+      )}
 
       {betaTag && (
         <motion.div
           className={cn(
             sizes[size].betaTag,
-            "absolute bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded-full",
+            "bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded-full",
           )}
           initial={draw ? { opacity: 0 } : undefined}
           animate={draw ? { opacity: 1 } : undefined}
-          transition={{ duration: 4, ease: "easeInOut" }}
+          transition={{ duration: 2, ease: "easeInOut" }}
         >
           Beta
         </motion.div>
       )}
-
-      <span className="sr-only">Animate UI</span>
     </div>
   );
 };

@@ -5,18 +5,18 @@ import { motion } from "motion/react";
 import { Logo } from "@/components/logo";
 import GithubIcon from "@workspace/ui/components/icons/github-icon";
 import XIcon from "@workspace/ui/components/icons/x-icon";
+import config from "@workspace/ui/config";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { useEffect, useState } from "react";
-
 const LOGO_WRAPPER_VARIANTS = {
   center: {
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    height: "100%",
+    height: "100vh",
   },
-  topLeft: {
+  topCenter: {
     top: 0,
     left: 0,
     right: 0,
@@ -33,18 +33,25 @@ const logoVariants = (isScroll: boolean, isMobile: boolean) => ({
     y: "-50%",
     scale: 1,
   },
-  topLeft: {
+  topCenter: {
     top: isScroll ? (isMobile ? 4 : 0) : 20,
-    left: isScroll ? (isMobile ? -36 : -61) : isMobile ? -36 : -43,
+    left: isScroll ? (isMobile ? 0 : -40) : isMobile ? 0 : -30,
     x: 0,
     y: 0,
     scale: isScroll ? (isMobile ? 0.6 : 0.5) : 0.6,
   },
 });
 
-export const SplashScreen = ({ transition }: { transition: boolean }) => {
+export const Header = ({ animation = false }: { animation?: boolean }) => {
   const isMobile = useIsMobile();
   const [isScroll, setIsScroll] = useState(false);
+  const [transition, setTransition] = useState(!animation ? true : false);
+
+  useEffect(() => {
+    if (!animation) return;
+    const timeout = setTimeout(() => setTransition(true), 1000);
+    return () => clearTimeout(timeout);
+  }, [animation]);
 
   useEffect(() => {
     const handleScroll = () => setIsScroll(window.scrollY > 10);
@@ -56,26 +63,25 @@ export const SplashScreen = ({ transition }: { transition: boolean }) => {
     <motion.div
       variants={LOGO_WRAPPER_VARIANTS}
       initial="center"
-      animate={transition ? "topLeft" : "center"}
+      animate={transition ? "topCenter" : "center"}
       transition={{ type: "spring", stiffness: 200, damping: 30 }}
-      className="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen"
+      className="fixed z-40 flex items-center justify-center w-full"
     >
-      <motion.div className="absolute inset-x-0 top-0 h-14 z-100 w-full bg-background/70 backdrop-blur-md" />
       <div className="relative max-w-7xl size-full">
         <motion.div
-          className="absolute z-110"
+          className="absolute z-110 flex items-center justify-center w-fit"
           variants={logoVariants(isScroll, isMobile)}
-          initial="center"
-          animate={transition ? "topLeft" : "center"}
+          initial={transition ? "topCenter" : "center"}
+          animate={transition ? "topCenter" : "center"}
           transition={{ type: "spring", stiffness: 200, damping: 30 }}
         >
-          <Logo size={isMobile ? "lg" : "xl"} draw betaTag />
+          <Logo size={isMobile ? "lg" : "xl"} draw={animation} text betaTag />
         </motion.div>
 
         <motion.div
           initial={{
             top: isScroll ? (isMobile ? 12 : 7.5) : 28,
-            right: -43,
+            right: 0,
             opacity: 0,
           }}
           animate={
@@ -87,16 +93,16 @@ export const SplashScreen = ({ transition }: { transition: boolean }) => {
                 }
               : {
                   top: isScroll ? (isMobile ? 12 : 7.5) : 28,
-                  right: -43,
+                  right: 0,
                   opacity: 0,
                 }
           }
           transition={{ type: "spring", stiffness: 200, damping: 30 }}
           className="absolute z-110 flex items-center gap-x-4"
         >
-          <div className="hidden xs:flex items-center gap-x-1">
+          <div className="hidden sm:flex items-center gap-x-1">
             <a
-              href="https://github.com/animate-ui/animate-ui"
+              href={config.github.url}
               rel="noreferrer noopener"
               target="_blank"
               className="inline-flex sm:mt-1 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&_svg]:size-5 text-fd-muted-foreground sm:[&_svg]:size-5.5"
@@ -105,7 +111,7 @@ export const SplashScreen = ({ transition }: { transition: boolean }) => {
               <GithubIcon />
             </a>
             <a
-              href="https://x.com/animate_ui"
+              href={config.x.url}
               rel="noreferrer noopener"
               target="_blank"
               className="inline-flex sm:mt-1 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&_svg]:size-5 text-fd-muted-foreground sm:[&_svg]:size-5.5"

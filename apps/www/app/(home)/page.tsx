@@ -1,26 +1,55 @@
 "use client";
 
-import { SplashScreen } from "@/components/splash-screen";
-import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
-import Link from "next/link";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+import { Hero } from "@/components/hero";
+import { cn } from "@workspace/ui/lib/utils";
+import { motion, spring } from "motion/react";
+import { useEffect, useState } from "react";
+
+const CONTENT_VARIANTS = {
+  hidden: {
+    y: 2000,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: spring, stiffness: 100, damping: 30 },
+  },
+};
 
 export default function HomePage() {
-  const isMobile = useIsMobile();
+  const [transition, setTransition] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setTransition(true), 2000);
+    const timer2 = setTimeout(() => setIsLoaded(true), 3000);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(timer2);
+    };
+  }, []);
 
   return (
-    <main className="relative flex flex-1 flex-col justify-center text-center">
-      <h1 className="mb-4 text-2xl font-bold">Hello World</h1>
-      <SplashScreen transition={true} />
-      <p className="text-fd-muted-foreground">
-        You can open{" "}
-        <Link
-          href="/docs"
-          className="text-fd-foreground font-semibold underline"
+    <main className={cn("relative h-dvh", !isLoaded && "overflow-y-hidden")}>
+      <Header animation />
+
+      <div className="h-dvh w-full flex items-center">
+        <motion.div
+          variants={CONTENT_VARIANTS}
+          initial="hidden"
+          animate={transition ? "visible" : "hidden"}
+          className="w-full"
         >
-          /docs
-        </Link>{" "}
-        and see the documentation.
-      </p>
+          <Hero key={String(transition)} />
+        </motion.div>
+      </div>
+
+      <div className="w-full max-w-7xl mx-auto pb-30 px-6"></div>
+
+      <Footer />
     </main>
   );
 }
