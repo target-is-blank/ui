@@ -5,7 +5,7 @@ import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import { config } from "./base";
+import { config as baseConfig } from "./base";
 
 /**
  * A custom ESLint configuration for libraries that use Next.js.
@@ -13,7 +13,7 @@ import { config } from "./base";
  * @type {import("eslint").Linter.Config}
  * */
 export const nextJsConfig = [
-  ...config,
+  ...baseConfig,
   js.configs.recommended,
   eslintConfigPrettier,
   ...tseslint.configs.recommended,
