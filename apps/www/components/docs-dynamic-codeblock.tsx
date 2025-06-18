@@ -54,6 +54,12 @@ export function DynamicCodeBlock({
 }) {
   const components = getComponents({ title, icon, onCopy, className });
 
+  if (!code || !lang) {
+    throw new Error(
+      `DynamicCodeBlock: code or lang is undefined! code=${code}, lang=${lang}`,
+    );
+  }
+
   return useShiki(code, {
     lang,
     ...options,
