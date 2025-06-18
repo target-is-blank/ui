@@ -1,6 +1,6 @@
 name: ✨ Feature Request
-description: Propose a new feature for Animate UI.
-labels: ['enhancement']
+description: Propose a new feature for Target Blank.
+labels: ["enhancement"]
 body:
   - type: textarea
     attributes:

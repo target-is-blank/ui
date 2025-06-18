@@ -3,6 +3,7 @@
 import config from "@workspace/ui/config";
 import { cn } from "@workspace/ui/lib/utils";
 import { easeInOut, motion, type SVGMotionProps } from "motion/react";
+
 const pathVariants = {
   hidden: {
     pathLength: 0,
@@ -18,7 +19,7 @@ const pathVariants = {
   },
 };
 
-const sizes = {
+export const sizes = {
   sm: {
     svg: "h-6",
     betaTag: "px-1.5 py-0.5 text-[9px]",
@@ -54,7 +55,8 @@ export const Logo = ({
   return (
     <div
       className={cn(
-        "relative flex items-center justify-center gap-4",
+        "relative flex items-center justify-center",
+        text ? "gap-4" : "gap-2",
         containerClassName,
       )}
     >

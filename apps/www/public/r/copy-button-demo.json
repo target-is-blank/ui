@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "copy-button-demo",
+  "type": "registry:ui",
+  "title": "Copy Button Demo",
+  "description": "Demo showing an animated button with copy to clipboard effect.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/copy-button"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/buttons/copy/index.tsx",
+      "content": "import { CopyButton } from \"@/components/targetblank/buttons/copy\";\n\nexport const CopyButtonDemo = () => {\n  return <CopyButton content=\"Content to copy\" size=\"md\" />;\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/buttons/copy.tsx"
+    }
+  ]
+}

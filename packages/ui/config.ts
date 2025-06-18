@@ -1,4 +1,5 @@
 export default {
+  name: "Target Blank",
   author: {
     name: "lucas",
     github: "lucasporrini",

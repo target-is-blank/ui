@@ -6,8 +6,12 @@ export const Footer = () => {
         <div className="size-full px-4 md:px-6 flex items-center justify-start prose prose-sm text-sm text-muted-foreground">
           <p className="text-start truncate">
             Built by{" "}
-            <a href={config.x.url} rel="noopener noreferrer" target="_blank">
-              Lucas
+            <a
+              href={config.author.url}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {config.author.name}
             </a>
             . The source code is available on{" "}
             <a

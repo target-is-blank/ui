@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
-import { Label } from '@workspace/ui/components/ui/label';
-import { Slider } from '@workspace/ui/components/ui/slider';
-import { Input } from '@workspace/ui/components/ui/input';
-import { cn } from '@workspace/ui/lib/utils';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@workspace/ui/components/animate-ui/collapsible';
+} from "@workspace/ui/components/targetblank/collapsible";
+import { Input } from "@workspace/ui/components/ui/input";
+import { Label } from "@workspace/ui/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@workspace/ui/components/ui/select';
-import { Switch } from '@workspace/ui/components/ui/switch';
-import { ChevronsUpDown } from 'lucide-react';
+} from "@workspace/ui/components/ui/select";
+import { Slider } from "@workspace/ui/components/ui/slider";
+import { Switch } from "@workspace/ui/components/ui/switch";
+import { cn } from "@workspace/ui/lib/utils";
+import { ChevronsUpDown } from "lucide-react";
 
 type BaseBindNumber = { value: number };
 type BindNumberSlider = BaseBindNumber & {
@@ -78,7 +78,7 @@ const NumericInput: React.FC<NumericInputProps> = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const v = e.target.value;
       setDisplay(v);
-      if (v !== '') {
+      if (v !== "") {
         let n = Number(v);
         if (!isNaN(n)) {
           if (min !== undefined && n < min) n = min;
@@ -119,12 +119,12 @@ const NumericInput: React.FC<NumericInputProps> = ({
 const isNestedBinds = (binds: Binds): binds is NestedBinds =>
   Object.values(binds).every(
     (v) =>
-      typeof v === 'object' &&
+      typeof v === "object" &&
       v !== null &&
-      !('value' in v) &&
+      !("value" in v) &&
       Object.values(v).every(
         (inner) =>
-          typeof inner === 'object' && inner !== null && 'value' in inner,
+          typeof inner === "object" && inner !== null && "value" in inner,
       ),
   );
 
@@ -133,7 +133,7 @@ const renderNumber = (
   bind: BindNumber,
   onChange: (value: number) => void,
 ) => {
-  return 'min' in bind && 'max' in bind ? (
+  return "min" in bind && "max" in bind ? (
     <div key={key} className="flex flex-row gap-2.5">
       <div className="w-[80px] flex items-center shrink-0 min-w-0">
         <Label
@@ -162,7 +162,7 @@ const renderNumber = (
         className="w-[50px] h-8 rounded-md px-2 shrink-0"
       />
     </div>
-  ) : 'options' in bind ? (
+  ) : "options" in bind ? (
     <div key={key} className="flex flex-row gap-2.5">
       <div className="w-[80px] truncate flex items-center shrink-0 min-w-0">
         <Label
@@ -294,14 +294,14 @@ const renderBind = (
   bind: Bind,
   onChange: (value: unknown) => void,
 ) => {
-  if ('value' in bind) {
-    if (typeof bind.value === 'number') {
+  if ("value" in bind) {
+    if (typeof bind.value === "number") {
       return renderNumber(key, bind as BindNumber, onChange);
     }
-    if (typeof bind.value === 'string') {
+    if (typeof bind.value === "string") {
       return renderString(key, bind as BindString, onChange);
     }
-    if (typeof bind.value === 'boolean') {
+    if (typeof bind.value === "boolean") {
       return renderBoolean(key, bind as BindBoolean, onChange);
     }
   }
@@ -370,7 +370,7 @@ const Tweakpane = ({
   ...props
 }: TweakpaneProps) => {
   const [localBinds, setLocalBinds] = React.useState<Binds>(
-    'binds' in props ? props.binds : props.initialBinds,
+    "binds" in props ? props.binds : props.initialBinds,
   );
   const [initial, setInitial] = React.useState(false);
 
@@ -383,7 +383,7 @@ const Tweakpane = ({
   );
 
   React.useEffect(() => {
-    if ('binds' in props) setLocalBinds(props.binds);
+    if ("binds" in props) setLocalBinds(props.binds);
     setTimeout(() => setInitial(true), 500);
   }, [props]);
 
@@ -394,4 +394,4 @@ const Tweakpane = ({
   );
 };
 
-export { Tweakpane, type TweakpaneProps, type Binds };
+export { Tweakpane, type Binds, type TweakpaneProps };

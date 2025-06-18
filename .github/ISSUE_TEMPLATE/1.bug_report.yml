@@ -1,6 +1,6 @@
 name: 🐞 Bug report
-description: Report a bug with Animate UI components.
-labels: ['bug']
+description: Report a bug with Target Blank components.
+labels: ["bug"]
 body:
   - type: textarea
     attributes:

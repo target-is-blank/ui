@@ -1,4 +1,4 @@
-import { Logo } from "@/components/logo";
+import { Icons } from "@/components/icons";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 /**
@@ -10,7 +10,9 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
  */
 export const baseOptions: BaseLayoutProps = {
   nav: {
-    title: <Logo containerClassName="md:mt-0.5 md:mb-2.5" size="sm" betaTag />,
+    title: (
+      <Icons.logo containerClassName="md:mt-0.5 md:mb-2.5" size="sm" betaTag />
+    ),
   },
   // see https://fumadocs.dev/docs/ui/navigation/links
   links: [],

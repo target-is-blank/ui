@@ -1,0 +1,5 @@
+{
+  "title": "Target Blank",
+  "root": true,
+  "pages": ["index", "icons", "---Buttons---", "buttons/copy"]
+}

@@ -1,11 +1,11 @@
-import { Button } from '@workspace/ui/components/ui/button';
-import { motion } from 'motion/react';
+import { Button } from "@workspace/ui/components/ui/button";
+import { motion } from "motion/react";
 
 export function OpenInV0Button({ url }: { url: string }) {
   return (
     <Button
       aria-label="Open in v0"
-      className="h-9 md:w-auto w-9 gap-1 rounded-md md:px-3 text-xs bg-neutral-950 text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity"
+      className="h-9 md:w-auto w-9 gap-1 rounded-md md:px-3 text-xs bg-neutral-900 text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity"
       asChild
     >
       <motion.a

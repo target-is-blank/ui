@@ -2,12 +2,12 @@
 
 import { motion } from "motion/react";
 
-import { Logo } from "@/components/logo";
 import GithubIcon from "@workspace/ui/components/icons/github-icon";
 import XIcon from "@workspace/ui/components/icons/x-icon";
 import config from "@workspace/ui/config";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { useEffect, useState } from "react";
+import { Icons } from "./icons";
 const LOGO_WRAPPER_VARIANTS = {
   center: {
     top: 0,
@@ -75,7 +75,12 @@ export const Header = ({ animation = false }: { animation?: boolean }) => {
           animate={transition ? "topCenter" : "center"}
           transition={{ type: "spring", stiffness: 200, damping: 30 }}
         >
-          <Logo size={isMobile ? "lg" : "xl"} draw={animation} text betaTag />
+          <Icons.logo
+            size={isMobile ? "lg" : "xl"}
+            draw={animation}
+            text
+            betaTag
+          />
         </motion.div>
 
         <motion.div

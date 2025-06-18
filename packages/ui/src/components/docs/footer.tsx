@@ -1,4 +1,4 @@
-import config from "config.js";
+import config from "@workspace/ui/config";
 
 export const Footer = () => {
   return (
@@ -12,7 +12,7 @@ export const Footer = () => {
               rel="noopener noreferrer"
               target="_blank"
             >
-              Skyleen
+              {config.author.name}
             </a>
             . The source code is available on{" "}
             <a

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "Target Blank",
+  "homepage": "https://targetblank.dev",
+  "items": [
+    {
+      "name": "index",
+      "type": "registry:style",
+      "dependencies": [
+        "tw-animate-css",
+        "class-variance-authority",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "cssVars": {},
+      "files": []
+    },
+    {
+      "name": "copy-button",
+      "type": "registry:ui",
+      "title": "Copy Button",
+      "description": "A button with a copy to clipboard animation.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/buttons/copy/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/buttons/copy.tsx"
+        }
+      ]
+    },
+    {
+      "name": "copy-button-demo",
+      "type": "registry:ui",
+      "title": "Copy Button Demo",
+      "description": "Demo showing an animated button with copy to clipboard effect.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/copy-button"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/buttons/copy/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/buttons/copy.tsx"
+        }
+      ]
+    }
+  ]
+}
