@@ -3,20 +3,15 @@
 "use client";
 
 import { index } from "@/__registry__";
-import { ComponentWrapper } from "@/components/docs-components-wrapper";
-import { DynamicCodeBlock } from "@/components/docs-dynamic-codeblock";
+import { ComponentWrapper } from "@/components/docs/docs-components-wrapper";
+import { DynamicCodeBlock } from "@/components/docs/docs-dynamic-codeblock";
 
 import { type Binds, Tweakpane } from "@workspace/ui/components/docs/tweakpane";
 import ReactIcon from "@workspace/ui/components/icons/react-icon";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/ui/components/ui/tabs";
 import { cn } from "@workspace/ui/lib/utils";
 import { Loader } from "lucide-react";
 import { Suspense, useEffect, useMemo, useState } from "react";
+import { DocsRender, DocsTrigger } from "./docs-trigger";
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
@@ -58,6 +53,12 @@ export function ComponentPreview({
     string,
     unknown
   > | null>(null);
+
+  enum Tab {
+    PREVIEW = "preview",
+    CODE = "code",
+  }
+  const [currentTab, setCurrentTab] = useState<Tab>(Tab.PREVIEW);
 
   const code = useMemo(() => {
     const code = index[name]?.files?.[0]?.content;
@@ -108,25 +109,25 @@ export function ComponentPreview({
       )}
       {...props}
     >
-      <Tabs defaultValue="preview" className="relative mr-auto w-full">
-        <div className="flex items-center justify-between pb-2">
-          <TabsList className="justify-start rounded-xl h-10 bg-transparent p-0">
-            <TabsTrigger
-              value="preview"
-              className="relative border-none rounded-lg px-4 py-2 h-full font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:text-foreground data-[state=active]:shadow-none"
-            >
-              Preview
-            </TabsTrigger>
-            <TabsTrigger
-              value="code"
-              className="relative border-none rounded-lg px-4 py-2 h-full font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:text-foreground data-[state=active]:shadow-none"
-            >
-              Code
-            </TabsTrigger>
-          </TabsList>
-        </div>
+      <div className="flex items-center gap-2">
+        <DocsTrigger
+          type={Tab.PREVIEW}
+          currentInstallationType={currentTab}
+          onClick={() => setCurrentTab(Tab.PREVIEW)}
+        >
+          Preview
+        </DocsTrigger>
+        <DocsTrigger
+          type={Tab.CODE}
+          currentInstallationType={currentTab}
+          onClick={() => setCurrentTab(Tab.CODE)}
+        >
+          Code
+        </DocsTrigger>
+      </div>
 
-        <TabsContent value="preview" className="relative rounded-md h-full">
+      <div className="relative w-full min-h-[80px]">
+        <DocsRender type={Tab.PREVIEW} currentInstallationType={currentTab}>
           <ComponentWrapper
             name={name}
             iframe={iframe}
@@ -146,8 +147,9 @@ export function ComponentPreview({
               {preview}
             </Suspense>
           </ComponentWrapper>
-        </TabsContent>
-        <TabsContent value="code">
+        </DocsRender>
+
+        <DocsRender type={Tab.CODE} currentInstallationType={currentTab}>
           <div className="flex flex-col space-y-4">
             <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[400px] [&_pre]:overflow-auto">
               <DynamicCodeBlock
@@ -158,8 +160,8 @@ export function ComponentPreview({
               />
             </div>
           </div>
-        </TabsContent>
-      </Tabs>
+        </DocsRender>
+      </div>
     </div>
   );
 }

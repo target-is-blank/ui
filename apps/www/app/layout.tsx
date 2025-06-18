@@ -1,10 +1,10 @@
 import { jsonLd } from "@/lib/json-ld";
 import config from "@workspace/ui/config";
+import "@workspace/ui/globals.css";
 import { RootProvider } from "fumadocs-ui/provider";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
-import "./global.css";
 
 export const metadata: Metadata = {
   title: {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "Tailwind CSS",
     "Framer Motion",
     "Open-source components",
-    "Animated UI components",
+    "Target Blank components",
     "UI library",
   ],
   icons: [

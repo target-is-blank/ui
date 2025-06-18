@@ -72,7 +72,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/targetblank/demo/buttons/copy.tsx",
         content:
-          'import { CopyButton } from "@/components/targetblank/buttons/copy";\n\nexport const CopyButtonDemo = () => {\n  return <CopyButton content="Content to copy" size="md" />;\n};',
+          'import { CopyButton } from "@/components/targetblank/buttons/copy";\n\nexport const CopyButtonDemo = () => {\n  return <CopyButton variant="outline" content="Content to copy" size="md" />;\n};',
       },
     ],
     keywords: [],

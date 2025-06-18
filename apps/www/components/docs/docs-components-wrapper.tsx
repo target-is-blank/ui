@@ -8,7 +8,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Fullscreen, RotateCcw, SlidersHorizontal } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
-import Iframe from "./iframe";
+import Iframe from "../iframe";
 
 interface ComponentWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;

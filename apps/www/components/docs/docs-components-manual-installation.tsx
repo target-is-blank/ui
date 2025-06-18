@@ -1,13 +1,8 @@
 "use client";
 
+import { DynamicCodeBlock } from "@/components/docs/docs-dynamic-codeblock";
 import ReactIcon from "@workspace/ui/components/icons/react-icon";
 import { Button } from "@workspace/ui/components/ui/button";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/ui/components/ui/tabs";
 import { cn } from "@workspace/ui/lib/utils";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import {
@@ -16,7 +11,7 @@ import {
   CollapsibleTrigger,
 } from "fumadocs-ui/components/ui/collapsible";
 import { useRef, useState } from "react";
-import { DynamicCodeBlock } from "./docs-dynamic-codeblock";
+import { CodeTabs } from "./docs-code-tab";
 
 const getDepsCommands = (dependencies?: string[]) => {
   if (!dependencies) return undefined;
@@ -39,7 +34,7 @@ const getRegistryDepsCommands = (dependencies?: string[]) => {
   };
 };
 
-export const ComponentInstallation = ({
+export const ComponentManualInstallation = ({
   path,
   dependencies,
   devDependencies,
@@ -64,41 +59,14 @@ export const ComponentInstallation = ({
       {dependencies && depsCommands && (
         <Step>
           <h4 className="pt-1 pb-4">Install the following dependencies:</h4>
-          {/* <CodeTabs codes={depsCommands} /> */}
-          <Tabs>
-            <TabsList>
-              {Object.keys(depsCommands).map((key) => (
-                <TabsTrigger key={key} value={key}>
-                  {key}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {Object.entries(depsCommands).map(([key, value]) => (
-              <TabsContent key={key} value={key}>
-                <span>{value}</span>
-              </TabsContent>
-            ))}
-          </Tabs>
+          <CodeTabs codes={depsCommands} />
         </Step>
       )}
 
       {devDependencies && devDepsCommands && (
         <Step>
           <h4 className="pt-1 pb-4">Install the following dev dependencies:</h4>
-          <Tabs>
-            <TabsList>
-              {Object.keys(devDepsCommands).map((key) => (
-                <TabsTrigger key={key} value={key}>
-                  {key}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {Object.entries(devDepsCommands).map(([key, value]) => (
-              <TabsContent key={key} value={key}>
-                <span>{value}</span>
-              </TabsContent>
-            ))}
-          </Tabs>
+          <CodeTabs codes={devDepsCommands} />
         </Step>
       )}
 
@@ -107,20 +75,7 @@ export const ComponentInstallation = ({
           <h4 className="pt-1 pb-4">
             Install the following registry dependencies:
           </h4>
-          <Tabs>
-            <TabsList>
-              {Object.keys(registryDepsCommands).map((key) => (
-                <TabsTrigger key={key} value={key}>
-                  {key}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {Object.entries(registryDepsCommands).map(([key, value]) => (
-              <TabsContent key={key} value={key}>
-                <span>{value}</span>
-              </TabsContent>
-            ))}
-          </Tabs>
+          <CodeTabs codes={registryDepsCommands} />
         </Step>
       )}
 

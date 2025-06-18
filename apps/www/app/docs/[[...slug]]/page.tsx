@@ -1,11 +1,10 @@
-import { CodeBlock, CodeBlockProps, Pre } from "@/components/codeblock";
-import { DocsAuthor } from "@/components/docs-author";
-import { DocsBreadcrumb } from "@/components/docs-breadcrumb";
-import { ComponentPreview } from "@/components/docs-component-preview";
-import { ComponentInstallation } from "@/components/docs-components-installation";
-import { ExternalLink } from "@/components/docs-external-link";
+import { CodeBlock, CodeBlockProps, Pre } from "@/components/docs/codeblock";
+import { DocsAuthor } from "@/components/docs/docs-author";
+import { DocsBreadcrumb } from "@/components/docs/docs-breadcrumb";
+import { ComponentPreview } from "@/components/docs/docs-component-preview";
+import { ComponentInstallation } from "@/components/docs/docs-components-installation";
+import { ExternalLink } from "@/components/docs/docs-external-link";
 import { source } from "@/lib/source";
-import { Footer } from "@workspace/ui/components/docs/footer";
 import config from "@workspace/ui/config";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { TypeTable } from "fumadocs-ui/components/type-table";
@@ -31,7 +30,6 @@ export default async function Page(props: {
     <DocsPage
       toc={page.data.toc}
       full={page.data.full}
-      footer={{ component: <Footer /> }}
       tableOfContent={{ style: "clerk" }}
     >
       <DocsBreadcrumb slug={params.slug} />
