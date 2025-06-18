@@ -10,21 +10,18 @@ import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { ArrowRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { FocusEvent, useCallback } from "react";
+import { useCallback } from "react";
 
 export const Hero = () => {
   const isMobile = useIsMobile();
 
-  const handleKeyBoardEvent = useCallback(
-    (_: FocusEvent<HTMLInputElement, Element>) => {
-      const cmdKeyEvent = new KeyboardEvent("keydown", {
-        key: "k",
-        metaKey: true,
-      });
-      window.dispatchEvent(cmdKeyEvent);
-    },
-    [],
-  );
+  const handleKeyBoardEvent = useCallback(() => {
+    const cmdKeyEvent = new KeyboardEvent("keydown", {
+      key: "k",
+      metaKey: true,
+    });
+    window.dispatchEvent(cmdKeyEvent);
+  }, []);
 
   return (
     <div className="relative mx-auto max-w-7xl px-6 pt-8 w-full flex flex-col gap-10">

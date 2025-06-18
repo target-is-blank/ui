@@ -1,9 +1,11 @@
+import { jsonLd } from "@/lib/json-ld";
 import config from "@workspace/ui/config";
 import { RootProvider } from "fumadocs-ui/provider";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import "./global.css";
+
 export const metadata: Metadata = {
   title: {
     template: "%s - Target Blank",
@@ -88,6 +90,12 @@ const inter = Inter({
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="flex flex-col min-h-screen">
         <RootProvider>{children}</RootProvider>
       </body>
