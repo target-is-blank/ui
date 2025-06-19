@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "step-bar-demo",
+  "type": "registry:ui",
+  "title": "Step Bar Demo",
+  "description": "Demo showing a step bar with a gradient background.",
+  "registryDependencies": ["https://targetblank.dev/r/step-bar"],
+  "files": [
+    {
+      "path": "registry/demo/components/step-bar/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/step-bar.tsx"
+    }
+  ]
+}

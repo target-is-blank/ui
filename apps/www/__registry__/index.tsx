@@ -135,6 +135,42 @@ export const index: Record<string, any> = {
     })(),
     command: "https://https://targetblank.dev/r/glass-card",
   },
+  "step-bar": {
+    name: "step-bar",
+    description: "A step bar with a gradient background.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/components/step-bar/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/components/step-bar.tsx",
+        content:
+          'import { cn } from "@/lib/utils";\nimport { AnimatePresence, motion } from "motion/react";\nimport * as React from "react";\n\ninterface StepBarProps {\n  steps: number;\n  currentStep: number;\n  size?: "sm" | "md" | "lg";\n  stepClassName?: string;\n  containerClassName?: string;\n  color?: string;\n  lastStepVisible?: boolean;\n  finished?: boolean;\n  tooltipClassName?: string;\n}\n\nconst StepBar = ({\n  steps,\n  currentStep,\n  size = "md",\n  stepClassName,\n  containerClassName,\n  color = "#ffe400",\n  lastStepVisible = true,\n  finished = false,\n  tooltipClassName,\n}: StepBarProps) => {\n  const [isTooltipVisible, setIsTooltipVisible] = React.useState(false);\n\n  const getStepColor = React.useCallback(\n    (currentStep: number, index: number, color: string) => {\n      if (finished) return { opacity: 1, color };\n\n      if (currentStep < index + 1) {\n        return {\n          opacity: 0.2,\n          color: lastStepVisible ? color : "transparent",\n        };\n      }\n      if (currentStep === index + 1) {\n        return { opacity: 0.5, color };\n      }\n      return { opacity: 1, color };\n    },\n    [finished, lastStepVisible],\n  );\n\n  const handleMouseEnter = React.useCallback(\n    (index: number, currentStep: number) => {\n      if (finished && steps - 1 === index) {\n        setIsTooltipVisible(true);\n        return;\n      }\n\n      if (index + 1 === currentStep && !finished) {\n        setIsTooltipVisible(true);\n      }\n    },\n    [finished, steps],\n  );\n\n  const handleMouseLeave = React.useCallback(() => {\n    setIsTooltipVisible(false);\n  }, []);\n\n  const displayTooltipText = React.useCallback(\n    (index: number) => {\n      if (index === 0) {\n        return "Début";\n      }\n      if (index === steps - 1 || finished) {\n        return "Fin";\n      }\n      return `Étape ${index + 1}`;\n    },\n    [finished, steps],\n  );\n\n  if (currentStep > steps) {\n    throw new Error("Current step cannot be greater than steps");\n  }\n\n  return (\n    <div className={cn("flex items-center gap-1", containerClassName)}>\n      {Array.from({ length: steps }).map((_, index) => {\n        const { opacity, color: stepColor } = getStepColor(\n          currentStep,\n          index,\n          color,\n        );\n\n        return (\n          <div\n            key={index}\n            className={cn(\n              "relative w-10 h-5",\n              size === "sm" && "w-6 h-3",\n              size === "md" && "w-10 h-5",\n              size === "lg" && "w-14 h-7",\n              stepClassName,\n            )}\n          >\n            <div\n              className={cn(\n                "w-full h-full",\n                index === 0 && "rounded-l-full",\n                index === steps - 1 && "rounded-r-full",\n              )}\n              style={{\n                background: stepColor,\n                opacity: opacity,\n                height: "100%",\n                width: "100%",\n              }}\n              onMouseEnter={() => handleMouseEnter(index, currentStep)}\n              onMouseLeave={handleMouseLeave}\n            />\n            {((finished && index === steps - 1 && isTooltipVisible) ||\n              (!finished && currentStep === index + 1 && isTooltipVisible)) && (\n              <AnimatePresence mode="wait">\n                <motion.span\n                  initial={{ opacity: 0, y: 10 }}\n                  animate={{ opacity: 1, y: 0 }}\n                  exit={{ opacity: 0, y: 10 }}\n                  className={cn(\n                    "absolute -top-[100%] -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 px-2 py-1 rounded-sm bg-black text-white text-xs whitespace-nowrap shadow-lg pointer-events-none",\n                    tooltipClassName,\n                  )}\n                >\n                  {displayTooltipText(index)}\n                </motion.span>\n              </AnimatePresence>\n            )}\n          </div>\n        );\n      })}\n    </div>\n  );\n};\n\nexport default StepBar;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/components/step-bar/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "step-bar";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://https://targetblank.dev/r/step-bar",
+  },
   "transfer-demo": {
     name: "transfer-demo",
     description: "Demo showing a transfer animation.",
@@ -247,5 +283,43 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://https://targetblank.dev/r/glass-card-demo",
+  },
+  "step-bar-demo": {
+    name: "step-bar-demo",
+    description: "Demo showing a step bar with a gradient background.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/step-bar"],
+    files: [
+      {
+        path: "registry/demo/components/step-bar/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/components/step-bar.tsx",
+        content:
+          'import StepBar from "@/components/targetblank/components/step-bar";\n\nexport const StepBarDemo = () => {\n  return <StepBar steps={6} currentStep={4} />;\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/components/step-bar/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "step-bar-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://https://targetblank.dev/r/step-bar-demo",
   },
 };

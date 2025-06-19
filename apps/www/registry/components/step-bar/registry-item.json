@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "step-bar",
+  "type": "registry:ui",
+  "title": "Step Bar",
+  "description": "A step bar with a gradient background.",
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/components/step-bar/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/step-bar.tsx"
+    }
+  ]
+}

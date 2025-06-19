@@ -73,6 +73,24 @@
       ]
     },
     {
+      "name": "step-bar",
+      "type": "registry:ui",
+      "title": "Step Bar",
+      "description": "A step bar with a gradient background.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/components/step-bar/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/step-bar.tsx"
+        }
+      ]
+    },
+    {
       "name": "transfer-demo",
       "type": "registry:ui",
       "title": "Transfer Demo",
@@ -117,6 +135,22 @@
           "path": "registry/demo/components/glass-card/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/glass-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "step-bar-demo",
+      "type": "registry:ui",
+      "title": "Step Bar Demo",
+      "description": "Demo showing a step bar with a gradient background.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/step-bar"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/step-bar/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/step-bar.tsx"
         }
       ]
     }

@@ -3,11 +3,12 @@
   "root": true,
   "pages": [
     "index",
-    "icons",
+    "components",
     "---Buttons---",
     "buttons/copy",
     "---Components---",
     "components/glass-card",
+    "components/step-bar",
     "---Animations---",
     "animations/transfer"
   ]
