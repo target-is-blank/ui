@@ -2,33 +2,48 @@ import { cn } from "@workspace/ui/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import * as React from "react";
 
-interface StepBarProps {
-  steps: number;
-  currentStep: number;
-  size?: "sm" | "md" | "lg";
-  stepClassName?: string;
-  containerClassName?: string;
+const DEFAULT_COMPONENT = "div";
+
+interface StepBarProps<T extends React.ElementType = typeof DEFAULT_COMPONENT> {
   color?: string;
-  lastStepVisible?: boolean;
+  containerClassName?: string;
+  currentStep: number;
   finished?: boolean;
+  lastStepVisible?: boolean;
+  onCurrentStepHover?: (index: number) => void;
+  onCurrentStepLeave?: () => void;
+  onStepHover?: (index: number) => void;
+  onStepLeave?: () => void;
   tooltipClassName?: string;
   tooltipContent?: (index: number) => string;
   tooltipKeepVisible?: boolean;
+  size?: "sm" | "md" | "lg";
+  steps: number;
+  stepClassName?: string;
+  stepComponent?: T;
 }
 
-const StepBar = ({
-  steps,
-  currentStep,
-  size = "md",
-  stepClassName,
+const StepBar = <T extends React.ElementType = typeof DEFAULT_COMPONENT>({
+  color = "#000",
   containerClassName,
-  color = "#ffe400",
-  lastStepVisible = true,
+  currentStep,
   finished = false,
+  lastStepVisible = true,
+  onCurrentStepHover,
+  onCurrentStepLeave,
+  onStepHover,
+  onStepLeave,
   tooltipClassName,
   tooltipContent,
   tooltipKeepVisible = false,
-}: StepBarProps) => {
+  size = "md",
+  steps,
+  stepClassName,
+  stepComponent,
+  ...props
+}: StepBarProps<T>) => {
+  const Component = stepComponent || DEFAULT_COMPONENT;
+
   const [isTooltipVisible, setIsTooltipVisible] =
     React.useState(tooltipKeepVisible);
   const isFinished = React.useMemo(
@@ -56,23 +71,41 @@ const StepBar = ({
 
   const handleMouseEnter = React.useCallback(
     (index: number, currentStep: number) => {
+      onStepHover?.(index);
+
       if (isFinished && steps - 1 === index) {
         setIsTooltipVisible(true);
+        onCurrentStepHover?.(index);
         return;
       }
 
       if (index + 1 === currentStep && !isFinished) {
         setIsTooltipVisible(true);
+        onCurrentStepHover?.(index);
       }
     },
-    [isFinished, steps],
+    [isFinished, onCurrentStepHover, onStepHover, steps],
   );
 
-  const handleMouseLeave = React.useCallback(() => {
-    if (!tooltipKeepVisible) {
-      setIsTooltipVisible(false);
-    }
-  }, [tooltipKeepVisible]);
+  const handleMouseLeave = React.useCallback(
+    (index: number) => {
+      if (!tooltipKeepVisible) {
+        setIsTooltipVisible(false);
+        onStepLeave?.();
+      }
+
+      if (currentStep === index + 1 && !isFinished) {
+        onCurrentStepLeave?.();
+      }
+    },
+    [
+      tooltipKeepVisible,
+      currentStep,
+      isFinished,
+      onStepLeave,
+      onCurrentStepLeave,
+    ],
+  );
 
   const displayTooltipText = React.useCallback(
     (index: number) => {
@@ -92,7 +125,7 @@ const StepBar = ({
   return (
     <div
       className={cn(
-        "flex items-center gap-1 transition-colors duration-300",
+        "flex items-center gap-1 transition-all duration-300",
         containerClassName,
       )}
     >
@@ -107,16 +140,16 @@ const StepBar = ({
           <div
             key={index}
             className={cn(
-              "relative w-10 h-5 transition-colors duration-300",
+              "relative w-10 h-5 transition-all duration-300",
               size === "sm" && "w-6 h-3",
               size === "md" && "w-10 h-5",
               size === "lg" && "w-14 h-7",
               stepClassName,
             )}
           >
-            <div
+            <Component
               className={cn(
-                "w-full h-full transition-colors duration-300",
+                "w-full h-full transition-all duration-300",
                 index === 0 && "rounded-l-full",
                 index === steps - 1 && "rounded-r-full",
               )}
@@ -127,7 +160,8 @@ const StepBar = ({
                 width: "100%",
               }}
               onMouseEnter={() => handleMouseEnter(index, currentStep)}
-              onMouseLeave={handleMouseLeave}
+              onMouseLeave={() => handleMouseLeave(index)}
+              {...props}
             />
             {((isFinished && index === steps - 1 && isTooltipVisible) ||
               (!isFinished &&

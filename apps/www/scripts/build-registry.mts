@@ -192,7 +192,7 @@ export const index: Record<string, any> = {`;
     })()`
         : "null"
     },
-    command: 'https://${config.url}/r/${item.name}',
+    command: '${config.url}/r/${item.name}',
   },`;
   }
 

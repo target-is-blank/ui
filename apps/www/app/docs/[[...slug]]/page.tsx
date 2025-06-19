@@ -103,7 +103,7 @@ export async function generateMetadata(props: {
       siteName: config.name,
       images: [
         {
-          url: `https://${config.url}/og-image.png`,
+          url: `${config.url}/og-image.png`,
           width: 1200,
           height: 630,
           alt: config.name,
@@ -119,7 +119,7 @@ export async function generateMetadata(props: {
       description: page.data.description,
       images: [
         {
-          url: `https://${config.url}/og-image.png`,
+          url: `${config.url}/og-image.png`,
           width: 1200,
           height: 630,
           alt: config.name,

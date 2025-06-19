@@ -41,7 +41,7 @@ export const ComponentWrapper = ({
       <motion.div className="relative size-full flex-1">
         {!iframe && (
           <div className="absolute top-3 right-3 z-[9] bg-background flex items-center justify-end gap-2 p-1 rounded-[11px]">
-            <OpenInV0Button url={`https://${config.url}/r/${name}.json`} />
+            <OpenInV0Button url={`${config.url}/r/${name}.json`} />
 
             <Button
               onClick={() => setKey((prev) => prev + 1)}
