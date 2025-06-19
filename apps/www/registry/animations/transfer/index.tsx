@@ -12,11 +12,8 @@ export interface TransferProps {
   color?: string[];
   containerClassName?: string;
   containerHeight?: number;
-  delay?: {
-    min: number;
-    max: number;
-  };
   direction?: "right" | "left";
+  delay?: number;
   duration?: {
     min: number;
     max: number;
@@ -26,6 +23,10 @@ export interface TransferProps {
   opacity?: number;
   secondChild: React.ReactNode;
   size?: {
+    min: number;
+    max: number;
+  };
+  speed?: {
     min: number;
     max: number;
   };
@@ -42,7 +43,7 @@ function Transfer({
   color = ["#000"],
   containerClassName,
   containerHeight = 40,
-  delay = { min: 0, max: 1.2 },
+  delay = 40,
   direction = "right",
   duration = { min: 1.2, max: 1.8 },
   firstChild,
@@ -50,6 +51,7 @@ function Transfer({
   opacity = 1,
   secondChild,
   size = { min: 6, max: 12 },
+  speed = { min: 0, max: 1.2 },
 }: TransferProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const particleId = React.useRef(0);
@@ -74,7 +76,7 @@ function Transfer({
             containerHeight - randomSize - randomCurve,
           ) - 1;
         const startY = randomBetween(minTop, maxTop);
-        const randomDelay = randomBetween(delay.min, delay.max); // secondes
+        const randomDelay = randomBetween(speed.min, speed.max); // secondes
         const randomDuration = randomBetween(duration.min, duration.max); // secondes
         const randomColor = Math.floor(randomBetween(0, color.length)); // random index color picking
         const id = particleId.current++;
@@ -110,7 +112,7 @@ function Transfer({
           />
         );
         setParticles((prev) => [...prev, { id, element, timeoutId }]);
-      }, 40); // Nouvelle particule toutes les 40ms
+      }, delay);
     } else {
       if (intervalRef.current) clearInterval(intervalRef.current);
     }
@@ -119,8 +121,8 @@ function Transfer({
     };
   }, [
     containerHeight,
-    delay.max,
-    delay.min,
+    speed.max,
+    speed.min,
     duration.max,
     duration.min,
     animation,
@@ -130,6 +132,7 @@ function Transfer({
     color,
     opacity,
     direction,
+    delay,
   ]);
 
   useEffect(() => {

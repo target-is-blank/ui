@@ -38,6 +38,12 @@ author:
 
 <TypeTable
   type={{
+    speed: {
+      description: "The particles speed.",
+      type: "object",
+      required: false,
+      default: "{ min: 0, max: 1.2 }",
+    },
     size: {
       description: "The size of the particles.",
       type: "object",
@@ -79,10 +85,10 @@ author:
       default: "right",
     },
     delay: {
-      description: "The delay of the particles.",
-      type: "object",
+      description: "The delay between particles generation.",
+      type: "number",
       required: false,
-      default: "{ min: 0, max: 1.2 }",
+      default: "40",
     },
     containerHeight: {
       description:
