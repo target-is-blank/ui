@@ -12,6 +12,8 @@ interface StepBarProps {
   lastStepVisible?: boolean;
   finished?: boolean;
   tooltipClassName?: string;
+  tooltipContent?: (index: number) => string;
+  tooltipKeepVisible?: boolean;
 }
 
 const StepBar = ({
@@ -24,12 +26,19 @@ const StepBar = ({
   lastStepVisible = true,
   finished = false,
   tooltipClassName,
+  tooltipContent,
+  tooltipKeepVisible = false,
 }: StepBarProps) => {
-  const [isTooltipVisible, setIsTooltipVisible] = React.useState(false);
+  const [isTooltipVisible, setIsTooltipVisible] =
+    React.useState(tooltipKeepVisible);
+  const isFinished = React.useMemo(
+    () => finished || currentStep > steps,
+    [finished, currentStep, steps],
+  );
 
   const getStepColor = React.useCallback(
     (currentStep: number, index: number, color: string) => {
-      if (finished) return { opacity: 1, color };
+      if (isFinished) return { opacity: 1, color };
 
       if (currentStep < index + 1) {
         return {
@@ -42,46 +51,51 @@ const StepBar = ({
       }
       return { opacity: 1, color };
     },
-    [finished, lastStepVisible],
+    [isFinished, lastStepVisible],
   );
 
   const handleMouseEnter = React.useCallback(
     (index: number, currentStep: number) => {
-      if (finished && steps - 1 === index) {
+      if (isFinished && steps - 1 === index) {
         setIsTooltipVisible(true);
         return;
       }
 
-      if (index + 1 === currentStep && !finished) {
+      if (index + 1 === currentStep && !isFinished) {
         setIsTooltipVisible(true);
       }
     },
-    [finished, steps],
+    [isFinished, steps],
   );
 
   const handleMouseLeave = React.useCallback(() => {
-    setIsTooltipVisible(false);
-  }, []);
+    if (!tooltipKeepVisible) {
+      setIsTooltipVisible(false);
+    }
+  }, [tooltipKeepVisible]);
 
   const displayTooltipText = React.useCallback(
     (index: number) => {
+      if (tooltipContent) return tooltipContent(index);
+
       if (index === 0) {
-        return "Début";
+        return "Start";
       }
-      if (index === steps - 1 || finished) {
-        return "Fin";
+      if (index > steps || isFinished) {
+        return "End";
       }
-      return `Étape ${index + 1}`;
+      return `Step ${index + 1}`;
     },
-    [finished, steps],
+    [isFinished, steps, tooltipContent],
   );
 
-  if (currentStep > steps) {
-    throw new Error("Current step cannot be greater than steps");
-  }
-
   return (
-    <div className={cn("flex items-center gap-1", containerClassName)}>
+    <div
+      className={cn(
+        "flex items-center gap-1 transition-colors duration-300",
+        containerClassName,
+      )}
+    >
       {Array.from({ length: steps }).map((_, index) => {
         const { opacity, color: stepColor } = getStepColor(
           currentStep,
@@ -93,7 +107,7 @@ const StepBar = ({
           <div
             key={index}
             className={cn(
-              "relative w-10 h-5",
+              "relative w-10 h-5 transition-colors duration-300",
               size === "sm" && "w-6 h-3",
               size === "md" && "w-10 h-5",
               size === "lg" && "w-14 h-7",
@@ -102,7 +116,7 @@ const StepBar = ({
           >
             <div
               className={cn(
-                "w-full h-full",
+                "w-full h-full transition-colors duration-300",
                 index === 0 && "rounded-l-full",
                 index === steps - 1 && "rounded-r-full",
               )}
@@ -115,8 +129,10 @@ const StepBar = ({
               onMouseEnter={() => handleMouseEnter(index, currentStep)}
               onMouseLeave={handleMouseLeave}
             />
-            {((finished && index === steps - 1 && isTooltipVisible) ||
-              (!finished && currentStep === index + 1 && isTooltipVisible)) && (
+            {((isFinished && index === steps - 1 && isTooltipVisible) ||
+              (!isFinished &&
+                currentStep === index + 1 &&
+                isTooltipVisible)) && (
               <AnimatePresence mode="wait">
                 <motion.span
                   initial={{ opacity: 0, y: 10 }}
