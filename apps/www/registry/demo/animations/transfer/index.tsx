@@ -19,6 +19,7 @@ export const TransferDemo = () => {
         </div>
       }
       animation
+      containerWidth="400px"
     />
   );
 };

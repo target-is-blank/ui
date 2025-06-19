@@ -1,17 +1,14 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import React, { ReactElement, useEffect, useState } from "react";
-
-function randomBetween(a: number, b: number) {
-  return a + Math.random() * (b - a);
-}
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 
 export interface TransferProps {
   animation?: boolean;
   color?: string[];
   containerClassName?: string;
   containerHeight?: number;
+  containerWidth?: string;
   direction?: "right" | "left";
   delay?: number;
   duration?: {
@@ -38,11 +35,23 @@ interface Particle {
   timeoutId: ReturnType<typeof setTimeout>;
 }
 
+function randomBetween(a: number, b: number) {
+  return a + Math.random() * (b - a);
+}
+
+function getWidthPx(width: string, parentPx = 600): number {
+  if (width.endsWith("px")) return parseFloat(width);
+  if (width.endsWith("%")) return (parseFloat(width) / 100) * parentPx;
+
+  return parseFloat(width) || parentPx;
+}
+
 function Transfer({
   animation = true,
   color = ["#000"],
   containerClassName,
   containerHeight = 40,
+  containerWidth = "100%",
   delay = 40,
   direction = "right",
   duration = { min: 1.2, max: 1.8 },
@@ -54,8 +63,23 @@ function Transfer({
   speed = { min: 0, max: 1.2 },
 }: TransferProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
-  const particleId = React.useRef(0);
-  const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
+  const particleId = useRef(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [measuredWidth, setMeasuredWidth] = useState<number>(
+    getWidthPx(containerWidth),
+  );
+
+  useEffect(() => {
+    function updateWidth() {
+      if (containerRef.current) {
+        setMeasuredWidth(containerRef.current.getBoundingClientRect().width);
+      }
+    }
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, [containerWidth]);
 
   useEffect(() => {
     if (animation) {
@@ -76,9 +100,9 @@ function Transfer({
             containerHeight - randomSize - randomCurve,
           ) - 1;
         const startY = randomBetween(minTop, maxTop);
-        const randomDelay = randomBetween(speed.min, speed.max); // secondes
-        const randomDuration = randomBetween(duration.min, duration.max); // secondes
-        const randomColor = Math.floor(randomBetween(0, color.length)); // random index color picking
+        const randomDelay = randomBetween(speed.min, speed.max);
+        const randomDuration = randomBetween(duration.min, duration.max);
+        const randomColor = Math.floor(randomBetween(0, color.length));
         const id = particleId.current++;
 
         const style: Record<string, unknown> = {
@@ -133,6 +157,7 @@ function Transfer({
     opacity,
     direction,
     delay,
+    measuredWidth,
   ]);
 
   useEffect(() => {
@@ -151,9 +176,9 @@ function Transfer({
           @keyframes particle-transfer-right {
             0% { transform: translateX(0) translateY(0); opacity: 0; }
             10% { opacity: 1; }
-            50% { transform: translateX(150px) translateY(var(--curve, 0px)); opacity: 1; }
+            50% { transform: translateX(${measuredWidth / 2}px) translateY(var(--curve, 0px)); opacity: 1; }
             90% { opacity: 1; }
-            100% { transform: translateX(300px) translateY(0); opacity: 0; }
+            100% { transform: translateX(${measuredWidth}px) translateY(0); opacity: 0; }
           }
         `;
       case "left":
@@ -161,9 +186,9 @@ function Transfer({
           @keyframes particle-transfer-left {
             0% { transform: translateX(0) translateY(0); opacity: 0; }
             10% { opacity: 1; }
-            50% { transform: translateX(-150px) translateY(var(--curve, 0px)); opacity: 1; }
+            50% { transform: translateX(-${measuredWidth / 2}px) translateY(var(--curve, 0px)); opacity: 1; }
             90% { opacity: 1; }
-            100% { transform: translateX(-300px) translateY(0); opacity: 0; }
+            100% { transform: translateX(-${measuredWidth}px) translateY(0); opacity: 0; }
           }
         `;
       default:
@@ -176,13 +201,18 @@ function Transfer({
       <style>{getKeyframes()}</style>
       <div
         className={cn(
-          "flex items-center justify-between w-[300px] relative z-10",
+          "flex items-center justify-between relative z-10",
           containerClassName,
         )}
+        style={{ width: containerWidth }}
+        ref={containerRef}
       >
         {firstChild}
 
-        <div className="absolute left-0 top-0 w-full h-10 rounded-md overflow-hidden pointer-events-none">
+        <div
+          className="absolute left-0 top-0 w-full h-10 rounded-md overflow-hidden pointer-events-none"
+          style={{ width: containerWidth }}
+        >
           {particles.map((p) => p.element)}
         </div>
 
