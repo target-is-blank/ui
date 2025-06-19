@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "transfer-demo",
+  "type": "registry:ui",
+  "title": "Transfer Demo",
+  "description": "Demo showing a transfer animation.",
+  "registryDependencies": ["https://targetblank.dev/r/transfer"],
+  "files": [
+    {
+      "path": "registry/demo/animations/transfer/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/animations/transfer.tsx"
+    }
+  ]
+}

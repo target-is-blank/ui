@@ -1,14 +1,14 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
 
-@import 'tw-animate-css';
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
-@import 'fumadocs-ui/css/black.css';
-@import 'fumadocs-ui/css/preset.css';
+@import "fumadocs-ui/css/black.css";
+@import "fumadocs-ui/css/preset.css";
 
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 
@@ -236,7 +236,7 @@
     overscroll-behavior: none;
   }
 
-  a[href^='/docs/installation'] > svg[data-icon='true'] {
+  a[href^="/docs/installation"] > svg[data-icon="true"] {
     @apply !hidden;
   }
 

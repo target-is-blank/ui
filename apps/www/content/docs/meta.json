@@ -1,5 +1,14 @@
 {
   "title": "Target Blank",
   "root": true,
-  "pages": ["index", "icons", "---Buttons---", "buttons/copy"]
+  "pages": [
+    "index",
+    "icons",
+    "---Buttons---",
+    "buttons/copy",
+    "---Components---",
+    "components/glass-card",
+    "---Animations---",
+    "animations/transfer"
+  ]
 }

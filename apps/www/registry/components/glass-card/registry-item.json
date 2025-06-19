@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "glass-card",
+  "type": "registry:ui",
+  "title": "Glass Card",
+  "description": "A glass card with a gradient background.",
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/components/glass-card/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/glass-card.tsx"
+    }
+  ]
+}

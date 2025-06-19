@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "glass-card-demo",
+  "type": "registry:ui",
+  "title": "Glass Card Demo",
+  "description": "Demo showing a glass card with a gradient background.",
+  "registryDependencies": ["https://targetblank.dev/r/glass-card"],
+  "files": [
+    {
+      "path": "registry/demo/components/glass-card/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/glass-card.tsx"
+    }
+  ]
+}

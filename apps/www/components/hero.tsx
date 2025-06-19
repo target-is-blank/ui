@@ -59,7 +59,7 @@ export const Hero = () => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               size="lg"
-              className="bg-[#59BF00] text-white text-sm px-3 py-1.5"
+              className="bg-[#59BF00] text-white text-sm px-3 py-1.5 hover:bg-[#59BF00]/90"
               asChild
             >
               <Link href="/docs" className="p-0 h-fit">
@@ -71,7 +71,7 @@ export const Hero = () => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               size="lg"
-              className="px-3 py-1.5 bg-neutral-200 dark:bg-neutral-800 text-sm text-neutral-700 dark:text-neutral-300 h-10"
+              className="px-3 py-1.5 bg-neutral-200 dark:bg-neutral-800 text-sm text-neutral-700 dark:text-neutral-300 h-10 hover:bg-neutral-200/90 dark:hover:bg-neutral-800/90"
               asChild
             >
               <Link href="/docs/components" className="p-0 h-fit">

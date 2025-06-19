@@ -22,6 +22,47 @@ export const index: Record<string, any> = {
     component: null,
     command: "https://https://targetblank.dev/r/index",
   },
+  transfer: {
+    name: "transfer",
+    description: "A transfer animation.",
+    type: "registry:ui",
+    dependencies: [
+      "motion",
+      "lucide-react",
+      "class-variance-authority",
+      "react-particles-js",
+    ],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/animations/transfer/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/animations/transfer.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport React, { ReactElement, useEffect, useState } from "react";\n\nfunction randomBetween(a: number, b: number) {\n  return a + Math.random() * (b - a);\n}\n\nexport interface TransferProps {\n  animation?: boolean;\n  color?: string[];\n  containerClassName?: string;\n  containerHeight?: number;\n  delay?: {\n    min: number;\n    max: number;\n  };\n  direction?: "right" | "left";\n  duration?: {\n    min: number;\n    max: number;\n  };\n  firstChild: React.ReactNode;\n  maxCurve?: number;\n  opacity?: number;\n  secondChild: React.ReactNode;\n  size?: {\n    min: number;\n    max: number;\n  };\n}\n\ninterface Particle {\n  id: number;\n  element: ReactElement;\n  timeoutId: ReturnType<typeof setTimeout>;\n}\n\nfunction Transfer({\n  animation = true,\n  color = ["#000"],\n  containerClassName,\n  containerHeight = 40,\n  delay = { min: 0, max: 1.2 },\n  direction = "right",\n  duration = { min: 1.2, max: 1.8 },\n  firstChild,\n  maxCurve = 18,\n  opacity = 1,\n  secondChild,\n  size = { min: 6, max: 12 },\n}: TransferProps) {\n  const [particles, setParticles] = useState<Particle[]>([]);\n  const particleId = React.useRef(0);\n  const intervalRef = React.useRef<NodeJS.Timeout | null>(null);\n\n  useEffect(() => {\n    if (animation) {\n      intervalRef.current = setInterval(() => {\n        const randomSize = randomBetween(size.min, size.max);\n        const generatedMaxCurve = Math.min(\n          maxCurve,\n          (containerHeight - randomSize) / 2,\n        );\n        const randomCurve = randomBetween(\n          -generatedMaxCurve,\n          generatedMaxCurve,\n        );\n        const minTop = Math.max(0, -randomCurve) + 1;\n        const maxTop =\n          Math.min(\n            containerHeight - randomSize,\n            containerHeight - randomSize - randomCurve,\n          ) - 1;\n        const startY = randomBetween(minTop, maxTop);\n        const randomDelay = randomBetween(delay.min, delay.max); // secondes\n        const randomDuration = randomBetween(duration.min, duration.max); // secondes\n        const randomColor = Math.floor(randomBetween(0, color.length)); // random index color picking\n        const id = particleId.current++;\n\n        const style: Record<string, unknown> = {\n          backgroundColor: color[randomColor],\n          opacity,\n          width: `${randomSize}px`,\n          height: `${randomSize}px`,\n          animation: `particle-transfer-${direction} ${randomDuration}s cubic-bezier(.7,.2,.3,1) ${randomDelay}s 1`,\n          ["--curve"]: `${randomCurve}px`,\n        };\n        if (direction === "right") {\n          style.left = 0;\n          style.top = `${startY}px`;\n        } else if (direction === "left") {\n          style.left = `calc(100% - ${randomSize}px)`;\n          style.top = `${startY}px`;\n        }\n\n        const timeoutId = setTimeout(\n          () => {\n            setParticles((prev) => prev.filter((p) => p.id !== id));\n          },\n          (randomDelay + randomDuration) * 1000,\n        );\n\n        const element = (\n          <div\n            key={id}\n            className="absolute rounded-full opacity-70"\n            style={style}\n          />\n        );\n        setParticles((prev) => [...prev, { id, element, timeoutId }]);\n      }, 40); // Nouvelle particule toutes les 40ms\n    } else {\n      if (intervalRef.current) clearInterval(intervalRef.current);\n    }\n    return () => {\n      if (intervalRef.current) clearInterval(intervalRef.current);\n    };\n  }, [\n    containerHeight,\n    delay.max,\n    delay.min,\n    duration.max,\n    duration.min,\n    animation,\n    maxCurve,\n    size.max,\n    size.min,\n    color,\n    opacity,\n    direction,\n  ]);\n\n  useEffect(() => {\n    return () => {\n      setParticles((prev) => {\n        prev.forEach((p) => clearTimeout(p.timeoutId));\n        return [];\n      });\n    };\n  }, []);\n\n  const getKeyframes = () => {\n    switch (direction) {\n      case "right":\n        return `\n          @keyframes particle-transfer-right {\n            0% { transform: translateX(0) translateY(0); opacity: 0; }\n            10% { opacity: 1; }\n            50% { transform: translateX(150px) translateY(var(--curve, 0px)); opacity: 1; }\n            90% { opacity: 1; }\n            100% { transform: translateX(300px) translateY(0); opacity: 0; }\n          }\n        `;\n      case "left":\n        return `\n          @keyframes particle-transfer-left {\n            0% { transform: translateX(0) translateY(0); opacity: 0; }\n            10% { opacity: 1; }\n            50% { transform: translateX(-150px) translateY(var(--curve, 0px)); opacity: 1; }\n            90% { opacity: 1; }\n            100% { transform: translateX(-300px) translateY(0); opacity: 0; }\n          }\n        `;\n      default:\n        return "";\n    }\n  };\n\n  return (\n    <>\n      <style>{getKeyframes()}</style>\n      <div\n        className={cn(\n          "flex items-center justify-between w-[300px] relative z-10",\n          containerClassName,\n        )}\n      >\n        {firstChild}\n\n        <div className="absolute left-0 top-0 w-full h-10 rounded-md overflow-hidden pointer-events-none">\n          {particles.map((p) => p.element)}\n        </div>\n\n        {secondChild}\n      </div>\n    </>\n  );\n}\n\nexport default Transfer;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/animations/transfer/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "transfer";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://https://targetblank.dev/r/transfer",
+  },
   "copy-button": {
     name: "copy-button",
     description: "A button with a copy to clipboard animation.",
@@ -57,6 +98,80 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://https://targetblank.dev/r/copy-button",
+  },
+  "glass-card": {
+    name: "glass-card",
+    description: "A glass card with a gradient background.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/components/glass-card/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/components/glass-card.tsx",
+        content:
+          'const GlassCard = () => {\n  return (\n    <div className="relative flex items-center justify-center w-80 h-96 bg-gradient-to-br from-gray-500 via-gray-800 to-gray-50">\n      {/* Carte principale avec effet glassmorphism */}\n      <div className="relative w-64 h-80 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-lg">\n        {/* Contenu interne (exemple de widget de charge) */}\n        <div className="flex flex-col items-center justify-center h-full text-white">\n          <span className="text-4xl font-bold">40%</span>\n          <span className="text-sm">Charging... 56 min left</span>\n          <div className="w-24 h-2 bg-gray-300 rounded-full mt-4">\n            <div className="w-1/2 h-full bg-blue-400 rounded-full"></div>\n          </div>\n        </div>\n\n        {/* Effet de lueur brillante dans les coins avec pseudo-éléments */}\n        <div className="absolute inset-0 rounded-xl overflow-hidden">\n          <div className="absolute -top-2 -left-2 w-6 h-6 bg-white/20 rounded-full blur-md"></div>\n          <div className="absolute -top-2 -right-2 w-6 h-6 bg-white/20 rounded-full blur-md"></div>\n          <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-white/20 rounded-full blur-md"></div>\n          <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-white/20 rounded-full blur-md"></div>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default GlassCard;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/components/glass-card/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "glass-card";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://https://targetblank.dev/r/glass-card",
+  },
+  "transfer-demo": {
+    name: "transfer-demo",
+    description: "Demo showing a transfer animation.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/transfer"],
+    files: [
+      {
+        path: "registry/demo/animations/transfer/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/animations/transfer.tsx",
+        content:
+          'import { Icons } from "@/components/icons";\nimport Transfer from "@/components/targetblank/animations/transfer";\n\nexport const TransferDemo = () => {\n  return (\n    <Transfer\n      firstChild={\n        <div className="z-10 flex items-center justify-center bg-white border border-gray-100 rounded-md size-10 p-1">\n          <div className=" bg-white shadow-md w-full h-full flex items-center justify-center rounded-md">\n            <Icons.gitHub className="size-6" />\n          </div>\n        </div>\n      }\n      secondChild={\n        <div className="z-10 flex items-center justify-center bg-white border border-gray-100 rounded-md size-10 p-1">\n          <div className=" bg-white shadow-md w-full h-full flex items-center justify-center rounded-md">\n            <Icons.apple className="size-6" />\n          </div>\n        </div>\n      }\n      animation\n    />\n  );\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/animations/transfer/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "transfer-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://https://targetblank.dev/r/transfer-demo",
   },
   "copy-button-demo": {
     name: "copy-button-demo",
@@ -94,5 +209,43 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://https://targetblank.dev/r/copy-button-demo",
+  },
+  "glass-card-demo": {
+    name: "glass-card-demo",
+    description: "Demo showing a glass card with a gradient background.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/glass-card"],
+    files: [
+      {
+        path: "registry/demo/components/glass-card/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/components/glass-card.tsx",
+        content:
+          'import GlassCard from "@/components/targetblank/components/glass-card";\n\nexport const GlassCardDemo = () => {\n  return <GlassCard />;\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/components/glass-card/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "glass-card-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://https://targetblank.dev/r/glass-card-demo",
   },
 };

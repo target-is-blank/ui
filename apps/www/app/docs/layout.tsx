@@ -9,23 +9,6 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <DocsLayout
       githubUrl={config.github.url}
-      sidebar={{
-        tabs: [
-          {
-            title: "Components",
-            description: "Hello World!",
-            // active for `/docs/components` and sub routes like `/docs/components/button`
-            url: "/docs/buttons",
-            // optionally, you can specify a set of urls which activates the item
-            // urls: new Set(['/docs/test', '/docs/components']),
-          },
-          {
-            title: "Icons",
-            description: "Hello World!",
-            url: "/docs/icons",
-          },
-        ],
-      }}
       links={[
         {
           icon: <Icons.twitter />,

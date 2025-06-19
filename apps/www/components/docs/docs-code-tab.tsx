@@ -77,8 +77,7 @@ function CodeTabs({
     }
     loadHighlightedCode();
   }, [resolvedTheme, lang, themes.light, themes.dark, codes]);
-  console.log(selectedCode);
-  console.log(codes[selectedCode]);
+
   return (
     <Tabs
       data-slot="install-tabs"

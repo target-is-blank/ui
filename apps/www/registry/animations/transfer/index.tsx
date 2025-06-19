@@ -1,0 +1,192 @@
+"use client";
+
+import { cn } from "@workspace/ui/lib/utils";
+import React, { ReactElement, useEffect, useState } from "react";
+
+function randomBetween(a: number, b: number) {
+  return a + Math.random() * (b - a);
+}
+
+export interface TransferProps {
+  animation?: boolean;
+  color?: string[];
+  containerClassName?: string;
+  containerHeight?: number;
+  delay?: {
+    min: number;
+    max: number;
+  };
+  direction?: "right" | "left";
+  duration?: {
+    min: number;
+    max: number;
+  };
+  firstChild: React.ReactNode;
+  maxCurve?: number;
+  opacity?: number;
+  secondChild: React.ReactNode;
+  size?: {
+    min: number;
+    max: number;
+  };
+}
+
+interface Particle {
+  id: number;
+  element: ReactElement;
+  timeoutId: ReturnType<typeof setTimeout>;
+}
+
+function Transfer({
+  animation = true,
+  color = ["#000"],
+  containerClassName,
+  containerHeight = 40,
+  delay = { min: 0, max: 1.2 },
+  direction = "right",
+  duration = { min: 1.2, max: 1.8 },
+  firstChild,
+  maxCurve = 18,
+  opacity = 1,
+  secondChild,
+  size = { min: 6, max: 12 },
+}: TransferProps) {
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const particleId = React.useRef(0);
+  const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (animation) {
+      intervalRef.current = setInterval(() => {
+        const randomSize = randomBetween(size.min, size.max);
+        const generatedMaxCurve = Math.min(
+          maxCurve,
+          (containerHeight - randomSize) / 2,
+        );
+        const randomCurve = randomBetween(
+          -generatedMaxCurve,
+          generatedMaxCurve,
+        );
+        const minTop = Math.max(0, -randomCurve) + 1;
+        const maxTop =
+          Math.min(
+            containerHeight - randomSize,
+            containerHeight - randomSize - randomCurve,
+          ) - 1;
+        const startY = randomBetween(minTop, maxTop);
+        const randomDelay = randomBetween(delay.min, delay.max); // secondes
+        const randomDuration = randomBetween(duration.min, duration.max); // secondes
+        const randomColor = Math.floor(randomBetween(0, color.length)); // random index color picking
+        const id = particleId.current++;
+
+        const style: Record<string, unknown> = {
+          backgroundColor: color[randomColor],
+          opacity,
+          width: `${randomSize}px`,
+          height: `${randomSize}px`,
+          animation: `particle-transfer-${direction} ${randomDuration}s cubic-bezier(.7,.2,.3,1) ${randomDelay}s 1`,
+          ["--curve"]: `${randomCurve}px`,
+        };
+        if (direction === "right") {
+          style.left = 0;
+          style.top = `${startY}px`;
+        } else if (direction === "left") {
+          style.left = `calc(100% - ${randomSize}px)`;
+          style.top = `${startY}px`;
+        }
+
+        const timeoutId = setTimeout(
+          () => {
+            setParticles((prev) => prev.filter((p) => p.id !== id));
+          },
+          (randomDelay + randomDuration) * 1000,
+        );
+
+        const element = (
+          <div
+            key={id}
+            className="absolute rounded-full opacity-70"
+            style={style}
+          />
+        );
+        setParticles((prev) => [...prev, { id, element, timeoutId }]);
+      }, 40); // Nouvelle particule toutes les 40ms
+    } else {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [
+    containerHeight,
+    delay.max,
+    delay.min,
+    duration.max,
+    duration.min,
+    animation,
+    maxCurve,
+    size.max,
+    size.min,
+    color,
+    opacity,
+    direction,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      setParticles((prev) => {
+        prev.forEach((p) => clearTimeout(p.timeoutId));
+        return [];
+      });
+    };
+  }, []);
+
+  const getKeyframes = () => {
+    switch (direction) {
+      case "right":
+        return `
+          @keyframes particle-transfer-right {
+            0% { transform: translateX(0) translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translateX(150px) translateY(var(--curve, 0px)); opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(300px) translateY(0); opacity: 0; }
+          }
+        `;
+      case "left":
+        return `
+          @keyframes particle-transfer-left {
+            0% { transform: translateX(0) translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translateX(-150px) translateY(var(--curve, 0px)); opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(-300px) translateY(0); opacity: 0; }
+          }
+        `;
+      default:
+        return "";
+    }
+  };
+
+  return (
+    <>
+      <style>{getKeyframes()}</style>
+      <div
+        className={cn(
+          "flex items-center justify-between w-[300px] relative z-10",
+          containerClassName,
+        )}
+      >
+        {firstChild}
+
+        <div className="absolute left-0 top-0 w-full h-10 rounded-md overflow-hidden pointer-events-none">
+          {particles.map((p) => p.element)}
+        </div>
+
+        {secondChild}
+      </div>
+    </>
+  );
+}
+
+export default Transfer;

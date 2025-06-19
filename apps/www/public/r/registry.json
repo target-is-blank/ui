@@ -18,6 +18,25 @@
       "files": []
     },
     {
+      "name": "transfer",
+      "type": "registry:ui",
+      "title": "Transfer",
+      "description": "A transfer animation.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority",
+        "react-particles-js"
+      ],
+      "files": [
+        {
+          "path": "registry/animations/transfer/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/animations/transfer.tsx"
+        }
+      ]
+    },
+    {
       "name": "copy-button",
       "type": "registry:ui",
       "title": "Copy Button",
@@ -36,6 +55,40 @@
       ]
     },
     {
+      "name": "glass-card",
+      "type": "registry:ui",
+      "title": "Glass Card",
+      "description": "A glass card with a gradient background.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/components/glass-card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/glass-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "transfer-demo",
+      "type": "registry:ui",
+      "title": "Transfer Demo",
+      "description": "Demo showing a transfer animation.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/transfer"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/animations/transfer/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/animations/transfer.tsx"
+        }
+      ]
+    },
+    {
       "name": "copy-button-demo",
       "type": "registry:ui",
       "title": "Copy Button Demo",
@@ -48,6 +101,22 @@
           "path": "registry/demo/buttons/copy/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/buttons/copy.tsx"
+        }
+      ]
+    },
+    {
+      "name": "glass-card-demo",
+      "type": "registry:ui",
+      "title": "Glass Card Demo",
+      "description": "Demo showing a glass card with a gradient background.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/glass-card"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/glass-card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/glass-card.tsx"
         }
       ]
     }
