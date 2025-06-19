@@ -55,24 +55,6 @@
       ]
     },
     {
-      "name": "glass-card",
-      "type": "registry:ui",
-      "title": "Glass Card",
-      "description": "A glass card with a gradient background.",
-      "dependencies": [
-        "motion",
-        "lucide-react",
-        "class-variance-authority"
-      ],
-      "files": [
-        {
-          "path": "registry/components/glass-card/index.tsx",
-          "type": "registry:ui",
-          "target": "components/targetblank/components/glass-card.tsx"
-        }
-      ]
-    },
-    {
       "name": "step-bar",
       "type": "registry:ui",
       "title": "Step Bar",
@@ -119,22 +101,6 @@
           "path": "registry/demo/buttons/copy/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/buttons/copy.tsx"
-        }
-      ]
-    },
-    {
-      "name": "glass-card-demo",
-      "type": "registry:ui",
-      "title": "Glass Card Demo",
-      "description": "Demo showing a glass card with a gradient background.",
-      "registryDependencies": [
-        "https://targetblank.dev/r/glass-card"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/components/glass-card/index.tsx",
-          "type": "registry:ui",
-          "target": "components/targetblank/demo/components/glass-card.tsx"
         }
       ]
     },

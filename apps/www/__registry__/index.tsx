@@ -99,42 +99,6 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/copy-button",
   },
-  "glass-card": {
-    name: "glass-card",
-    description: "A glass card with a gradient background.",
-    type: "registry:ui",
-    dependencies: ["motion", "lucide-react", "class-variance-authority"],
-    devDependencies: undefined,
-    registryDependencies: undefined,
-    files: [
-      {
-        path: "registry/components/glass-card/index.tsx",
-        type: "registry:ui",
-        target: "components/targetblank/components/glass-card.tsx",
-        content:
-          'const GlassCard = () => {\n  return (\n    <div className="relative flex items-center justify-center w-80 h-96 bg-gradient-to-br from-gray-500 via-gray-800 to-gray-50">\n      {/* Carte principale avec effet glassmorphism */}\n      <div className="relative w-64 h-80 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-lg">\n        {/* Contenu interne (exemple de widget de charge) */}\n        <div className="flex flex-col items-center justify-center h-full text-white">\n          <span className="text-4xl font-bold">40%</span>\n          <span className="text-sm">Charging... 56 min left</span>\n          <div className="w-24 h-2 bg-gray-300 rounded-full mt-4">\n            <div className="w-1/2 h-full bg-blue-400 rounded-full"></div>\n          </div>\n        </div>\n\n        {/* Effet de lueur brillante dans les coins avec pseudo-éléments */}\n        <div className="absolute inset-0 rounded-xl overflow-hidden">\n          <div className="absolute -top-2 -left-2 w-6 h-6 bg-white/20 rounded-full blur-md"></div>\n          <div className="absolute -top-2 -right-2 w-6 h-6 bg-white/20 rounded-full blur-md"></div>\n          <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-white/20 rounded-full blur-md"></div>\n          <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-white/20 rounded-full blur-md"></div>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default GlassCard;',
-      },
-    ],
-    keywords: [],
-    component: (function () {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import("@/registry/components/glass-card/index.tsx");
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object",
-          ) || "glass-card";
-        const Comp = mod.default || mod[exportName];
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "https://targetblank.dev/r/glass-card",
-  },
   "step-bar": {
     name: "step-bar",
     description: "A step bar with a gradient background.",
@@ -245,44 +209,6 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/copy-button-demo",
-  },
-  "glass-card-demo": {
-    name: "glass-card-demo",
-    description: "Demo showing a glass card with a gradient background.",
-    type: "registry:ui",
-    dependencies: undefined,
-    devDependencies: undefined,
-    registryDependencies: ["https://targetblank.dev/r/glass-card"],
-    files: [
-      {
-        path: "registry/demo/components/glass-card/index.tsx",
-        type: "registry:ui",
-        target: "components/targetblank/demo/components/glass-card.tsx",
-        content:
-          'import GlassCard from "@/components/targetblank/components/glass-card";\n\nexport const GlassCardDemo = () => {\n  return <GlassCard />;\n};',
-      },
-    ],
-    keywords: [],
-    component: (function () {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/demo/components/glass-card/index.tsx"
-        );
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object",
-          ) || "glass-card-demo";
-        const Comp = mod.default || mod[exportName];
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "https://targetblank.dev/r/glass-card-demo",
   },
   "step-bar-demo": {
     name: "step-bar-demo",
