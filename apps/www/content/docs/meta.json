@@ -3,11 +3,13 @@
   "root": true,
   "pages": [
     "index",
+    "cli",
+    "installation",
+    "mcp",
     "components",
     "---Buttons---",
     "buttons/copy",
     "---Components---",
-
     "components/step-bar",
     "---Animations---",
     "animations/transfer"
