@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "loading-bar-demo",
+  "type": "registry:ui",
+  "title": "Loading Bar Demo",
+  "description": "Demo showing a loading bar with a gradient background.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/loading-bar"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/loading-bar/index.tsx",
+      "content": "import LoadingBar from \"@/components/targetblank/components/loading-bar\";\nimport * as React from \"react\";\n\nexport const LoadingBarDemo = () => {\n  const [progress, setProgress] = React.useState(0);\n  const [isComplete, setIsComplete] = React.useState(false);\n  const [elapsedTime, setElapsedTime] = React.useState(0);\n\n  React.useEffect(() => {\n    if (isComplete) {\n      const timer = setTimeout(() => {\n        setProgress(0);\n        setElapsedTime(0);\n        setIsComplete(false);\n      }, 2000);\n      return () => clearTimeout(timer);\n    }\n\n    const interval = setInterval(() => {\n      setElapsedTime((t) => t + 1);\n      setProgress((prev) => {\n        if (prev >= 100) {\n          setIsComplete(true);\n          return 100;\n        }\n        const randomStep = Math.floor(Math.random() * 25) + 5;\n        return Math.min(prev + randomStep, 100);\n      });\n    }, 1000);\n\n    return () => clearInterval(interval);\n  }, [isComplete]);\n\n  const averageSpeed = elapsedTime > 0 ? progress / elapsedTime : 0;\n  const timeLeft =\n    averageSpeed > 0 ? Math.ceil((100 - progress) / averageSpeed) : 0;\n\n  const indicator =\n    progress < 100 && timeLeft > 0\n      ? `About ${timeLeft} second${timeLeft > 1 ? \"s\" : \"\"} remaining...`\n      : elapsedTime > 0\n        ? \"Finished\"\n        : \"Loading...\";\n\n  return (\n    <LoadingBar\n      progress={progress}\n      indicator={indicator}\n      completed={isComplete}\n    />\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/loading-bar.tsx"
+    }
+  ]
+}

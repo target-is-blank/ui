@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "particles-background",
+  "type": "registry:ui",
+  "title": "Particles Background",
+  "description": "A background with a particles animation.",
+  "dependencies": [
+    "motion",
+    "lucide-react",
+    "class-variance-authority"
+  ],
+  "files": [
+    {
+      "path": "registry/backgrounds/particles/index.tsx",
+      "content": "import { motion } from \"motion/react\";\nimport * as React from \"react\";\n\ninterface ParticlesBackgroundProps extends React.ComponentProps<\"div\"> {\n  color?: string;\n  count?: number;\n}\n\nconst ParticlesBackground = ({\n  color = \"white\",\n  count = 18,\n  ...props\n}: ParticlesBackgroundProps) => {\n  const [particles, setParticles] = React.useState<\n    {\n      top: number;\n      left: number;\n      size: number;\n      opacity: number;\n      delay: number;\n    }[]\n  >([]);\n\n  React.useEffect(() => {\n    setParticles(\n      Array.from({ length: count }).map(() => ({\n        top: Math.random() * 100,\n        left: Math.random() * 100,\n        size: 2 + Math.random() * 3,\n        opacity: 0.3 + Math.random() * 0.4,\n        delay: Math.random() * 2,\n      })),\n    );\n  }, [count]);\n\n  return (\n    <div\n      aria-hidden\n      className=\"absolute inset-0 z-0 pointer-events-none\"\n      style={{ overflow: \"hidden\" }}\n      {...props}\n    >\n      {particles.map((p, i) => (\n        <motion.span\n          key={i}\n          className=\"absolute rounded-full\"\n          style={{\n            top: `${p.top}%`,\n            left: `${p.left}%`,\n            width: `${p.size}px`,\n            height: `${p.size}px`,\n            opacity: p.opacity,\n            filter: \"blur(0.5px)\",\n            background: color,\n          }}\n          animate={{\n            y: [0, -8, 0],\n            opacity: [p.opacity, p.opacity * 0.7, p.opacity],\n          }}\n          transition={{\n            duration: 2.5 + Math.random() * 1.5,\n            repeat: Infinity,\n            delay: p.delay,\n            repeatType: \"loop\",\n            ease: \"easeInOut\",\n          }}\n        />\n      ))}\n    </div>\n  );\n};\n\nexport default ParticlesBackground;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/backgrounds/particles.tsx"
+    }
+  ]
+}

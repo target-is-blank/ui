@@ -37,6 +37,24 @@
       ]
     },
     {
+      "name": "particles-background",
+      "type": "registry:ui",
+      "title": "Particles Background",
+      "description": "A background with a particles animation.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/backgrounds/particles/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/backgrounds/particles.tsx"
+        }
+      ]
+    },
+    {
       "name": "copy-button",
       "type": "registry:ui",
       "title": "Copy Button",
@@ -51,6 +69,60 @@
           "path": "registry/buttons/copy/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/buttons/copy.tsx"
+        }
+      ]
+    },
+    {
+      "name": "particles-button",
+      "type": "registry:ui",
+      "title": "Particles Button",
+      "description": "A button with a particles animation.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/buttons/particles/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/buttons/particles.tsx"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A card component.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/components/card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "loading-bar",
+      "type": "registry:ui",
+      "title": "Loading Bar",
+      "description": "A loading bar with a gradient background.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/components/loading-bar/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/loading-bar.tsx"
         }
       ]
     },
@@ -89,6 +161,22 @@
       ]
     },
     {
+      "name": "particles-background-demo",
+      "type": "registry:ui",
+      "title": "Particles Background Demo",
+      "description": "Demo showing an animated background with particles effect.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/particles-background"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/backgrounds/particles/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/backgrounds/particles.tsx"
+        }
+      ]
+    },
+    {
       "name": "copy-button-demo",
       "type": "registry:ui",
       "title": "Copy Button Demo",
@@ -101,6 +189,54 @@
           "path": "registry/demo/buttons/copy/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/buttons/copy.tsx"
+        }
+      ]
+    },
+    {
+      "name": "particles-button-demo",
+      "type": "registry:ui",
+      "title": "Particles Button Demo",
+      "description": "Demo showing an animated button with particles effect.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/particles-button"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/buttons/particles/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/buttons/particles.tsx"
+        }
+      ]
+    },
+    {
+      "name": "card-demo",
+      "type": "registry:ui",
+      "title": "Card Demo",
+      "description": "Demo showing a card component.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/card"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "loading-bar-demo",
+      "type": "registry:ui",
+      "title": "Loading Bar Demo",
+      "description": "Demo showing a loading bar with a gradient background.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/loading-bar"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/loading-bar/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/loading-bar.tsx"
         }
       ]
     },

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card-demo",
+  "type": "registry:ui",
+  "title": "Card Demo",
+  "description": "Demo showing a card component.",
+  "registryDependencies": ["https://targetblank.dev/r/card"],
+  "files": [
+    {
+      "path": "registry/demo/components/card/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/card.tsx"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "particles-button-demo",
+  "type": "registry:ui",
+  "title": "Particles Button Demo",
+  "description": "Demo showing an animated button with particles effect.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/particles-button"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/buttons/particles/index.tsx",
+      "content": "import ParticlesButton from \"@/components/targetblank/buttons/particles\";\nimport { StarIcon } from \"lucide-react\";\nimport { motion } from \"motion/react\";\n\nexport const ParticlesButtonDemo = () => {\n  return (\n    <ParticlesButton\n      as={motion.button}\n      className=\"gap-2 p-2 bg-transparent rounded-md border border-neutral-300 text-neutral-700 dark:text-neutral-300 w-fit dark:border-neutral-700\"\n      count={10}\n      color=\"#5a5a5a\"\n      whileHover={{ scale: 1.05 }}\n      whileTap={{ scale: 0.95 }}\n    >\n      <StarIcon className=\"size-4\" />\n      Click me\n    </ParticlesButton>\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/buttons/particles.tsx"
+    }
+  ]
+}

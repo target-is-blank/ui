@@ -15,18 +15,101 @@ author:
 ## Usage
 
 ```tsx
-<StepBar />
+<StepBar steps={3} currentStep={1} />
 ```
 
 ## Props
 
 <TypeTable
   type={{
-    delay: {
-      description: "The delay in milliseconds before the button resets.",
-      type: "number",
+    stepComponent: {
+      description: "The component used to render each step.",
+      type: "React.ElementType<T>",
       required: false,
-      default: "3000",
+      default: "div",
+    },
+    stepClassName: {
+      description: "The class name to apply to the each step.",
+      type: "string",
+      required: false,
+      default: "",
+    },
+    steps: {
+      description: "The number of steps to display.",
+      type: "number",
+      required: true,
+      default: 0,
+    },
+    size: {
+      description: "The prebuilt size of the step bar.",
+      type: "sm | md | lg",
+      required: false,
+      default: "md",
+    },
+    tooltipKeepVisible: {
+      description:
+        "Whether the tooltip should stay visible when the step is hovered.",
+      type: "boolean",
+      required: false,
+      default: false,
+    },
+    tooltipContent: {
+      description: "The content to display in the tooltip.",
+      type: "(index: number) => string",
+      required: false,
+    },
+    tooltipClassName: {
+      description: "The class name to apply to the tooltip.",
+      type: "string",
+      required: false,
+    },
+    onStepLeave: {
+      description: "The function to call when the step is left.",
+      type: "() => void",
+      required: false,
+    },
+    onStepHover: {
+      description: "The function to call when the step is hovered.",
+      type: "(index: number) => void",
+      required: false,
+    },
+    onCurrentStepLeave: {
+      description: "The function to call when the current step is left.",
+      type: "() => void",
+      required: false,
+    },
+    onCurrentStepHover: {
+      description: "The function to call when the current step is hovered.",
+      type: "(index: number) => void",
+      required: false,
+    },
+    lastStepVisible: {
+      description: "Whether the last step should be visible.",
+      type: "boolean",
+      required: false,
+      default: true,
+    },
+    finished: {
+      description: "The state used to indicate that the step bar is finished.",
+      type: "boolean",
+      required: false,
+      default: false,
+    },
+    currentStep: {
+      description: "The current step.",
+      type: "number",
+      required: true,
+    },
+    containerClassName: {
+      description: "The class name to apply to the container.",
+      type: "string",
+      required: false,
+    },
+    color: {
+      description: "The color of the step bar.",
+      type: "string",
+      required: false,
+      default: "#000",
     },
   }}
 />

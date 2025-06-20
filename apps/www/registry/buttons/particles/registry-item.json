@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "particles-button",
+  "type": "registry:ui",
+  "title": "Particles Button",
+  "description": "A button with a particles animation.",
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/buttons/particles/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/buttons/particles.tsx"
+    }
+  ]
+}

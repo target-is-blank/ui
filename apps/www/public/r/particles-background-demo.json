@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "particles-background-demo",
+  "type": "registry:ui",
+  "title": "Particles Background Demo",
+  "description": "Demo showing an animated background with particles effect.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/particles-background"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/backgrounds/particles/index.tsx",
+      "content": "import ParticlesBackground from \"@/components/targetblank/backgrounds/particles\";\n\nexport const ParticlesBackgroundDemo = () => {\n  return <ParticlesBackground color=\"#5a5a5a\" count={50} />;\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/backgrounds/particles.tsx"
+    }
+  ]
+}

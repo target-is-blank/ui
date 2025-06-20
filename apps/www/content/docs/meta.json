@@ -6,12 +6,16 @@
     "cli",
     "installation",
     "mcp",
-    "components",
+    "---Animations---",
+    "animations/transfer",
+    "---Backgrounds---",
+    "backgrounds/particles",
     "---Buttons---",
     "buttons/copy",
+    "buttons/particles",
     "---Components---",
-    "components/step-bar",
-    "---Animations---",
-    "animations/transfer"
+    "components/card",
+    "components/loading-bar",
+    "components/step-bar"
   ]
 }

@@ -1,0 +1,68 @@
+---
+title: Loading Bar
+description: A loading bar indicator
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="loading-bar-demo" />
+
+## Installation
+
+<ComponentInstallation name="loading-bar" />
+
+## Usage
+
+```tsx
+<LoadingBar progress={75} />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    progress: {
+      description: "The progress of the loading bar.",
+      type: "number",
+      required: true,
+    },
+    loadingClassName: {
+      description: "The class name of the loading bar.",
+      type: "string",
+      required: false,
+    },
+    indicator: {
+      description: "The indicator of the loading bar.",
+      type: "string",
+      required: false,
+    },
+    finishedComponent: {
+      description:
+        "The component to display when the loading bar is completed.",
+      type: "React.ReactNode",
+      required: false,
+    },
+    finishedComponentClassName: {
+      description: "The class name of the finished component.",
+      type: "string",
+      required: false,
+    },
+    completed: {
+      description: "Whether the loading bar is completed.",
+      type: "boolean",
+      required: false,
+      default: false,
+    },
+    color: {
+      description: "The color of the loading bar.",
+      type: "string",
+      required: false,
+      default: "#000",
+    },
+  }}
+/>
+
+## Credits
+
+- Credits to [Lucas](https://github.com/lucasporrini) for the step bar component.

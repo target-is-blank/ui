@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "particles-button",
+  "type": "registry:ui",
+  "title": "Particles Button",
+  "description": "A button with a particles animation.",
+  "dependencies": [
+    "motion",
+    "lucide-react",
+    "class-variance-authority"
+  ],
+  "files": [
+    {
+      "path": "registry/buttons/particles/index.tsx",
+      "content": "import ParticlesBackground from \"@/components/targetblank/backgrounds/particles\";\nimport { cn } from \"@/lib/utils\";\n\nconst DEFAULT_COMPONENT = \"button\";\n\ntype ParticlesButtonProps<\n  T extends React.ElementType = typeof DEFAULT_COMPONENT,\n> = {\n  as?: T;\n  color?: string;\n  count?: number;\n} & React.ComponentProps<T>;\n\nconst ParticlesButton = <\n  T extends React.ElementType = typeof DEFAULT_COMPONENT,\n>({\n  as,\n  className,\n  color = \"white\",\n  count = 18,\n  ...props\n}: ParticlesButtonProps<T>) => {\n  const Comp = as || DEFAULT_COMPONENT;\n\n  return (\n    <Comp\n      className={cn(\n        \"flex overflow-hidden relative z-10 items-center w-full h-full text-sm text-center text-gray-700 shadow-[inset_0px_0px_2px_0px_#FFFFFF]\",\n        className,\n      )}\n      {...props}\n    >\n      <ParticlesBackground color={color} count={count} />\n      {props.children}\n    </Comp>\n  );\n};\n\nexport default ParticlesButton;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/buttons/particles.tsx"
+    }
+  ]
+}

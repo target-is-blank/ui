@@ -1,0 +1,48 @@
+---
+title: Particles Button
+description: A button with a particles animation.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="particles-button-demo" />
+
+## Installation
+
+<ComponentInstallation name="particles-button" />
+
+## Usage
+
+```tsx
+<ParticlesButton>Hello world!</ParticlesButton>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    color: {
+      description: "The color of the particles.",
+      type: "string",
+      required: false,
+      default: "white",
+    },
+    count: {
+      description: "The number of particles.",
+      type: "number",
+      required: false,
+      default: "18",
+    },
+    as: {
+      description: "The component to render the button as.",
+      type: "React.ElementType",
+      required: false,
+      default: "button",
+    },
+  }}
+/>
+
+## Credits
+
+- Credits to [Shadcn UI](https://ui.shadcn.com/docs/components/button) for the button style.

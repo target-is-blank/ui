@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "loading-bar",
+  "type": "registry:ui",
+  "title": "Loading Bar",
+  "description": "A loading bar with a gradient background.",
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/components/loading-bar/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/loading-bar.tsx"
+    }
+  ]
+}

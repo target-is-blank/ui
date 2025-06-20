@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "loading-bar",
+  "type": "registry:ui",
+  "title": "Loading Bar",
+  "description": "A loading bar with a gradient background.",
+  "dependencies": [
+    "motion",
+    "lucide-react",
+    "class-variance-authority"
+  ],
+  "files": [
+    {
+      "path": "registry/components/loading-bar/index.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { CheckCircleIcon } from \"lucide-react\";\nimport { AnimatePresence, motion } from \"motion/react\";\n\ninterface LoadingBarProps {\n  color?: string;\n  completed?: boolean;\n  finishedComponentClassName?: string;\n  finishedComponent?: React.ReactNode;\n  indicator?: string;\n  loadingClassName?: string;\n  progress: number;\n}\n\nconst LoadingBar = ({\n  color = \"#000\",\n  completed = false,\n  finishedComponentClassName,\n  finishedComponent,\n  indicator,\n  loadingClassName,\n  progress,\n}: LoadingBarProps) => {\n  return (\n    <div className=\"relative w-full h-full\">\n      <AnimatePresence mode=\"wait\">\n        {!completed ? (\n          <>\n            <div\n              key=\"bar\"\n              className=\"relative w-full h-2 bg-gray-200 rounded-full dark:bg-gray-800\"\n            >\n              <motion.div\n                initial={{ width: 0 }}\n                animate={{ width: `${progress}%` }}\n                className=\"h-full rounded-full transition-all duration-300\"\n                style={{ background: color }}\n              />\n              <span\n                className={cn(\n                  \"absolute top-0 right-0 z-10 text-xs font-medium text-black -translate-y-full\",\n                  loadingClassName,\n                )}\n              >\n                {progress}%\n              </span>\n            </div>\n            {indicator && (\n              <span className=\"mt-1 text-xs text-gray-400\">{indicator}</span>\n            )}\n          </>\n        ) : (\n          <motion.div\n            key=\"icon\"\n            initial={{ opacity: 0, scale: 0.8, y: 10, rotate: 0 }}\n            animate={{ opacity: 1, scale: 1, y: 0, rotate: 360 }}\n            exit={{ opacity: 0, scale: 0.8, y: -10, rotate: 0 }}\n            transition={{\n              type: \"spring\",\n              stiffness: 260,\n              damping: 20,\n              duration: 1,\n            }}\n            className={cn(\n              \"flex justify-center items-center\",\n              finishedComponentClassName,\n            )}\n          >\n            {finishedComponent || <CheckCircleIcon className=\"size-6\" />}\n          </motion.div>\n        )}\n      </AnimatePresence>\n    </div>\n  );\n};\n\nexport default LoadingBar;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/loading-bar.tsx"
+    }
+  ]
+}

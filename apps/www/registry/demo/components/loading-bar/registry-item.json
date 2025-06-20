@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "loading-bar-demo",
+  "type": "registry:ui",
+  "title": "Loading Bar Demo",
+  "description": "Demo showing a loading bar with a gradient background.",
+  "registryDependencies": ["https://targetblank.dev/r/loading-bar"],
+  "files": [
+    {
+      "path": "registry/demo/components/loading-bar/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/loading-bar.tsx"
+    }
+  ]
+}

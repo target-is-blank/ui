@@ -63,6 +63,42 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/transfer",
   },
+  "particles-background": {
+    name: "particles-background",
+    description: "A background with a particles animation.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/backgrounds/particles/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/backgrounds/particles.tsx",
+        content:
+          'import { motion } from "motion/react";\nimport * as React from "react";\n\ninterface ParticlesBackgroundProps extends React.ComponentProps<"div"> {\n  color?: string;\n  count?: number;\n}\n\nconst ParticlesBackground = ({\n  color = "white",\n  count = 18,\n  ...props\n}: ParticlesBackgroundProps) => {\n  const [particles, setParticles] = React.useState<\n    {\n      top: number;\n      left: number;\n      size: number;\n      opacity: number;\n      delay: number;\n    }[]\n  >([]);\n\n  React.useEffect(() => {\n    setParticles(\n      Array.from({ length: count }).map(() => ({\n        top: Math.random() * 100,\n        left: Math.random() * 100,\n        size: 2 + Math.random() * 3,\n        opacity: 0.3 + Math.random() * 0.4,\n        delay: Math.random() * 2,\n      })),\n    );\n  }, [count]);\n\n  return (\n    <div\n      aria-hidden\n      className="absolute inset-0 z-0 pointer-events-none"\n      style={{ overflow: "hidden" }}\n      {...props}\n    >\n      {particles.map((p, i) => (\n        <motion.span\n          key={i}\n          className="absolute rounded-full"\n          style={{\n            top: `${p.top}%`,\n            left: `${p.left}%`,\n            width: `${p.size}px`,\n            height: `${p.size}px`,\n            opacity: p.opacity,\n            filter: "blur(0.5px)",\n            background: color,\n          }}\n          animate={{\n            y: [0, -8, 0],\n            opacity: [p.opacity, p.opacity * 0.7, p.opacity],\n          }}\n          transition={{\n            duration: 2.5 + Math.random() * 1.5,\n            repeat: Infinity,\n            delay: p.delay,\n            repeatType: "loop",\n            ease: "easeInOut",\n          }}\n        />\n      ))}\n    </div>\n  );\n};\n\nexport default ParticlesBackground;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/backgrounds/particles/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "particles-background";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/particles-background",
+  },
   "copy-button": {
     name: "copy-button",
     description: "A button with a copy to clipboard animation.",
@@ -98,6 +134,114 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/copy-button",
+  },
+  "particles-button": {
+    name: "particles-button",
+    description: "A button with a particles animation.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/buttons/particles/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/buttons/particles.tsx",
+        content:
+          'import ParticlesBackground from "@/components/targetblank/backgrounds/particles";\nimport { cn } from "@/lib/utils";\n\nconst DEFAULT_COMPONENT = "button";\n\ntype ParticlesButtonProps<\n  T extends React.ElementType = typeof DEFAULT_COMPONENT,\n> = {\n  as?: T;\n  color?: string;\n  count?: number;\n} & React.ComponentProps<T>;\n\nconst ParticlesButton = <\n  T extends React.ElementType = typeof DEFAULT_COMPONENT,\n>({\n  as,\n  className,\n  color = "white",\n  count = 18,\n  ...props\n}: ParticlesButtonProps<T>) => {\n  const Comp = as || DEFAULT_COMPONENT;\n\n  return (\n    <Comp\n      className={cn(\n        "flex overflow-hidden relative z-10 items-center w-full h-full text-sm text-center text-gray-700 shadow-[inset_0px_0px_2px_0px_#FFFFFF]",\n        className,\n      )}\n      {...props}\n    >\n      <ParticlesBackground color={color} count={count} />\n      {props.children}\n    </Comp>\n  );\n};\n\nexport default ParticlesButton;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/buttons/particles/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "particles-button";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/particles-button",
+  },
+  card: {
+    name: "card",
+    description: "A card component.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/components/card/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/components/card.tsx",
+        content:
+          'import { cn } from "@/lib/utils";\nimport { HTMLMotionProps, motion } from "motion/react";\nimport * as React from "react";\nimport { useRef, useState } from "react";\n\nconst DEFAULT_COMPONENT = "button";\n\ntype CardProps = HTMLMotionProps<"div"> & {\n  image: string;\n};\n\nfunction Card({ className, image, ...props }: CardProps) {\n  const cardRef = useRef<HTMLDivElement>(null);\n  const [pos, setPos] = useState({ x: 0, y: 0 });\n\n  const handleMouseMove = (e: React.MouseEvent) => {\n    const card = cardRef.current;\n    if (!card) return;\n    const rect = card.getBoundingClientRect();\n    const x = e.clientX - rect.left - rect.width / 2;\n    const y = e.clientY - rect.top - rect.height / 2;\n    const strength = 0.08;\n    setPos({ x: x * strength, y: y * strength });\n  };\n\n  const handleMouseLeave = () => {\n    setPos({ x: 0, y: 0 });\n  };\n\n  return (\n    <div\n      data-slot="card"\n      className="flex justify-center items-center p-2 rounded-3xl shadow-sm bg-white/20 backdrop-blur-xs"\n    >\n      <motion.div\n        ref={cardRef}\n        className={cn(\n          "relative w-[300px] bg-cover bg-center flex flex-col gap-4 p-6 rounded-2xl shadow-[inset_0px_0px_3px_0px_#FFFFFF]",\n          className,\n        )}\n        style={{\n          backgroundImage: `url(${image})`,\n        }}\n        animate={{ x: pos.x, y: pos.y }}\n        transition={{ type: "spring", stiffness: 400, damping: 40, mass: 1 }}\n        onMouseMove={handleMouseMove}\n        onMouseLeave={handleMouseLeave}\n        {...props}\n      />\n    </div>\n  );\n}\n\nfunction CardGradient({\n  className,\n  from = "rgba(255,255,255,0.70) 0%",\n  to = "transparent 80%",\n  ...props\n}: React.ComponentProps<"div"> & {\n  from?: string;\n  to?: string;\n}) {\n  return (\n    <div\n      className={cn(\n        "absolute inset-0 rounded-2xl pointer-events-none",\n        className,\n      )}\n      style={{\n        background: `linear-gradient(to bottom, ${from}, ${to})`,\n      }}\n      {...props}\n    />\n  );\n}\n\nfunction CardIndicator({ className, ...props }: React.ComponentProps<"div">) {\n  return (\n    <div\n      data-slot="card-indicator"\n      className={cn(\n        "rounded-full border border-gray-200 bg-white/30 backdrop-blur-xs w-fit",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nfunction CardHeader({ className, ...props }: React.ComponentProps<"div">) {\n  return (\n    <div\n      data-slot="card-header"\n      className={cn(\n        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-1 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nfunction CardTitle({ className, ...props }: React.ComponentProps<"div">) {\n  return (\n    <div\n      data-slot="card-title"\n      className={cn("font-semibold leading-none", className)}\n      {...props}\n    />\n  );\n}\n\nfunction CardDescription({ className, ...props }: React.ComponentProps<"div">) {\n  return (\n    <div\n      data-slot="card-description"\n      className={cn("text-sm text-muted-foreground", className)}\n      {...props}\n    />\n  );\n}\n\nfunction CardContent({ className, ...props }: React.ComponentProps<"div">) {\n  return (\n    <div\n      data-slot="card-content"\n      className={cn("px-1", className)}\n      {...props}\n    />\n  );\n}\n\ntype CardFooterProps<T extends React.ElementType = typeof DEFAULT_COMPONENT> = {\n  as?: T;\n  radius?: number;\n  blur?: number;\n  childClassName?: string;\n} & React.ComponentProps<T>;\n\nfunction CardFooter<T extends React.ElementType = typeof DEFAULT_COMPONENT>({\n  as,\n  className,\n  ...props\n}: CardFooterProps<T>) {\n  const Comp = as || DEFAULT_COMPONENT;\n\n  return (\n    <motion.div\n      data-slot="card-footer"\n      className="flex overflow-hidden relative justify-center items-center p-1 mt-20 rounded-xl backdrop-blur-sm bg-white/20 shadow-[inset_0px_0px_2px_0px_#FFFFFF]"\n      whileHover={{ scale: 1.05 }}\n      whileTap={{ scale: 0.95 }}\n    >\n      <Comp\n        className={cn(\n          "flex overflow-hidden relative z-10 items-center w-full h-full text-sm text-center text-gray-700 shadow-[inset_0px_0px_2px_0px_#FFFFFF]",\n          className,\n        )}\n        {...props}\n      >\n        {props.children}\n      </Comp>\n    </motion.div>\n  );\n}\n\nexport {\n  Card,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardGradient,\n  CardHeader,\n  CardIndicator,\n  CardTitle,\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/components/card/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "card";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/card",
+  },
+  "loading-bar": {
+    name: "loading-bar",
+    description: "A loading bar with a gradient background.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/components/loading-bar/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/components/loading-bar.tsx",
+        content:
+          'import { cn } from "@/lib/utils";\nimport { CheckCircleIcon } from "lucide-react";\nimport { AnimatePresence, motion } from "motion/react";\n\ninterface LoadingBarProps {\n  color?: string;\n  completed?: boolean;\n  finishedComponentClassName?: string;\n  finishedComponent?: React.ReactNode;\n  indicator?: string;\n  loadingClassName?: string;\n  progress: number;\n}\n\nconst LoadingBar = ({\n  color = "#000",\n  completed = false,\n  finishedComponentClassName,\n  finishedComponent,\n  indicator,\n  loadingClassName,\n  progress,\n}: LoadingBarProps) => {\n  return (\n    <div className="relative w-full h-full">\n      <AnimatePresence mode="wait">\n        {!completed ? (\n          <>\n            <div\n              key="bar"\n              className="relative w-full h-2 bg-gray-200 rounded-full dark:bg-gray-800"\n            >\n              <motion.div\n                initial={{ width: 0 }}\n                animate={{ width: `${progress}%` }}\n                className="h-full rounded-full transition-all duration-300"\n                style={{ background: color }}\n              />\n              <span\n                className={cn(\n                  "absolute top-0 right-0 z-10 text-xs font-medium text-black -translate-y-full",\n                  loadingClassName,\n                )}\n              >\n                {progress}%\n              </span>\n            </div>\n            {indicator && (\n              <span className="mt-1 text-xs text-gray-400">{indicator}</span>\n            )}\n          </>\n        ) : (\n          <motion.div\n            key="icon"\n            initial={{ opacity: 0, scale: 0.8, y: 10, rotate: 0 }}\n            animate={{ opacity: 1, scale: 1, y: 0, rotate: 360 }}\n            exit={{ opacity: 0, scale: 0.8, y: -10, rotate: 0 }}\n            transition={{\n              type: "spring",\n              stiffness: 260,\n              damping: 20,\n              duration: 1,\n            }}\n            className={cn(\n              "flex justify-center items-center",\n              finishedComponentClassName,\n            )}\n          >\n            {finishedComponent || <CheckCircleIcon className="size-6" />}\n          </motion.div>\n        )}\n      </AnimatePresence>\n    </div>\n  );\n};\n\nexport default LoadingBar;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/components/loading-bar/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "loading-bar";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/loading-bar",
   },
   "step-bar": {
     name: "step-bar",
@@ -173,6 +317,44 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/transfer-demo",
   },
+  "particles-background-demo": {
+    name: "particles-background-demo",
+    description: "Demo showing an animated background with particles effect.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/particles-background"],
+    files: [
+      {
+        path: "registry/demo/backgrounds/particles/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/backgrounds/particles.tsx",
+        content:
+          'import ParticlesBackground from "@/components/targetblank/backgrounds/particles";\n\nexport const ParticlesBackgroundDemo = () => {\n  return <ParticlesBackground color="#5a5a5a" count={50} />;\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/backgrounds/particles/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "particles-background-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/particles-background-demo",
+  },
   "copy-button-demo": {
     name: "copy-button-demo",
     description:
@@ -209,6 +391,116 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/copy-button-demo",
+  },
+  "particles-button-demo": {
+    name: "particles-button-demo",
+    description: "Demo showing an animated button with particles effect.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/particles-button"],
+    files: [
+      {
+        path: "registry/demo/buttons/particles/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/buttons/particles.tsx",
+        content:
+          'import ParticlesButton from "@/components/targetblank/buttons/particles";\nimport { StarIcon } from "lucide-react";\nimport { motion } from "motion/react";\n\nexport const ParticlesButtonDemo = () => {\n  return (\n    <ParticlesButton\n      as={motion.button}\n      className="gap-2 p-2 bg-transparent rounded-md border border-neutral-300 text-neutral-700 dark:text-neutral-300 w-fit dark:border-neutral-700"\n      count={10}\n      color="#5a5a5a"\n      whileHover={{ scale: 1.05 }}\n      whileTap={{ scale: 0.95 }}\n    >\n      <StarIcon className="size-4" />\n      Click me\n    </ParticlesButton>\n  );\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/buttons/particles/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "particles-button-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/particles-button-demo",
+  },
+  "card-demo": {
+    name: "card-demo",
+    description: "Demo showing a card component.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/card"],
+    files: [
+      {
+        path: "registry/demo/components/card/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/components/card.tsx",
+        content:
+          'import ParticlesBackground from "@/components/targetblank/backgrounds/particles";\nimport {\n  Card,\n  CardDescription,\n  CardFooter,\n  CardGradient,\n  CardHeader,\n  CardIndicator,\n  CardTitle,\n} from "@/components/targetblank/components/card";\n\nexport const CardDemo = () => {\n  return (\n    <Card\n      image={\n        "https://preview.redd.it/nature-vibes-v0-vhl86w7e60jc1.jpg?width=1080&crop=smart&auto=webp&s=b1553f868c8d46408ac0f2a860f19f8c14793bf4"\n      }\n    >\n      <CardGradient from="rgba(255,255,255,0.70) 40%" to="transparent 80%" />\n      <CardIndicator className="z-[1]">\n        <div className="flex gap-2 justify-start items-center p-1 w-fit">\n          <div className="bg-lime-400 rounded-full shadow-sm size-1.5 shadow-lime-300" />\n          <span className="text-[9px] text-gray-600 leading-none">\n            New-Reels Instagram Creator\n          </span>\n        </div>\n      </CardIndicator>\n      <CardHeader className="z-[1]">\n        <CardTitle>\n          <div className="flex flex-col gap-1">\n            <span className="text-lime-900">Craft Your</span>\n            <span className="italic font-light text-gray-800">\n              Imaginary Escape\n            </span>\n          </div>\n        </CardTitle>\n        <CardDescription>\n          <span className="text-sm text-lime-800">\n            The leading AI art generation and image editing tool with 3.5B+\n            creations\n          </span>\n        </CardDescription>\n      </CardHeader>\n      <CardFooter\n        as="button"\n        className="px-4 py-2 w-full tracking-tight bg-[#bee227] rounded-lg"\n      >\n        <ParticlesBackground count={10} />\n        <span className="z-10 w-full text-center">Generated Image</span>\n      </CardFooter>\n    </Card>\n  );\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/components/card/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "card-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/card-demo",
+  },
+  "loading-bar-demo": {
+    name: "loading-bar-demo",
+    description: "Demo showing a loading bar with a gradient background.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/loading-bar"],
+    files: [
+      {
+        path: "registry/demo/components/loading-bar/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/components/loading-bar.tsx",
+        content:
+          'import LoadingBar from "@/components/targetblank/components/loading-bar";\nimport * as React from "react";\n\nexport const LoadingBarDemo = () => {\n  const [progress, setProgress] = React.useState(0);\n  const [isComplete, setIsComplete] = React.useState(false);\n  const [elapsedTime, setElapsedTime] = React.useState(0);\n\n  React.useEffect(() => {\n    if (isComplete) {\n      const timer = setTimeout(() => {\n        setProgress(0);\n        setElapsedTime(0);\n        setIsComplete(false);\n      }, 2000);\n      return () => clearTimeout(timer);\n    }\n\n    const interval = setInterval(() => {\n      setElapsedTime((t) => t + 1);\n      setProgress((prev) => {\n        if (prev >= 100) {\n          setIsComplete(true);\n          return 100;\n        }\n        const randomStep = Math.floor(Math.random() * 25) + 5;\n        return Math.min(prev + randomStep, 100);\n      });\n    }, 1000);\n\n    return () => clearInterval(interval);\n  }, [isComplete]);\n\n  const averageSpeed = elapsedTime > 0 ? progress / elapsedTime : 0;\n  const timeLeft =\n    averageSpeed > 0 ? Math.ceil((100 - progress) / averageSpeed) : 0;\n\n  const indicator =\n    progress < 100 && timeLeft > 0\n      ? `About ${timeLeft} second${timeLeft > 1 ? "s" : ""} remaining...`\n      : elapsedTime > 0\n        ? "Finished"\n        : "Loading...";\n\n  return (\n    <LoadingBar\n      progress={progress}\n      indicator={indicator}\n      completed={isComplete}\n    />\n  );\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/components/loading-bar/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "loading-bar-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/loading-bar-demo",
   },
   "step-bar-demo": {
     name: "step-bar-demo",

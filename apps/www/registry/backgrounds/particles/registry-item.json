@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "particles-background",
+  "type": "registry:ui",
+  "title": "Particles Background",
+  "description": "A background with a particles animation.",
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/backgrounds/particles/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/backgrounds/particles.tsx"
+    }
+  ]
+}
