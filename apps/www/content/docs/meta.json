@@ -16,6 +16,7 @@
     "---Components---",
     "components/card",
     "components/loading-bar",
-    "components/step-bar"
+    "components/step-bar",
+    "components/wheel-selector"
   ]
 }

@@ -32,6 +32,42 @@ author:
 
 <TypeTable
   type={{
+    toOpacity: {
+      description: "The opacity of the to color.",
+      type: "number",
+      required: false,
+      default: 70,
+    },
+    toColor: {
+      description: "The color of the to color.",
+      type: "string",
+      required: false,
+      default: "rgba(0, 0, 0, 0)",
+    },
+    toBlur: {
+      description: "The blur of the to color.",
+      type: "number",
+      required: false,
+      default: 70,
+    },
+    fromOpacity: {
+      description: "The opacity of the from color.",
+      type: "number",
+      required: false,
+      default: 40,
+    },
+    fromColor: {
+      description: "The color of the from color.",
+      type: "string",
+      required: false,
+      default: "rgba(255, 255, 255, 0.5)",
+    },
+    fromBlur: {
+      description: "The blur of the from color.",
+      type: "number",
+      required: false,
+      default: 40,
+    },
     className: {
       description: "The class name of the card.",
       type: "string",

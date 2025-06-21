@@ -16,7 +16,7 @@ export const CardDemo = () => {
         "https://preview.redd.it/nature-vibes-v0-vhl86w7e60jc1.jpg?width=1080&crop=smart&auto=webp&s=b1553f868c8d46408ac0f2a860f19f8c14793bf4"
       }
     >
-      <CardGradient from="rgba(255,255,255,0.70) 40%" to="transparent 80%" />
+      <CardGradient />
       <CardIndicator className="z-[1]">
         <div className="flex gap-2 justify-start items-center p-1 w-fit">
           <div className="bg-lime-400 rounded-full shadow-sm size-1.5 shadow-lime-300" />

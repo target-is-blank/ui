@@ -145,6 +145,22 @@
       ]
     },
     {
+      "name": "wheel-selector",
+      "type": "registry:ui",
+      "title": "Wheel Selector",
+      "description": "A wheel selector for picking a number.",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "registry/components/wheel-selector/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/wheel-selector.tsx"
+        }
+      ]
+    },
+    {
       "name": "transfer-demo",
       "type": "registry:ui",
       "title": "Transfer Demo",
@@ -253,6 +269,22 @@
           "path": "registry/demo/components/step-bar/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/step-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "wheel-selector-demo",
+      "type": "registry:ui",
+      "title": "Wheel Selector Demo",
+      "description": "Demo for the wheel selector component.",
+      "registryDependencies": [
+        "wheel-selector"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/wheel-selector/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/wheel-selector.tsx"
         }
       ]
     }

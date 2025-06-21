@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "wheel-selector-demo",
+  "type": "registry:ui",
+  "title": "Wheel Selector Demo",
+  "description": "Demo for the wheel selector component.",
+  "registryDependencies": ["wheel-selector"],
+  "files": [
+    {
+      "path": "registry/demo/components/wheel-selector/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/wheel-selector.tsx"
+    }
+  ]
+}

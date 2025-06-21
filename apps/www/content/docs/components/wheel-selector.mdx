@@ -1,0 +1,85 @@
+---
+title: Wheel Selector
+description: A wheel selector component to select a number from a range.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="wheel-selector-demo" />
+
+## Installation
+
+<ComponentInstallation name="wheel-selector" />
+
+## Usage
+
+```tsx
+<WheelSelector items={items} value={value} onChange={onChange} />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    renderItem: {
+      description: "The function to render the item of the wheel selector.",
+      type: "({ item, isSelected }: { item: T; isSelected: boolean }) => React.ReactNode",
+      required: false,
+    },
+    onChange: {
+      description: "The function to call when the value changes.",
+      type: "(value: T) => void",
+      required: false,
+    },
+    width: {
+      description: "The width of the wheel selector.",
+      type: "number",
+      required: false,
+      default: 36,
+    },
+    value: {
+      description: "The value of the wheel selector.",
+      type: "T",
+      required: true,
+    },
+    numbersContainerClassName: {
+      description:
+        "The class name to apply to the numbers container of the wheel selector.",
+      type: "string",
+      required: false,
+    },
+    items: {
+      description: "The items of the wheel selector.",
+      type: "T[]",
+      required: true,
+    },
+    height: {
+      description: "The height of the wheel selector.",
+      type: "number",
+      required: false,
+      default: 30,
+    },
+    gap: {
+      description: "The gap between the items of the wheel selector.",
+      type: "number",
+      required: false,
+      default: 14,
+    },
+    frameClassName: {
+      description:
+        "The class name to apply to the frame of the wheel selector.",
+      type: "string",
+      required: false,
+    },
+    className: {
+      description: "The class name to apply to the wheel selector.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>
+
+## Credits
+
+- Credits to [Lucas](https://github.com/lucasporrini) for the step bar component.

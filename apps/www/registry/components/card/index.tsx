@@ -53,21 +53,30 @@ function Card({ className, image, ...props }: CardProps) {
 
 function CardGradient({
   className,
-  from = "rgba(255,255,255,0.70) 0%",
-  to = "transparent 80%",
+  fromBlur = 40,
+  fromColor = "rgba(255, 255, 255, 0.5)",
+  fromOpacity = 40,
+  toBlur = 70,
+  toColor = "rgba(0, 0, 0, 0)",
+  toOpacity = 70,
   ...props
 }: React.ComponentProps<"div"> & {
-  from?: string;
-  to?: string;
+  fromBlur?: number;
+  toBlur?: number;
+  fromColor?: string;
+  toColor?: string;
+  fromOpacity?: number;
+  toOpacity?: number;
 }) {
   return (
     <div
       className={cn(
-        "absolute inset-0 rounded-2xl pointer-events-none",
+        "absolute inset-0 rounded-2xl backdrop-blur-xl pointer-events-none",
         className,
       )}
       style={{
-        background: `linear-gradient(to bottom, ${from}, ${to})`,
+        background: `linear-gradient(to bottom, ${fromColor} ${fromOpacity}%, ${toColor} ${toOpacity}%)`,
+        mask: `linear-gradient(to bottom, rgba(0, 0, 0, 1) ${fromBlur.toString()}%, rgba(0, 0, 0, 0) ${toBlur.toString()}%)`,
       }}
       {...props}
     />
