@@ -10,7 +10,7 @@
   "files": [
     {
       "path": "registry/demo/backgrounds/speed/index.tsx",
-      "content": "import SpeedBackground from \"@/components/targetblank/backgrounds/speed\";\n\nexport default function SpeedBackgroundDemo() {\n  return <SpeedBackground />;\n}\n",
+      "content": "import SpeedBackground from \"@/components/targetblank/backgrounds/speed\";\n\nexport default function SpeedBackgroundDemo() {\n  return (\n    <SpeedBackground\n      className=\"w-full h-96 bg-white rounded-xl\"\n      count={15}\n      color=\"black\"\n    >\n      <div className=\"flex items-center justify-center h-full text-3xl font-bold\">\n        Speed Mode 💨\n      </div>\n    </SpeedBackground>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/targetblank/demo/backgrounds/speed.tsx"
     }
