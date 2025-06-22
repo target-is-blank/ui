@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "speed-background",
+  "type": "registry:ui",
+  "title": "Speed Background",
+  "description": "A background with a speed animation.",
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/backgrounds/speed/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/backgrounds/speed.tsx"
+    }
+  ]
+}

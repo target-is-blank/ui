@@ -99,6 +99,42 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/particles-background",
   },
+  "speed-background": {
+    name: "speed-background",
+    description: "A background with a speed animation.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/backgrounds/speed/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/backgrounds/speed.tsx",
+        content:
+          'import { cn } from "@/lib/utils";\nimport * as React from "react";\n\ninterface SpeedBackgroundProps extends React.ComponentProps<"div"> {\n  color?: string;\n  count?: number;\n  speed?: number;\n}\n\nconst SpeedBackground = ({\n  className,\n  color = "hsl(var(--primary))",\n  count = 18,\n  speed = 1,\n  ...props\n}: SpeedBackgroundProps) => {\n  const getKeyframes = React.useCallback(() => {\n    return `@layer utilities {\n  @keyframes speed-line {\n    0% {\n      transform: scaleX(0);\n      opacity: 0.1;\n    }\n    20% {\n      opacity: 0.7;\n    }\n    90% {\n      opacity: 0.7;\n    }\n    100% {\n      transform: scaleX(1);\n      opacity: 0.1;\n    }\n  }\n\n  .animate-speed-line {\n    animation: speed-line linear infinite;\n    transform-origin: 0% 50%;\n  }\n}`;\n  }, [color, count, speed]);\n\n  return (\n    <>\n      <style>{getKeyframes()}</style>\n      <div\n        className={cn(\n          "pointer-events-none absolute inset-0 z-0 overflow-hidden",\n          className,\n        )}\n        {...props}\n      >\n        <div className="absolute left-1/2 top-1/2">\n          {Array.from({ length: count }).map((_, i) => {\n            const angle = (360 / count) * i;\n            const duration = 20 / speed + (Math.random() * 10) / speed;\n            const delay = (Math.random() * 20) / speed;\n\n            return (\n              <div\n                key={i}\n                className="absolute"\n                style={{\n                  transform: `rotate(${angle}deg)`,\n                  transformOrigin: "0% 50%",\n                }}\n              >\n                <div\n                  className="h-px w-screen animate-speed-line"\n                  style={{\n                    backgroundImage: `linear-gradient(to right, transparent, ${color}, transparent)`,\n                    animationDuration: `${duration}s`,\n                    animationDelay: `${delay}s`,\n                  }}\n                />\n              </div>\n            );\n          })}\n        </div>\n      </div>\n    </>\n  );\n};\n\nexport default SpeedBackground;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/backgrounds/speed/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "speed-background";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/speed-background",
+  },
   "copy-button": {
     name: "copy-button",
     description: "A button with a copy to clipboard animation.",
@@ -355,33 +391,31 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/transfer-demo",
   },
-  "particles-background-demo": {
-    name: "particles-background-demo",
-    description: "Demo showing an animated background with particles effect.",
+  "speed-background-demo": {
+    name: "speed-background-demo",
+    description: "Demo showing an animated background with speed effect.",
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["https://targetblank.dev/r/particles-background"],
+    registryDependencies: ["https://targetblank.dev/r/speed-background"],
     files: [
       {
-        path: "registry/demo/backgrounds/particles/index.tsx",
+        path: "registry/demo/backgrounds/speed/index.tsx",
         type: "registry:ui",
-        target: "components/targetblank/demo/backgrounds/particles.tsx",
+        target: "components/targetblank/demo/backgrounds/speed.tsx",
         content:
-          'import ParticlesBackground from "@/components/targetblank/backgrounds/particles";\n\nexport const ParticlesBackgroundDemo = () => {\n  return <ParticlesBackground color="#5a5a5a" count={50} />;\n};',
+          'import SpeedBackground from "@/components/targetblank/backgrounds/speed";\n\nexport default function SpeedBackgroundDemo() {\n  return <SpeedBackground />;\n}',
       },
     ],
     keywords: [],
     component: (function () {
       const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/demo/backgrounds/particles/index.tsx"
-        );
+        const mod = await import("@/registry/demo/backgrounds/speed/index.tsx");
         const exportName =
           Object.keys(mod).find(
             (key) =>
               typeof mod[key] === "function" || typeof mod[key] === "object",
-          ) || "particles-background-demo";
+          ) || "speed-background-demo";
         const Comp = mod.default || mod[exportName];
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
@@ -391,7 +425,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "https://targetblank.dev/r/particles-background-demo",
+    command: "https://targetblank.dev/r/speed-background-demo",
   },
   "copy-button-demo": {
     name: "copy-button-demo",
@@ -443,7 +477,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/targetblank/demo/buttons/particles.tsx",
         content:
-          'import ParticlesButton from "@/components/targetblank/buttons/particles";\nimport { StarIcon } from "lucide-react";\nimport { motion } from "motion/react";\n\nexport const ParticlesButtonDemo = () => {\n  return (\n    <ParticlesButton\n      as={motion.button}\n      className="gap-2 p-2 bg-transparent rounded-md border border-neutral-300 text-neutral-700 dark:text-neutral-300 w-fit dark:border-neutral-700"\n      count={10}\n      color="#5a5a5a"\n      whileHover={{ scale: 1.05 }}\n      whileTap={{ scale: 0.95 }}\n    >\n      <StarIcon className="size-4" />\n      Click me\n    </ParticlesButton>\n  );\n};',
+          'import ParticlesButton from "@/components/targetblank/buttons/particles";\nimport { StarIcon } from "lucide-react";\nimport { motion } from "motion/react";\nimport * as React from "react";\n\nexport const ParticlesButtonDemo = () => {\n  const [isFilled, setIsFilled] = React.useState(false);\n\n  return (\n    <ParticlesButton\n      as={motion.button}\n      className="gap-2 p-2 bg-transparent rounded-md border border-muted text-primary w-fit"\n      count={10}\n      color="#5a5a5a"\n      whileHover={{ scale: 1.05 }}\n      whileTap={{ scale: 0.95 }}\n      onClick={() => setIsFilled((prev) => !prev)}\n    >\n      <StarIcon className="size-4" fill={isFilled ? "none" : "currentColor"} />\n      Click me\n    </ParticlesButton>\n  );\n};',
       },
     ],
     keywords: [],
@@ -591,7 +625,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/targetblank/demo/components/wheel-selector.tsx",
         content:
-          '"use client";\n\nimport WheelSelector from "@/components/targetblank/components/wheel-selector";\nimport React from "react";\n\nconst WheelSelectorDemo = () => {\n  const numberItems = React.useMemo(() => {\n    const min = 100;\n    const max = 200;\n    return Array.from({ length: max - min + 1 }, (_, i) => i + min);\n  }, []);\n  const [numberValue, setNumberValue] = React.useState(numberItems[43]); // 143\n\n  React.useEffect(() => {\n    const interval = setInterval(() => {\n      const newValue =\n        numberItems[Math.floor(Math.random() * numberItems.length)];\n      setNumberValue(newValue);\n    }, 3000);\n\n    return () => clearInterval(interval);\n  }, [numberItems]);\n\n  const fruitItems = React.useMemo(\n    () => ["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape"],\n    [],\n  );\n  const [fruitValue, setFruitValue] = React.useState(fruitItems[2]);\n\n  return (\n    <div className="flex flex-col gap-8 justify-center items-center">\n      <div>\n        <h3 className="mb-2 font-semibold text-center">Number Selector</h3>\n        <WheelSelector<number>\n          items={numberItems}\n          value={numberValue}\n          onChange={setNumberValue}\n          className="w-48"\n        />\n      </div>\n\n      <div>\n        <h3 className="mb-2 font-semibold text-center">Fruit Selector</h3>\n        <WheelSelector<string>\n          items={fruitItems}\n          value={fruitValue}\n          onChange={setFruitValue}\n          width={100}\n          className="w-80"\n          renderItem={({ item, isSelected }) => (\n            <div\n              className={`flex h-full w-full items-center justify-center rounded-lg font-bold transition-all duration-200 ${\n                isSelected\n                  ? "text-neutral-300 bg-neutral-700 dark:bg-neutral-300 dark:text-neutral-700"\n                  : "text-neutral-700 bg-neutral-300 dark:bg-neutral-700 dark:text-neutral-300"\n              }`}\n            >\n              {item}\n            </div>\n          )}\n        />\n        <p className="text-xs text-center text-neutral-400 dark:text-neutral-600">\n          Try to grab it\n        </p>\n      </div>\n    </div>\n  );\n};\n\nexport default WheelSelectorDemo;',
+          '"use client";\n\nimport WheelSelector from "@/components/targetblank/components/wheel-selector";\nimport React from "react";\n\nconst WheelSelectorDemo = () => {\n  const numberItems = React.useMemo(() => {\n    const min = 100;\n    const max = 200;\n    return Array.from({ length: max - min + 1 }, (_, i) => i + min);\n  }, []);\n  const [numberValue, setNumberValue] = React.useState(numberItems[43]); // 143\n\n  React.useEffect(() => {\n    const interval = setInterval(() => {\n      const newValue =\n        numberItems[Math.floor(Math.random() * numberItems.length)];\n      setNumberValue(newValue);\n    }, 3000);\n\n    return () => clearInterval(interval);\n  }, [numberItems]);\n\n  const fruitItems = React.useMemo(\n    () => ["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape"],\n    [],\n  );\n  const [fruitValue, setFruitValue] = React.useState(fruitItems[2]);\n\n  return (\n    <div className="flex flex-col gap-8 justify-center items-center">\n      <div>\n        <h3 className="mb-2 font-semibold text-center">Number Selector</h3>\n        <WheelSelector<number>\n          items={numberItems}\n          value={numberValue}\n          onChange={setNumberValue}\n          className="w-48"\n        />\n      </div>\n\n      <div>\n        <h3 className="mb-2 font-semibold text-center">Fruit Selector</h3>\n        <WheelSelector<string>\n          items={fruitItems}\n          value={fruitValue}\n          onChange={setFruitValue}\n          width={100}\n          className="w-80"\n          renderItem={({ item, isSelected }) => (\n            <div\n              className={`flex h-full w-full items-center justify-center rounded-lg font-bold transition-all duration-200 ${\n                isSelected\n                  ? "text-muted bg-primary dark:bg-muted dark:text-primary"\n                  : "text-primary bg-muted dark:bg-primary dark:text-muted"\n              }`}\n            >\n              {item}\n            </div>\n          )}\n        />\n        <p className="text-xs text-center text-muted dark:text-primary">\n          Try to grab it\n        </p>\n      </div>\n    </div>\n  );\n};\n\nexport default WheelSelectorDemo;',
       },
     ],
     keywords: [],

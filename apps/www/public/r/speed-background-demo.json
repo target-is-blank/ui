@@ -4,10 +4,13 @@
   "type": "registry:ui",
   "title": "Speed Background Demo",
   "description": "Demo showing an animated background with speed effect.",
-  "registryDependencies": ["https://targetblank.dev/r/speed-background"],
+  "registryDependencies": [
+    "https://targetblank.dev/r/speed-background"
+  ],
   "files": [
     {
       "path": "registry/demo/backgrounds/speed/index.tsx",
+      "content": "import SpeedBackground from \"@/components/targetblank/backgrounds/speed\";\n\nexport default function SpeedBackgroundDemo() {\n  return <SpeedBackground />;\n}\n",
       "type": "registry:ui",
       "target": "components/targetblank/demo/backgrounds/speed.tsx"
     }

@@ -55,6 +55,24 @@
       ]
     },
     {
+      "name": "speed-background",
+      "type": "registry:ui",
+      "title": "Speed Background",
+      "description": "A background with a speed animation.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/backgrounds/speed/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/backgrounds/speed.tsx"
+        }
+      ]
+    },
+    {
       "name": "copy-button",
       "type": "registry:ui",
       "title": "Copy Button",
@@ -177,18 +195,34 @@
       ]
     },
     {
-      "name": "particles-background-demo",
+      "name": "speed-background-demo",
       "type": "registry:ui",
-      "title": "Particles Background Demo",
-      "description": "Demo showing an animated background with particles effect.",
+      "title": "Speed Background Demo",
+      "description": "Demo showing an animated background with speed effect.",
       "registryDependencies": [
-        "https://targetblank.dev/r/particles-background"
+        "https://targetblank.dev/r/speed-background"
       ],
       "files": [
         {
-          "path": "registry/demo/backgrounds/particles/index.tsx",
+          "path": "registry/demo/backgrounds/speed/index.tsx",
           "type": "registry:ui",
-          "target": "components/targetblank/demo/backgrounds/particles.tsx"
+          "target": "components/targetblank/demo/backgrounds/speed.tsx"
+        }
+      ]
+    },
+    {
+      "name": "speed-background-demo",
+      "type": "registry:ui",
+      "title": "Speed Background Demo",
+      "description": "Demo showing an animated background with speed effect.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/speed-background"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/backgrounds/speed/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/backgrounds/speed.tsx"
         }
       ]
     },

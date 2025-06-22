@@ -1,0 +1,48 @@
+---
+title: Speed Background
+description: A background with a speed animation.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="speed-background-demo" />
+
+## Installation
+
+<ComponentInstallation name="speed-background" />
+
+## Usage
+
+```tsx
+<SpeedBackground />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    color: {
+      description: "The color of the speed.",
+      type: "string",
+      required: false,
+      default: "white",
+    },
+    count: {
+      description: "The number of speed.",
+      type: "number",
+      required: false,
+      default: "18",
+    },
+    speed: {
+      description: "The speed of the speed.",
+      type: "number",
+      required: false,
+      default: "1",
+    },
+  }}
+/>
+
+## Credits
+
+- Credits to [Shadcn UI](https://ui.shadcn.com/docs/components/button) for the speed style.
