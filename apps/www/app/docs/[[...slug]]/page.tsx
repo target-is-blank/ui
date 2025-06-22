@@ -1,4 +1,5 @@
 import { CodeBlock, CodeBlockProps, Pre } from "@/components/docs/codeblock";
+import { ColorPalette } from "@/components/docs/color-palette";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsBreadcrumb } from "@/components/docs/docs-breadcrumb";
 import { ComponentPreview } from "@/components/docs/docs-component-preview";
@@ -53,6 +54,7 @@ export default async function Page(props: {
         <MDX
           components={{
             ...defaultMdxComponents,
+            ColorPalette,
             ComponentPreview,
             ComponentInstallation,
             TypeTable,
