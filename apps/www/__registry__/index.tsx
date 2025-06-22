@@ -391,6 +391,44 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/transfer-demo",
   },
+  "particles-background-demo": {
+    name: "particles-background-demo",
+    description: "Demo showing an animated background with particles effect.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/particles-background"],
+    files: [
+      {
+        path: "registry/demo/backgrounds/particles/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/backgrounds/particles.tsx",
+        content:
+          'import ParticlesBackground from "@/components/targetblank/backgrounds/particles";\n\nexport const ParticlesBackgroundDemo = () => {\n  return <ParticlesBackground color="#5a5a5a" count={50} />;\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/backgrounds/particles/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "particles-background-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/particles-background-demo",
+  },
   "speed-background-demo": {
     name: "speed-background-demo",
     description: "Demo showing an animated background with speed effect.",

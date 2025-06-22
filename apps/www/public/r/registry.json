@@ -195,18 +195,18 @@
       ]
     },
     {
-      "name": "speed-background-demo",
+      "name": "particles-background-demo",
       "type": "registry:ui",
-      "title": "Speed Background Demo",
-      "description": "Demo showing an animated background with speed effect.",
+      "title": "Particles Background Demo",
+      "description": "Demo showing an animated background with particles effect.",
       "registryDependencies": [
-        "https://targetblank.dev/r/speed-background"
+        "https://targetblank.dev/r/particles-background"
       ],
       "files": [
         {
-          "path": "registry/demo/backgrounds/speed/index.tsx",
+          "path": "registry/demo/backgrounds/particles/index.tsx",
           "type": "registry:ui",
-          "target": "components/targetblank/demo/backgrounds/speed.tsx"
+          "target": "components/targetblank/demo/backgrounds/particles.tsx"
         }
       ]
     },
