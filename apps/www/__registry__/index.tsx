@@ -764,6 +764,44 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/use-online-status-demo",
   },
+  "use-scroll-position-demo": {
+    name: "use-scroll-position-demo",
+    description: "Demo for the useScrollPosition hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["use-scroll-position-hook"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-scroll-position/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-scroll-position.tsx",
+        content:
+          '"use client";\n\nimport { useScrollPosition } from "@/components/targetblank/hooks/use-scroll-position";\nimport { Button } from "@/components/ui/button";\nimport {\n  Card,\n  CardContent,\n  CardHeader,\n  CardTitle,\n} from "@/components/ui/card";\nimport {\n  ArrowDownIcon,\n  ArrowLeftIcon,\n  ArrowRightIcon,\n  ArrowUpIcon,\n} from "lucide-react";\nimport * as React from "react";\n\nconst ScrollPositionDemo: React.FC = () => {\n  const { x, y, direction } = useScrollPosition({ throttleDelay: 50 });\n\n  const scrollToTop = () => {\n    window.scrollTo({ top: 0, behavior: "smooth" });\n  };\n\n  const scrollToBottom = () => {\n    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });\n  };\n\n  const scrollToLeft = () => {\n    window.scrollTo({ left: 0, behavior: "smooth" });\n  };\n\n  const scrollToRight = () => {\n    window.scrollTo({ left: document.body.scrollWidth, behavior: "smooth" });\n  };\n\n  return (\n    <div className="space-y-6">\n      <Card className="max-w-md mx-auto">\n        <CardHeader>\n          <CardTitle>Scroll Position Demo</CardTitle>\n        </CardHeader>\n        <CardContent>\n          <div className="space-y-4">\n            <div className="grid grid-cols-2 gap-4">\n              <div className="text-center p-3 bg-muted rounded-lg">\n                <div className="text-2xl font-bold">{x}</div>\n                <div className="text-sm text-muted-foreground">X Position</div>\n                {direction.horizontal && (\n                  <div className="flex items-center justify-center mt-1">\n                    {direction.horizontal === "left" ? (\n                      <ArrowLeftIcon className="size-4 text-blue-500" />\n                    ) : (\n                      <ArrowRightIcon className="size-4 text-blue-500" />\n                    )}\n                  </div>\n                )}\n              </div>\n              <div className="text-center p-3 bg-muted rounded-lg">\n                <div className="text-2xl font-bold">{y}</div>\n                <div className="text-sm text-muted-foreground">Y Position</div>\n                {direction.vertical && (\n                  <div className="flex items-center justify-center mt-1">\n                    {direction.vertical === "up" ? (\n                      <ArrowUpIcon className="size-4 text-green-500" />\n                    ) : (\n                      <ArrowDownIcon className="size-4 text-green-500" />\n                    )}\n                  </div>\n                )}\n              </div>\n            </div>\n\n            <div className="flex flex-col gap-2">\n              <Button onClick={scrollToTop} variant="outline" size="sm">\n                Scroll to Top\n              </Button>\n              <Button onClick={scrollToBottom} variant="outline" size="sm">\n                Scroll to Bottom\n              </Button>\n              <Button onClick={scrollToLeft} variant="outline" size="sm">\n                Scroll to Left\n              </Button>\n              <Button onClick={scrollToRight} variant="outline" size="sm">\n                Scroll to Right\n              </Button>\n            </div>\n          </div>\n        </CardContent>\n      </Card>\n\n      {/* Content to enable scrolling */}\n      <div className="space-y-4">\n        <div className="h-96 w-full bg-gradient-to-b from-blue-100 to-purple-100 rounded-lg p-4">\n          <h3 className="text-lg font-semibold mb-2">Scroll Content</h3>\n          <p className="text-sm text-muted-foreground">\n            Scroll up and down, or left and right to see the position values\n            change. The arrows indicate the scroll direction.\n          </p>\n        </div>\n\n        {Array.from({ length: 10 }, (_, i) => (\n          <div\n            key={i}\n            className="h-32 w-full bg-gradient-to-r from-green-100 to-blue-100 rounded-lg p-4"\n          >\n            <h4 className="font-medium">Section {i + 1}</h4>\n            <p className="text-sm text-muted-foreground">\n              This is section {i + 1} to provide scrollable content.\n            </p>\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n};\n\nexport default ScrollPositionDemo;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-scroll-position/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-scroll-position-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-scroll-position-demo",
+  },
   "use-undo-redo-demo": {
     name: "use-undo-redo-demo",
     description: "Demo for the useUndoRedo hook.",
@@ -873,6 +911,44 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/use-online-status-hook",
+  },
+  "use-scroll-position-hook": {
+    name: "use-scroll-position-hook",
+    description: "Hook for getting the scroll position of an element.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: [],
+    files: [
+      {
+        path: "registry/hooks/use-scroll-position/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-scroll-position/index.tsx",
+        content:
+          'import * as React from "react";\n\ntype Position = {\n  x: number;\n  y: number;\n};\n\ninterface UseScrollPositionOptions {\n  throttleDelay?: number;\n  element?: HTMLElement | null;\n}\n\nexport function useScrollPosition({\n  throttleDelay = 100,\n  element,\n}: UseScrollPositionOptions = {}) {\n  const [position, setPosition] = React.useState<Position>({ x: 0, y: 0 });\n  const prevPosition = React.useRef<Position>({ x: 0, y: 0 });\n  const timeout = React.useRef<NodeJS.Timeout | null>(null);\n\n  React.useEffect(() => {\n    const target = element ?? window;\n\n    const getScroll = (): Position => {\n      if (element) {\n        return {\n          x: element.scrollLeft,\n          y: element.scrollTop,\n        };\n      } else {\n        return {\n          x: window.scrollX,\n          y: window.scrollY,\n        };\n      }\n    };\n\n    const handleScroll = () => {\n      if (timeout.current) return;\n\n      timeout.current = setTimeout(() => {\n        const currPos = getScroll();\n        setPosition(currPos);\n        prevPosition.current = currPos;\n        timeout.current = null;\n      }, throttleDelay);\n    };\n\n    target.addEventListener("scroll", handleScroll, { passive: true });\n    return () => {\n      target.removeEventListener("scroll", handleScroll);\n      if (timeout.current) clearTimeout(timeout.current);\n    };\n  }, [throttleDelay, element]);\n\n  return {\n    x: position.x,\n    y: position.y,\n    direction: {\n      horizontal:\n        position.x > prevPosition.current.x\n          ? "right"\n          : position.x < prevPosition.current.x\n            ? "left"\n            : null,\n      vertical:\n        position.y > prevPosition.current.y\n          ? "down"\n          : position.y < prevPosition.current.y\n            ? "up"\n            : null,\n    },\n  };\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/hooks/use-scroll-position/index.ts"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-scroll-position-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-scroll-position-hook",
   },
   "use-undo-redo-hook": {
     name: "use-undo-redo-hook",

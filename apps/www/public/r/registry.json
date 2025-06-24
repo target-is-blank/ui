@@ -355,6 +355,22 @@
       ]
     },
     {
+      "name": "use-scroll-position-demo",
+      "type": "registry:ui",
+      "title": "Use Scroll Position Demo",
+      "description": "Demo for the useScrollPosition hook.",
+      "registryDependencies": [
+        "use-scroll-position-hook"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/hooks/use-scroll-position/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/hooks/use-scroll-position.tsx"
+        }
+      ]
+    },
+    {
       "name": "use-undo-redo-demo",
       "type": "registry:ui",
       "title": "Use Undo Redo Demo",
@@ -395,6 +411,20 @@
           "path": "registry/hooks/use-online-status/index.ts",
           "type": "registry:ui",
           "target": "components/targetblank/hooks/use-online-status/index.tsx"
+        }
+      ]
+    },
+    {
+      "name": "use-scroll-position-hook",
+      "type": "registry:ui",
+      "title": "Use Scroll Position Hook",
+      "description": "Hook for getting the scroll position of an element.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/hooks/use-scroll-position/index.ts",
+          "type": "registry:ui",
+          "target": "components/targetblank/hooks/use-scroll-position/index.tsx"
         }
       ]
     },

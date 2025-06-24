@@ -1,0 +1,36 @@
+---
+title: useScrollPosition
+description: React hook to get the scroll position of an element.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="use-scroll-position-demo" />
+
+## Installation
+
+<ComponentInstallation name="use-scroll-position-hook" />
+
+## Usage
+
+```tsx
+const { x, y, direction } = useScrollPosition({ throttleDelay: 50 });
+```
+
+## Props
+
+<TypeTable
+  type={{
+    throttleDelay: {
+      description: "The delay in milliseconds before updating the position.",
+      type: "number",
+      required: false,
+    },
+    element: {
+      description: "The element to observe. Default: window",
+      type: "HTMLElement | null",
+      required: false,
+    },
+  }}
+/>

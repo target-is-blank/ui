@@ -23,6 +23,7 @@
     "---Hooks---",
     "hooks/debounce",
     "hooks/online-status",
+    "hooks/scroll-position",
     "hooks/undo-redo"
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-scroll-position-hook",
+  "type": "registry:ui",
+  "title": "Use Scroll Position Hook",
+  "description": "Hook for getting the scroll position of an element.",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-scroll-position/index.ts",
+      "content": "import * as React from \"react\";\n\ntype Position = {\n  x: number;\n  y: number;\n};\n\ninterface UseScrollPositionOptions {\n  throttleDelay?: number;\n  element?: HTMLElement | null;\n}\n\nexport function useScrollPosition({\n  throttleDelay = 100,\n  element,\n}: UseScrollPositionOptions = {}) {\n  const [position, setPosition] = React.useState<Position>({ x: 0, y: 0 });\n  const prevPosition = React.useRef<Position>({ x: 0, y: 0 });\n  const timeout = React.useRef<NodeJS.Timeout | null>(null);\n\n  React.useEffect(() => {\n    const target = element ?? window;\n\n    const getScroll = (): Position => {\n      if (element) {\n        return {\n          x: element.scrollLeft,\n          y: element.scrollTop,\n        };\n      } else {\n        return {\n          x: window.scrollX,\n          y: window.scrollY,\n        };\n      }\n    };\n\n    const handleScroll = () => {\n      if (timeout.current) return;\n\n      timeout.current = setTimeout(() => {\n        const currPos = getScroll();\n        setPosition(currPos);\n        prevPosition.current = currPos;\n        timeout.current = null;\n      }, throttleDelay);\n    };\n\n    target.addEventListener(\"scroll\", handleScroll, { passive: true });\n    return () => {\n      target.removeEventListener(\"scroll\", handleScroll);\n      if (timeout.current) clearTimeout(timeout.current);\n    };\n  }, [throttleDelay, element]);\n\n  return {\n    x: position.x,\n    y: position.y,\n    direction: {\n      horizontal:\n        position.x > prevPosition.current.x\n          ? \"right\"\n          : position.x < prevPosition.current.x\n            ? \"left\"\n            : null,\n      vertical:\n        position.y > prevPosition.current.y\n          ? \"down\"\n          : position.y < prevPosition.current.y\n            ? \"up\"\n            : null,\n    },\n  };\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-scroll-position/index.tsx"
+    }
+  ]
+}

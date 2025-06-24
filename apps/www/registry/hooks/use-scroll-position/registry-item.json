@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-scroll-position-hook",
+  "type": "registry:ui",
+  "title": "Use Scroll Position Hook",
+  "description": "Hook for getting the scroll position of an element.",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-scroll-position/index.ts",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-scroll-position/index.tsx"
+    }
+  ]
+}
