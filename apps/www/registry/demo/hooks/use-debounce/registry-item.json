@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-debounce-demo",
+  "type": "registry:ui",
+  "title": "Use Debounce Demo",
+  "description": "Demo for the useDebounce hook.",
+  "registryDependencies": ["use-debounce-hook"],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-debounce/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-debounce.tsx"
+    }
+  ]
+}

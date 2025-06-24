@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-debounce-demo",
+  "type": "registry:ui",
+  "title": "Use Debounce Demo",
+  "description": "Demo for the useDebounce hook.",
+  "registryDependencies": [
+    "use-debounce-hook"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-debounce/index.tsx",
+      "content": "import useDebounce from \"@/components/targetblank/hooks/use-debounce\";\nimport { Input } from \"@/components/ui/input\";\nimport React, { useState } from \"react\";\n\nexport default function DebounceDemo() {\n  const [value, setValue] = useState(\"\");\n  const [debouncedValue, setDebouncedValue] = useState(\"\");\n\n  const debouncedUpdate = useDebounce((val: string) => {\n    setDebouncedValue(val);\n  }, 500);\n\n  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {\n    setValue(e.target.value);\n    debouncedUpdate(e.target.value);\n  }\n\n  return (\n    <div className=\"flex flex-col gap-4 w-[400px]\">\n      <Input\n        type=\"text\"\n        value={value}\n        onChange={handleChange}\n        placeholder=\"Your entry will be debounced after 300ms\"\n      />\n      <div className=\"flex flex-col gap-2\">\n        <div className=\"flex items-center gap-2\">\n          <span className=\"text-sm text-muted-foreground\">Instant value :</span>\n          <span className=\"text-sm\">{value}</span>\n        </div>\n        <div className=\"flex items-center gap-2\">\n          <span className=\"text-sm text-muted-foreground\">\n            Debounced value :\n          </span>\n          <span className=\"text-sm\">{debouncedValue}</span>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-debounce.tsx"
+    }
+  ]
+}

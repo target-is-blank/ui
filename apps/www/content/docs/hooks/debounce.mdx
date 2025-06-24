@@ -1,0 +1,38 @@
+---
+title: useDebounce
+description: React hook to apply a delay to a function.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="use-debounce-demo" />
+
+## Installation
+
+<ComponentInstallation name="use-debounce-hook" />
+
+## Usage
+
+```tsx
+const debouncedUpdate = useDebounce((val: string) => {
+  setDebouncedValue(val);
+}, 500);
+```
+
+## Props
+
+<TypeTable
+  type={{
+    delay: {
+      description: "The delay in milliseconds before executing the function.",
+      type: "number",
+      required: false,
+    },
+    callback: {
+      description: "The function to execute after the delay.",
+      type: "function",
+      required: true,
+    },
+  }}
+/>

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-online-status-hook",
+  "type": "registry:ui",
+  "title": "Use Online Status Hook",
+  "description": "Hook for checking if the user is online.",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-online-status/index.ts",
+      "content": "import * as React from \"react\";\n\nfunction useOnlineStatus(): boolean {\n  const [isOnline, setIsOnline] = React.useState(() =>\n    typeof navigator !== \"undefined\" ? navigator.onLine : true,\n  );\n\n  const handleOnline = React.useCallback(() => setIsOnline(true), []);\n  const handleOffline = React.useCallback(() => setIsOnline(false), []);\n\n  React.useEffect(() => {\n    window.addEventListener(\"online\", handleOnline);\n    window.addEventListener(\"offline\", handleOffline);\n\n    return () => {\n      window.removeEventListener(\"online\", handleOnline);\n      window.removeEventListener(\"offline\", handleOffline);\n    };\n  }, [handleOffline, handleOnline]);\n\n  return isOnline;\n}\n\nexport default useOnlineStatus;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-online-status/index.tsx"
+    }
+  ]
+}

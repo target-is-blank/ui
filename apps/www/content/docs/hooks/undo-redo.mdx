@@ -1,0 +1,48 @@
+---
+title: useUndoRedo
+description: React hook to undo and redo actions.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="use-undo-redo-demo" />
+
+## Installation
+
+<ComponentInstallation name="use-undo-redo-hook" />
+
+## Usage
+
+```tsx
+const { state, set, undo, redo, reset, canUndo, canRedo } = useUndoRedo<string>(
+  { initialValue: "" },
+);
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  set(e.target.value);
+};
+
+return (
+  <div>
+    <Input value={state} onChange={handleChange} />
+  </div>
+);
+```
+
+## Props
+
+<TypeTable
+  type={{
+    maxHistory: {
+      description: "The maximum number of past states to keep.",
+      type: "number",
+      required: false,
+    },
+    initialValue: {
+      description: "The initial value of the state.",
+      type: "string",
+      required: true,
+    },
+  }}
+/>

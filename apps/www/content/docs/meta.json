@@ -19,6 +19,10 @@
     "components/card",
     "components/loading-bar",
     "components/step-bar",
-    "components/wheel-selector"
+    "components/wheel-selector",
+    "---Hooks---",
+    "hooks/debounce",
+    "hooks/online-status",
+    "hooks/undo-redo"
   ]
 }

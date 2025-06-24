@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-online-status-demo",
+  "type": "registry:ui",
+  "title": "Use Online Status Demo",
+  "description": "Demo for the useOnlineStatus hook.",
+  "registryDependencies": [
+    "use-online-status-hook"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-online-status/index.tsx",
+      "content": "\"use client\";\n\nimport React from \"react\";\n// On suppose que le hook est importable ainsi, sinon ajuster le chemin :\nimport useOnlineStatus from \"@/components/targetblank/hooks/use-online-status\";\nimport { cn } from \"@/lib/utils\";\n\nconst OnlineStatusDemo: React.FC = () => {\n  const isOnline = useOnlineStatus();\n\n  return (\n    <div className=\"flex items-center gap-2\">\n      <div\n        className={cn(\n          \"size-1.5 rounded-full\",\n          isOnline ? \"bg-green-400\" : \"bg-red-400\",\n        )}\n      />\n      <span className=\"text-sm text-muted-foreground\">Connection status :</span>\n      <span\n        className={cn(\n          \"text-sm font-medium\",\n          isOnline ? \"text-green-500\" : \"text-red-500\",\n        )}\n      >\n        {isOnline ? \"Online\" : \"Offline\"}\n      </span>\n    </div>\n  );\n};\n\nexport default OnlineStatusDemo;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-online-status.tsx"
+    }
+  ]
+}

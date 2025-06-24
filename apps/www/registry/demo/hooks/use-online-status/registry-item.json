@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-online-status-demo",
+  "type": "registry:ui",
+  "title": "Use Online Status Demo",
+  "description": "Demo for the useOnlineStatus hook.",
+  "registryDependencies": ["use-online-status-hook"],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-online-status/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-online-status.tsx"
+    }
+  ]
+}

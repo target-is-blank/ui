@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-online-status-hook",
+  "type": "registry:ui",
+  "title": "Use Online Status Hook",
+  "description": "Hook for checking if the user is online.",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-online-status/index.ts",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-online-status/index.tsx"
+    }
+  ]
+}

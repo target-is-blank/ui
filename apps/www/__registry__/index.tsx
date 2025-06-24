@@ -688,4 +688,226 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/wheel-selector-demo",
   },
+  "use-debounce-demo": {
+    name: "use-debounce-demo",
+    description: "Demo for the useDebounce hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["use-debounce-hook"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-debounce/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-debounce.tsx",
+        content:
+          'import useDebounce from "@/components/targetblank/hooks/use-debounce";\nimport { Input } from "@/components/ui/input";\nimport React, { useState } from "react";\n\nexport default function DebounceDemo() {\n  const [value, setValue] = useState("");\n  const [debouncedValue, setDebouncedValue] = useState("");\n\n  const debouncedUpdate = useDebounce((val: string) => {\n    setDebouncedValue(val);\n  }, 500);\n\n  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {\n    setValue(e.target.value);\n    debouncedUpdate(e.target.value);\n  }\n\n  return (\n    <div className="flex flex-col gap-4 w-[400px]">\n      <Input\n        type="text"\n        value={value}\n        onChange={handleChange}\n        placeholder="Your entry will be debounced after 300ms"\n      />\n      <div className="flex flex-col gap-2">\n        <div className="flex items-center gap-2">\n          <span className="text-sm text-muted-foreground">Instant value :</span>\n          <span className="text-sm">{value}</span>\n        </div>\n        <div className="flex items-center gap-2">\n          <span className="text-sm text-muted-foreground">\n            Debounced value :\n          </span>\n          <span className="text-sm">{debouncedValue}</span>\n        </div>\n      </div>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-debounce/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-debounce-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-debounce-demo",
+  },
+  "use-online-status-demo": {
+    name: "use-online-status-demo",
+    description: "Demo for the useOnlineStatus hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["use-online-status-hook"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-online-status/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-online-status.tsx",
+        content:
+          '"use client";\n\nimport React from "react";\n// On suppose que le hook est importable ainsi, sinon ajuster le chemin :\nimport useOnlineStatus from "@/components/targetblank/hooks/use-online-status";\nimport { cn } from "@/lib/utils";\n\nconst OnlineStatusDemo: React.FC = () => {\n  const isOnline = useOnlineStatus();\n\n  return (\n    <div className="flex items-center gap-2">\n      <div\n        className={cn(\n          "size-1.5 rounded-full",\n          isOnline ? "bg-green-400" : "bg-red-400",\n        )}\n      />\n      <span className="text-sm text-muted-foreground">Connection status :</span>\n      <span\n        className={cn(\n          "text-sm font-medium",\n          isOnline ? "text-green-500" : "text-red-500",\n        )}\n      >\n        {isOnline ? "Online" : "Offline"}\n      </span>\n    </div>\n  );\n};\n\nexport default OnlineStatusDemo;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-online-status/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-online-status-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-online-status-demo",
+  },
+  "use-undo-redo-demo": {
+    name: "use-undo-redo-demo",
+    description: "Demo for the useUndoRedo hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["use-undo-redo-hook"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-undo-redo/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-undo-redo.tsx",
+        content:
+          '"use client";\n\nimport { useUndoRedo } from "@/components/targetblank/hooks/use-undo-redo";\nimport { Button } from "@/components/ui/button";\nimport {\n  Card,\n  CardContent,\n  CardHeader,\n  CardTitle,\n} from "@/components/ui/card";\nimport { Input } from "@/components/ui/input";\nimport React from "react";\n\nconst UndoRedoDemo: React.FC = () => {\n  const { state, set, undo, redo, reset, canUndo, canRedo } =\n    useUndoRedo<string>({ initialValue: "" });\n\n  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    set(e.target.value);\n  };\n\n  return (\n    <Card className="max-w-md mx-auto">\n      <CardHeader>\n        <CardTitle>Undo / Redo Demo</CardTitle>\n      </CardHeader>\n      <CardContent>\n        <div className="flex flex-col gap-4">\n          <Input\n            value={state}\n            onChange={handleChange}\n            placeholder="Type something..."\n            className="w-full"\n          />\n          <div className="flex gap-2">\n            <Button\n              variant="outline"\n              onClick={undo}\n              disabled={!canUndo}\n              type="button"\n            >\n              Undo\n            </Button>\n            <Button\n              variant="outline"\n              onClick={redo}\n              disabled={!canRedo}\n              type="button"\n            >\n              Redo\n            </Button>\n            <Button variant="secondary" onClick={() => reset("")} type="button">\n              Reset\n            </Button>\n          </div>\n          <div className="text-sm text-muted-foreground">\n            Current value:{" "}\n            <span className="font-mono">{state || <em>(empty)</em>}</span>\n          </div>\n        </div>\n      </CardContent>\n    </Card>\n  );\n};\n\nexport default UndoRedoDemo;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-undo-redo/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-undo-redo-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-undo-redo-demo",
+  },
+  "use-debounce-hook": {
+    name: "use-debounce-hook",
+    description: "Hook for debouncing a function.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: [],
+    files: [
+      {
+        path: "registry/hooks/use-debounce/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-debounce/index.tsx",
+        content:
+          'import * as React from "react";\n\nfunction useDebounce<T>(\n  callback: (...args: T[]) => void,\n  delay = 300,\n): (...args: T[]) => void {\n  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);\n\n  const debouncedCallback = React.useCallback(\n    (...args: T[]) => {\n      if (timeoutRef.current) {\n        clearTimeout(timeoutRef.current);\n      }\n\n      timeoutRef.current = setTimeout(() => {\n        callback(...args);\n      }, delay);\n    },\n    [callback, delay],\n  );\n\n  return debouncedCallback;\n}\n\nexport default useDebounce;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/hooks/use-debounce/index.ts");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-debounce-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-debounce-hook",
+  },
+  "use-online-status-hook": {
+    name: "use-online-status-hook",
+    description: "Hook for checking if the user is online.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: [],
+    files: [
+      {
+        path: "registry/hooks/use-online-status/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-online-status/index.tsx",
+        content:
+          'import * as React from "react";\n\nfunction useOnlineStatus(): boolean {\n  const [isOnline, setIsOnline] = React.useState(() =>\n    typeof navigator !== "undefined" ? navigator.onLine : true,\n  );\n\n  const handleOnline = React.useCallback(() => setIsOnline(true), []);\n  const handleOffline = React.useCallback(() => setIsOnline(false), []);\n\n  React.useEffect(() => {\n    window.addEventListener("online", handleOnline);\n    window.addEventListener("offline", handleOffline);\n\n    return () => {\n      window.removeEventListener("online", handleOnline);\n      window.removeEventListener("offline", handleOffline);\n    };\n  }, [handleOffline, handleOnline]);\n\n  return isOnline;\n}\n\nexport default useOnlineStatus;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/hooks/use-online-status/index.ts");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-online-status-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-online-status-hook",
+  },
+  "use-undo-redo-hook": {
+    name: "use-undo-redo-hook",
+    description: "Hook for undo and redo actions.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: [],
+    files: [
+      {
+        path: "registry/hooks/use-undo-redo/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-undo-redo/index.tsx",
+        content:
+          'import * as React from "react";\n\ntype UseUndoRedoOptions<T> = {\n  initialValue: T;\n  maxHistory?: number;\n};\n\nexport function useUndoRedo<T>({\n  initialValue,\n  maxHistory = 100,\n}: UseUndoRedoOptions<T>) {\n  const [past, setPast] = React.useState<T[]>([]);\n  const [present, setPresent] = React.useState<T>(initialValue);\n  const [future, setFuture] = React.useState<T[]>([]);\n\n  const set = React.useCallback(\n    (newValue: T) => {\n      setPast((prev) => {\n        const updated = [...prev, present];\n        return updated.length > maxHistory\n          ? updated.slice(updated.length - maxHistory)\n          : updated;\n      });\n      setPresent(newValue);\n      setFuture([]); // Clear redo history\n    },\n    [present, maxHistory],\n  );\n\n  const undo = React.useCallback(() => {\n    if (past.length === 0) return;\n    const previous = past[past.length - 1];\n    setPast((prev) => prev.slice(0, prev.length - 1));\n    setFuture((f) => [present, ...f]);\n    setPresent(previous);\n  }, [past, present]);\n\n  const redo = React.useCallback(() => {\n    if (future.length === 0) return;\n    const next = future[0];\n    setFuture((f) => f.slice(1));\n    setPast((p) => [...p, present]);\n    setPresent(next);\n  }, [future, present]);\n\n  const reset = React.useCallback((value: T) => {\n    setPast([]);\n    setFuture([]);\n    setPresent(value);\n  }, []);\n\n  return {\n    state: present,\n    set,\n    undo,\n    redo,\n    reset,\n    canUndo: past.length > 0,\n    canRedo: future.length > 0,\n  };\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/hooks/use-undo-redo/index.ts");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-undo-redo-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-undo-redo-hook",
+  },
 };

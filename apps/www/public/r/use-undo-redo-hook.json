@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-undo-redo-hook",
+  "type": "registry:ui",
+  "title": "Use Undo Redo Hook",
+  "description": "Hook for undo and redo actions.",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-undo-redo/index.ts",
+      "content": "import * as React from \"react\";\n\ntype UseUndoRedoOptions<T> = {\n  initialValue: T;\n  maxHistory?: number;\n};\n\nexport function useUndoRedo<T>({\n  initialValue,\n  maxHistory = 100,\n}: UseUndoRedoOptions<T>) {\n  const [past, setPast] = React.useState<T[]>([]);\n  const [present, setPresent] = React.useState<T>(initialValue);\n  const [future, setFuture] = React.useState<T[]>([]);\n\n  const set = React.useCallback(\n    (newValue: T) => {\n      setPast((prev) => {\n        const updated = [...prev, present];\n        return updated.length > maxHistory\n          ? updated.slice(updated.length - maxHistory)\n          : updated;\n      });\n      setPresent(newValue);\n      setFuture([]); // Clear redo history\n    },\n    [present, maxHistory],\n  );\n\n  const undo = React.useCallback(() => {\n    if (past.length === 0) return;\n    const previous = past[past.length - 1];\n    setPast((prev) => prev.slice(0, prev.length - 1));\n    setFuture((f) => [present, ...f]);\n    setPresent(previous);\n  }, [past, present]);\n\n  const redo = React.useCallback(() => {\n    if (future.length === 0) return;\n    const next = future[0];\n    setFuture((f) => f.slice(1));\n    setPast((p) => [...p, present]);\n    setPresent(next);\n  }, [future, present]);\n\n  const reset = React.useCallback((value: T) => {\n    setPast([]);\n    setFuture([]);\n    setPresent(value);\n  }, []);\n\n  return {\n    state: present,\n    set,\n    undo,\n    redo,\n    reset,\n    canUndo: past.length > 0,\n    canRedo: future.length > 0,\n  };\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-undo-redo/index.tsx"
+    }
+  ]
+}

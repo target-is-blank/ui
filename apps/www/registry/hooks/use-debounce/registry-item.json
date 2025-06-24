@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-debounce-hook",
+  "type": "registry:ui",
+  "title": "Use Debounce Hook",
+  "description": "Hook for debouncing a function.",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-debounce/index.ts",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-debounce/index.tsx"
+    }
+  ]
+}
