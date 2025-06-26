@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "circular-text-demo",
+  "type": "registry:ui",
+  "title": "Circular Text Demo",
+  "description": "Demo for the Circular Text component.",
+  "registryDependencies": ["https://targetblank.dev/r/circular-text"],
+  "files": [
+    {
+      "path": "registry/demo/text/circular/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/text/circular.tsx"
+    }
+  ]
+}

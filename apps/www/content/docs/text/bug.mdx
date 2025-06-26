@@ -1,0 +1,71 @@
+---
+title: Bug Text
+description: Bug text component.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="bug-text-demo" />
+
+## Installation
+
+<ComponentInstallation name="bug-text" />
+
+## Usage
+
+```tsx
+<BugText>Hello world!</BugText>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    fontWeight: {
+      description: "The font weight.",
+      type: "string",
+      required: false,
+    },
+    fontSize: {
+      description: "The font size.",
+      type: "string",
+      required: false,
+    },
+    fontFamily: {
+      description: "The font family.",
+      type: "string",
+      required: false,
+    },
+    hoverIntensity: {
+      description: "The hover intensity.",
+      type: "number",
+      required: false,
+    },
+    enableHover: {
+      description: "Whether to enable hover.",
+      type: "boolean",
+      required: false,
+    },
+    color: {
+      description: "The font color.",
+      type: "string",
+      required: false,
+    },
+    children: {
+      description: "The children.",
+      type: "React.ReactNode",
+      required: true,
+    },
+    baseIntensity: {
+      description: "The base intensity.",
+      type: "number",
+      required: false,
+    },
+
+}}
+/>
+
+## Credits
+
+- Credits to [ReactBits](https://reactbits.dev/) for the circular text component.

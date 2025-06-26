@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bug-text-demo",
+  "type": "registry:ui",
+  "title": "Bug Text Demo",
+  "description": "Demo for the Bug Text component.",
+  "registryDependencies": ["https://targetblank.dev/r/circular-text"],
+  "files": [
+    {
+      "path": "registry/demo/text/bug/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/text/bug.tsx"
+    }
+  ]
+}

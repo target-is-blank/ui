@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Use Undo Redo Demo",
   "description": "Demo for the useUndoRedo hook.",
-  "registryDependencies": ["use-undo-redo-hook"],
+  "registryDependencies": ["https://targetblank.dev/r/use-undo-redo"],
   "files": [
     {
       "path": "registry/demo/hooks/use-undo-redo/index.tsx",

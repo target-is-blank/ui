@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Use Undo Redo Hook",
   "description": "Hook for undo and redo actions.",
-  "registryDependencies": [],
+  "dependencies": [],
   "files": [
     {
       "path": "registry/hooks/use-undo-redo/index.ts",

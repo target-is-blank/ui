@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Use Online Status Demo",
   "description": "Demo for the useOnlineStatus hook.",
-  "registryDependencies": ["use-online-status-hook"],
+  "registryDependencies": ["https://targetblank.dev/r/use-online-status"],
   "files": [
     {
       "path": "registry/demo/hooks/use-online-status/index.tsx",

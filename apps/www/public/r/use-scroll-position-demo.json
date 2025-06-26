@@ -5,7 +5,7 @@
   "title": "Use Scroll Position Demo",
   "description": "Demo for the useScrollPosition hook.",
   "registryDependencies": [
-    "use-scroll-position-hook"
+    "https://targetblank.dev/r/use-scroll-position"
   ],
   "files": [
     {

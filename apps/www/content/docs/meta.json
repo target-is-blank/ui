@@ -25,6 +25,9 @@
     "hooks/debounce",
     "hooks/online-status",
     "hooks/scroll-position",
-    "hooks/undo-redo"
+    "hooks/undo-redo",
+    "---Text Animations---",
+    "text/bug",
+    "text/circular"
   ]
 }

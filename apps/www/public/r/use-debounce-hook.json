@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Use Debounce Hook",
   "description": "Hook for debouncing a function.",
-  "registryDependencies": [],
+  "dependencies": [],
   "files": [
     {
       "path": "registry/hooks/use-debounce/index.ts",

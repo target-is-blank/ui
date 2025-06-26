@@ -766,7 +766,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["use-debounce-hook"],
+    registryDependencies: ["https://targetblank.dev/r/use-debounce"],
     files: [
       {
         path: "registry/demo/hooks/use-debounce/index.tsx",
@@ -804,7 +804,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["use-online-status-hook"],
+    registryDependencies: ["https://targetblank.dev/r/use-online-status"],
     files: [
       {
         path: "registry/demo/hooks/use-online-status/index.tsx",
@@ -842,7 +842,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["use-scroll-position-hook"],
+    registryDependencies: ["https://targetblank.dev/r/use-scroll-position"],
     files: [
       {
         path: "registry/demo/hooks/use-scroll-position/index.tsx",
@@ -880,7 +880,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["use-undo-redo-hook"],
+    registryDependencies: ["https://targetblank.dev/r/use-undo-redo"],
     files: [
       {
         path: "registry/demo/hooks/use-undo-redo/index.tsx",
@@ -912,13 +912,85 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/use-undo-redo-demo",
   },
+  "bug-text-demo": {
+    name: "bug-text-demo",
+    description: "Demo for the Bug Text component.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/circular-text"],
+    files: [
+      {
+        path: "registry/demo/text/bug/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/text/bug.tsx",
+        content:
+          'import BugText from "@/components/targetblank/text/bug";\n\nexport default function BugTextDemo() {\n  return <BugText>Hello world!</BugText>;\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/text/bug/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "bug-text-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/bug-text-demo",
+  },
+  "circular-text-demo": {
+    name: "circular-text-demo",
+    description: "Demo for the Circular Text component.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/circular-text"],
+    files: [
+      {
+        path: "registry/demo/text/circular/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/text/circular.tsx",
+        content:
+          'import CircularText from "@/components/targetblank/text/circular";\n\nexport default function CircularTextDemo() {\n  return <CircularText text="This is a circular text" />;\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/text/circular/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "circular-text-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/circular-text-demo",
+  },
   "use-debounce-hook": {
     name: "use-debounce-hook",
     description: "Hook for debouncing a function.",
     type: "registry:ui",
-    dependencies: undefined,
+    dependencies: [],
     devDependencies: undefined,
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: "registry/hooks/use-debounce/index.ts",
@@ -952,9 +1024,9 @@ export const index: Record<string, any> = {
     name: "use-online-status-hook",
     description: "Hook for checking if the user is online.",
     type: "registry:ui",
-    dependencies: undefined,
+    dependencies: [],
     devDependencies: undefined,
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: "registry/hooks/use-online-status/index.ts",
@@ -988,9 +1060,9 @@ export const index: Record<string, any> = {
     name: "use-scroll-position-hook",
     description: "Hook for getting the scroll position of an element.",
     type: "registry:ui",
-    dependencies: undefined,
+    dependencies: [],
     devDependencies: undefined,
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: "registry/hooks/use-scroll-position/index.ts",
@@ -1026,9 +1098,9 @@ export const index: Record<string, any> = {
     name: "use-undo-redo-hook",
     description: "Hook for undo and redo actions.",
     type: "registry:ui",
-    dependencies: undefined,
+    dependencies: [],
     devDependencies: undefined,
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: "registry/hooks/use-undo-redo/index.ts",
@@ -1057,5 +1129,77 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/use-undo-redo-hook",
+  },
+  "bug-text": {
+    name: "bug-text",
+    description: "Bug text component.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/text/bug/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/text/bug/index.tsx",
+        content:
+          'import React, { useEffect, useRef } from "react";\n\ninterface BugTextProps {\n  children: React.ReactNode;\n  fontSize?: number | string;\n  fontWeight?: string | number;\n  fontFamily?: string;\n  color?: string;\n  enableHover?: boolean;\n  baseIntensity?: number;\n  hoverIntensity?: number;\n}\n\nconst BugText: React.FC<BugTextProps> = ({\n  children,\n  fontSize = "clamp(2rem, 8vw, 8rem)",\n  fontWeight = 900,\n  fontFamily = "inherit",\n  color = "#fff",\n  enableHover = true,\n  baseIntensity = 0.18,\n  hoverIntensity = 0.5,\n}) => {\n  const canvasRef = useRef<\n    HTMLCanvasElement & { cleanupFuzzyText?: () => void }\n  >(null);\n\n  useEffect(() => {\n    let animationFrameId: number;\n    let isCancelled = false;\n    const canvas = canvasRef.current;\n    if (!canvas) return;\n\n    const init = async () => {\n      if (document.fonts?.ready) {\n        await document.fonts.ready;\n      }\n      if (isCancelled) return;\n\n      const ctx = canvas.getContext("2d");\n      if (!ctx) return;\n\n      const computedFontFamily =\n        fontFamily === "inherit"\n          ? window.getComputedStyle(canvas).fontFamily || "sans-serif"\n          : fontFamily;\n\n      const fontSizeStr =\n        typeof fontSize === "number" ? `${fontSize}px` : fontSize;\n      let numericFontSize: number;\n      if (typeof fontSize === "number") {\n        numericFontSize = fontSize;\n      } else {\n        const temp = document.createElement("span");\n        temp.style.fontSize = fontSize;\n        document.body.appendChild(temp);\n        const computedSize = window.getComputedStyle(temp).fontSize;\n        numericFontSize = parseFloat(computedSize);\n        document.body.removeChild(temp);\n      }\n\n      const text = React.Children.toArray(children).join("");\n\n      const offscreen = document.createElement("canvas");\n      const offCtx = offscreen.getContext("2d");\n      if (!offCtx) return;\n\n      offCtx.font = `${fontWeight} ${fontSizeStr} ${computedFontFamily}`;\n      offCtx.textBaseline = "alphabetic";\n      const metrics = offCtx.measureText(text);\n\n      const actualLeft = metrics.actualBoundingBoxLeft ?? 0;\n      const actualRight = metrics.actualBoundingBoxRight ?? metrics.width;\n      const actualAscent = metrics.actualBoundingBoxAscent ?? numericFontSize;\n      const actualDescent =\n        metrics.actualBoundingBoxDescent ?? numericFontSize * 0.2;\n\n      const textBoundingWidth = Math.ceil(actualLeft + actualRight);\n      const tightHeight = Math.ceil(actualAscent + actualDescent);\n\n      const extraWidthBuffer = 10;\n      const offscreenWidth = textBoundingWidth + extraWidthBuffer;\n\n      offscreen.width = offscreenWidth;\n      offscreen.height = tightHeight;\n\n      const xOffset = extraWidthBuffer / 2;\n      offCtx.font = `${fontWeight} ${fontSizeStr} ${computedFontFamily}`;\n      offCtx.textBaseline = "alphabetic";\n      offCtx.fillStyle = color;\n      offCtx.fillText(text, xOffset - actualLeft, actualAscent);\n\n      const horizontalMargin = 50;\n      const verticalMargin = 0;\n      canvas.width = offscreenWidth + horizontalMargin * 2;\n      canvas.height = tightHeight + verticalMargin * 2;\n      ctx.translate(horizontalMargin, verticalMargin);\n\n      const interactiveLeft = horizontalMargin + xOffset;\n      const interactiveTop = verticalMargin;\n      const interactiveRight = interactiveLeft + textBoundingWidth;\n      const interactiveBottom = interactiveTop + tightHeight;\n\n      let isHovering = false;\n      const fuzzRange = 30;\n\n      const run = () => {\n        if (isCancelled) return;\n        ctx.clearRect(\n          -fuzzRange,\n          -fuzzRange,\n          offscreenWidth + 2 * fuzzRange,\n          tightHeight + 2 * fuzzRange,\n        );\n        const intensity = isHovering ? hoverIntensity : baseIntensity;\n        for (let j = 0; j < tightHeight; j++) {\n          const dx = Math.floor(intensity * (Math.random() - 0.5) * fuzzRange);\n          ctx.drawImage(\n            offscreen,\n            0,\n            j,\n            offscreenWidth,\n            1,\n            dx,\n            j,\n            offscreenWidth,\n            1,\n          );\n        }\n        animationFrameId = window.requestAnimationFrame(run);\n      };\n\n      run();\n\n      const isInsideTextArea = (x: number, y: number) =>\n        x >= interactiveLeft &&\n        x <= interactiveRight &&\n        y >= interactiveTop &&\n        y <= interactiveBottom;\n\n      const handleMouseMove = (e: MouseEvent) => {\n        if (!enableHover) return;\n        const rect = canvas.getBoundingClientRect();\n        const x = e.clientX - rect.left;\n        const y = e.clientY - rect.top;\n        isHovering = isInsideTextArea(x, y);\n      };\n\n      const handleMouseLeave = () => {\n        isHovering = false;\n      };\n\n      const handleTouchMove = (e: TouchEvent) => {\n        if (!enableHover) return;\n        e.preventDefault();\n        const rect = canvas.getBoundingClientRect();\n        const touch = e.touches[0];\n        const x = touch.clientX - rect.left;\n        const y = touch.clientY - rect.top;\n        isHovering = isInsideTextArea(x, y);\n      };\n\n      const handleTouchEnd = () => {\n        isHovering = false;\n      };\n\n      if (enableHover) {\n        canvas.addEventListener("mousemove", handleMouseMove);\n        canvas.addEventListener("mouseleave", handleMouseLeave);\n        canvas.addEventListener("touchmove", handleTouchMove, {\n          passive: false,\n        });\n        canvas.addEventListener("touchend", handleTouchEnd);\n      }\n\n      const cleanup = () => {\n        window.cancelAnimationFrame(animationFrameId);\n        if (enableHover) {\n          canvas.removeEventListener("mousemove", handleMouseMove);\n          canvas.removeEventListener("mouseleave", handleMouseLeave);\n          canvas.removeEventListener("touchmove", handleTouchMove);\n          canvas.removeEventListener("touchend", handleTouchEnd);\n        }\n      };\n\n      canvas.cleanupFuzzyText = cleanup;\n    };\n\n    init();\n\n    return () => {\n      isCancelled = true;\n      window.cancelAnimationFrame(animationFrameId);\n      if (canvas && canvas.cleanupFuzzyText) {\n        canvas.cleanupFuzzyText();\n      }\n    };\n  }, [\n    children,\n    fontSize,\n    fontWeight,\n    fontFamily,\n    color,\n    enableHover,\n    baseIntensity,\n    hoverIntensity,\n  ]);\n\n  return <canvas ref={canvasRef} />;\n};\n\nexport default BugText;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/text/bug/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "bug-text";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/bug-text",
+  },
+  "circular-text": {
+    name: "circular-text",
+    description: "Circular text component.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/text/circular/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/text/circular/index.tsx",
+        content:
+          'import { cn } from "@/lib/utils";\nimport {\n  motion,\n  MotionValue,\n  Transition,\n  useAnimation,\n  useMotionValue,\n} from "motion/react";\nimport * as React from "react";\n\nexport enum OnHover {\n  SLOW_DOWN = "slowDown",\n  SPEED_UP = "speedUp",\n  PAUSE = "pause",\n  GO_BONKERS = "goBonkers",\n}\n\ninterface CircularTextProps {\n  text: string;\n  spinDuration?: number;\n  onHover?: OnHover;\n  onClick?: () => void;\n  className?: string;\n}\n\nconst getRotationTransition = (\n  duration: number,\n  from: number,\n  loop: boolean = true,\n) => ({\n  from,\n  to: from + 360,\n  ease: "linear" as const,\n  duration,\n  type: "tween" as const,\n  repeat: loop ? Infinity : 0,\n});\n\nconst getTransition = (duration: number, from: number) => ({\n  rotate: getRotationTransition(duration, from),\n  scale: {\n    type: "spring" as const,\n    damping: 20,\n    stiffness: 300,\n  },\n});\n\nconst CircularText: React.FC<CircularTextProps> = ({\n  text,\n  spinDuration = 20,\n  onHover = OnHover.SPEED_UP,\n  onClick,\n  className,\n}) => {\n  const displayText = text.endsWith(" ") ? text : text + " ";\n  const letters = Array.from(displayText);\n  const controls = useAnimation();\n  const rotation: MotionValue<number> = useMotionValue(0);\n\n  React.useEffect(() => {\n    const start = rotation.get();\n    controls.start({\n      rotate: start + 360,\n      scale: 1,\n      transition: getTransition(spinDuration, start),\n    });\n  }, [spinDuration, text, onHover, controls, rotation]);\n\n  const handleHoverStart = () => {\n    const start = rotation.get();\n\n    if (!onHover) return;\n\n    let transitionConfig: ReturnType<typeof getTransition> | Transition;\n    let scaleVal = 1;\n\n    switch (onHover) {\n      case OnHover.SLOW_DOWN:\n        transitionConfig = getTransition(spinDuration * 2, start);\n        break;\n      case OnHover.SPEED_UP:\n        transitionConfig = getTransition(spinDuration / 4, start);\n        break;\n      case OnHover.PAUSE:\n        transitionConfig = {\n          rotate: { type: "spring", damping: 20, stiffness: 300 },\n          scale: { type: "spring", damping: 20, stiffness: 300 },\n        };\n        break;\n      case OnHover.GO_BONKERS:\n        transitionConfig = getTransition(spinDuration / 20, start);\n        scaleVal = 0.8;\n        break;\n      default:\n        transitionConfig = getTransition(spinDuration, start);\n    }\n\n    controls.start({\n      rotate: start + 360,\n      scale: scaleVal,\n      transition: transitionConfig,\n    });\n  };\n\n  const handleHoverEnd = () => {\n    const start = rotation.get();\n    controls.start({\n      rotate: start + 360,\n      scale: 1,\n      transition: getTransition(spinDuration, start),\n    });\n  };\n\n  const handleClick = () => {\n    if (onClick) {\n      onClick();\n    }\n  };\n\n  return (\n    <motion.div\n      className={cn(\n        "relative mx-auto rounded-full w-[200px] h-[200px] font-bold text-primary text-center cursor-pointer origin-center",\n        className,\n      )}\n      style={{ rotate: rotation }}\n      initial={{ rotate: 0 }}\n      animate={controls}\n      onMouseEnter={handleHoverStart}\n      onMouseLeave={handleHoverEnd}\n      onClick={handleClick}\n    >\n      {letters.map((letter, i) => {\n        const rotationDeg = (360 / letters.length) * i;\n        const factor = Math.PI / letters.length;\n        const x = factor * i;\n        const y = factor * i;\n        const transform = `rotateZ(${rotationDeg}deg) translate3d(${x}px, ${y}px, 0)`;\n\n        return (\n          <span\n            key={i}\n            className="absolute inline-block inset-0 top-0 left-0 bottom-0 right-0 text-2xl transition-all duration-500 ease-[cubic-bezier(0,0,0,1)]"\n            style={{ transform, WebkitTransform: transform }}\n          >\n            {letter}\n          </span>\n        );\n      })}\n    </motion.div>\n  );\n};\n\nexport default CircularText;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/text/circular/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "circular-text";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/circular-text",
   },
 };

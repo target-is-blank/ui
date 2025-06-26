@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Use Debounce Demo",
   "description": "Demo for the useDebounce hook.",
-  "registryDependencies": ["use-debounce-hook"],
+  "registryDependencies": ["https://targetblank.dev/r/use-debounce"],
   "files": [
     {
       "path": "registry/demo/hooks/use-debounce/index.tsx",

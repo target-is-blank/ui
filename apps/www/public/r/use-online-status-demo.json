@@ -5,7 +5,7 @@
   "title": "Use Online Status Demo",
   "description": "Demo for the useOnlineStatus hook.",
   "registryDependencies": [
-    "use-online-status-hook"
+    "https://targetblank.dev/r/use-online-status"
   ],
   "files": [
     {

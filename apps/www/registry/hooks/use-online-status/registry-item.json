@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Use Online Status Hook",
   "description": "Hook for checking if the user is online.",
-  "registryDependencies": [],
+  "dependencies": [],
   "files": [
     {
       "path": "registry/hooks/use-online-status/index.ts",

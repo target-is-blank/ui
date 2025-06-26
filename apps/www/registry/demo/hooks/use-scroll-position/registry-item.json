@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Use Scroll Position Demo",
   "description": "Demo for the useScrollPosition hook.",
-  "registryDependencies": ["use-scroll-position-hook"],
+  "registryDependencies": ["https://targetblank.dev/r/use-scroll-position"],
   "files": [
     {
       "path": "registry/demo/hooks/use-scroll-position/index.tsx",

@@ -1,0 +1,58 @@
+---
+title: Circular Text
+description: Circular text component.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="circular-text-demo" />
+
+## Installation
+
+<ComponentInstallation name="circular-text" />
+
+## Usage
+
+```tsx
+<CircularText content="Hello world!" />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    text: {
+      description: "The text of the circular text.",
+      type: "string",
+      required: true,
+    },
+    spinDuration: {
+      description: "The duration of the spin.",
+      type: "number",
+      required: false,
+      default: 20,
+    },
+    onHover: {
+      description: "The hover effect of the circular text.",
+      type: "enum",
+      required: false,
+      options: ["slowDown", "speedUp", "pause", "goBonkers"],
+      default: "speedUp",
+    },
+    onClick: {
+      description: "The click event of the circular text.",
+      type: "function",
+      required: false,
+    },
+    className: {
+      description: "The class name of the circular text.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>
+
+## Credits
+
+- Credits to [ReactBits](https://reactbits.dev/) for the circular text component.

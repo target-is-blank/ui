@@ -362,7 +362,7 @@
       "title": "Use Debounce Demo",
       "description": "Demo for the useDebounce hook.",
       "registryDependencies": [
-        "use-debounce-hook"
+        "https://targetblank.dev/r/use-debounce"
       ],
       "files": [
         {
@@ -378,7 +378,7 @@
       "title": "Use Online Status Demo",
       "description": "Demo for the useOnlineStatus hook.",
       "registryDependencies": [
-        "use-online-status-hook"
+        "https://targetblank.dev/r/use-online-status"
       ],
       "files": [
         {
@@ -394,7 +394,7 @@
       "title": "Use Scroll Position Demo",
       "description": "Demo for the useScrollPosition hook.",
       "registryDependencies": [
-        "use-scroll-position-hook"
+        "https://targetblank.dev/r/use-scroll-position"
       ],
       "files": [
         {
@@ -410,7 +410,7 @@
       "title": "Use Undo Redo Demo",
       "description": "Demo for the useUndoRedo hook.",
       "registryDependencies": [
-        "use-undo-redo-hook"
+        "https://targetblank.dev/r/use-undo-redo"
       ],
       "files": [
         {
@@ -421,11 +421,43 @@
       ]
     },
     {
+      "name": "bug-text-demo",
+      "type": "registry:ui",
+      "title": "Bug Text Demo",
+      "description": "Demo for the Bug Text component.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/circular-text"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/text/bug/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/text/bug.tsx"
+        }
+      ]
+    },
+    {
+      "name": "circular-text-demo",
+      "type": "registry:ui",
+      "title": "Circular Text Demo",
+      "description": "Demo for the Circular Text component.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/circular-text"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/text/circular/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/text/circular.tsx"
+        }
+      ]
+    },
+    {
       "name": "use-debounce-hook",
       "type": "registry:ui",
       "title": "Use Debounce Hook",
       "description": "Hook for debouncing a function.",
-      "registryDependencies": [],
+      "dependencies": [],
       "files": [
         {
           "path": "registry/hooks/use-debounce/index.ts",
@@ -439,7 +471,7 @@
       "type": "registry:ui",
       "title": "Use Online Status Hook",
       "description": "Hook for checking if the user is online.",
-      "registryDependencies": [],
+      "dependencies": [],
       "files": [
         {
           "path": "registry/hooks/use-online-status/index.ts",
@@ -453,7 +485,7 @@
       "type": "registry:ui",
       "title": "Use Scroll Position Hook",
       "description": "Hook for getting the scroll position of an element.",
-      "registryDependencies": [],
+      "dependencies": [],
       "files": [
         {
           "path": "registry/hooks/use-scroll-position/index.ts",
@@ -467,12 +499,44 @@
       "type": "registry:ui",
       "title": "Use Undo Redo Hook",
       "description": "Hook for undo and redo actions.",
-      "registryDependencies": [],
+      "dependencies": [],
       "files": [
         {
           "path": "registry/hooks/use-undo-redo/index.ts",
           "type": "registry:ui",
           "target": "components/targetblank/hooks/use-undo-redo/index.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bug-text",
+      "type": "registry:ui",
+      "title": "Bug Text",
+      "description": "Bug text component.",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "registry/text/bug/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/text/bug/index.tsx"
+        }
+      ]
+    },
+    {
+      "name": "circular-text",
+      "type": "registry:ui",
+      "title": "Circular Text",
+      "description": "Circular text component.",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "registry/text/circular/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/text/circular/index.tsx"
         }
       ]
     }

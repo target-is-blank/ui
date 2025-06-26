@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Use Scroll Position Hook",
   "description": "Hook for getting the scroll position of an element.",
-  "registryDependencies": [],
+  "dependencies": [],
   "files": [
     {
       "path": "registry/hooks/use-scroll-position/index.ts",

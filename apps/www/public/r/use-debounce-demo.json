@@ -5,7 +5,7 @@
   "title": "Use Debounce Demo",
   "description": "Demo for the useDebounce hook.",
   "registryDependencies": [
-    "use-debounce-hook"
+    "https://targetblank.dev/r/use-debounce"
   ],
   "files": [
     {
