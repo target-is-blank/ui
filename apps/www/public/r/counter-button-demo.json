@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "counter-button-demo",
+  "type": "registry:ui",
+  "title": "Counter Button Demo",
+  "description": "Demo showing an animated button with counter effect.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/counter-button"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/buttons/counter/index.tsx",
+      "content": "import CounterButton from \"@/components/targetblank/buttons/counter\";\n\nexport default function CounterDemo() {\n  return (\n    <CounterButton\n      durationSeconds={10}\n      onComplete={() => console.log(\"Completed!\")}\n      onClick={() => console.log(\"Clicked!\")}\n      acceleration\n      angleSpread={10}\n    />\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/buttons/counter.tsx"
+    }
+  ]
+}

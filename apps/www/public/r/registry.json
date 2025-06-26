@@ -91,6 +91,24 @@
       ]
     },
     {
+      "name": "counter-button",
+      "type": "registry:ui",
+      "title": "Counter Button",
+      "description": "A button with a counter animation.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/buttons/counter/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/buttons/counter.tsx"
+        }
+      ]
+    },
+    {
       "name": "particles-button",
       "type": "registry:ui",
       "title": "Particles Button",
@@ -239,6 +257,22 @@
           "path": "registry/demo/buttons/copy/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/buttons/copy.tsx"
+        }
+      ]
+    },
+    {
+      "name": "counter-button-demo",
+      "type": "registry:ui",
+      "title": "Counter Button Demo",
+      "description": "Demo showing an animated button with counter effect.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/counter-button"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/buttons/counter/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/buttons/counter.tsx"
         }
       ]
     },

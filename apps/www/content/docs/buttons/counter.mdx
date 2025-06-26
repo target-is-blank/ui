@@ -1,0 +1,110 @@
+---
+title: Counter Button
+description: A button with a counter animation.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="counter-button-demo" />
+
+## Installation
+
+<ComponentInstallation name="counter-button" />
+
+## Usage
+
+```tsx
+<CounterButton
+  durationSeconds={10}
+  onComplete={() => console.log("Completed!")}
+  onClick={() => console.log("Clicked!")}
+  acceleration
+  angleSpread={10}
+/>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    tickCount: {
+      description: "The number of ticks on the needle.",
+      type: "number",
+      required: false,
+      default: "12",
+    },
+    onComplete: {
+      description: "The function to call when the counter is complete.",
+      type: "() => void",
+      required: false,
+    },
+    onClick: {
+      description: "The function to call when the button is clicked.",
+      type: "() => void",
+      required: false,
+    },
+    minAngle: {
+      description: "The minimum angle of the needle.",
+      type: "number",
+      required: false,
+      default: "0",
+    },
+    maxAngle: {
+      description: "The maximum angle of the needle.",
+      type: "number",
+      required: false,
+      default: "180",
+    },
+    needleAngle: {
+      description: "The initial angle of the needle.",
+      type: "number",
+      required: false,
+      default: "90",
+    },
+    label: {
+      description: "The label of the button.",
+      type: "string",
+      required: false,
+    },
+    durationSeconds: {
+      description: "The duration of the counter in seconds.",
+      type: "number",
+      required: true,
+    },
+    disabled: {
+      description: "Whether the button is disabled.",
+      type: "boolean",
+      required: false,
+      default: "false",
+    },
+    className: {
+      description: "The class name of the button.",
+      type: "string",
+      required: false,
+    },
+    angleSpread: {
+      description: "The angle spread of the needle.",
+      type: "number",
+      required: false,
+      default: "15",
+    },
+    accentColor: {
+      description: "The accent color of the button.",
+      type: "string",
+      required: false,
+      default: "#FFA726",
+    },
+    acceleration: {
+      description: "Enable needle variation.",
+      type: "boolean",
+      required: false,
+      default: "false",
+    },
+
+}}
+/>
+
+## Credits
+
+- Credits to [@MarkKnd](https://x.com/MarkKnd) for the inspiration.

@@ -44,7 +44,7 @@ export const Logo = ({
   size = "sm",
   className,
   containerClassName,
-  haveStroke = true,
+  haveStroke = false,
   ...props
 }: {
   containerClassName?: string;
