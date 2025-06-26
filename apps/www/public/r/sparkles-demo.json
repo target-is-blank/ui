@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sparkles-demo",
+  "type": "registry:ui",
+  "title": "Sparkles Demo",
+  "description": "Demo showing a sparkle animation.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/sparkle"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/animations/sparkles/index.tsx",
+      "content": "import Sparkles from \"@/components/targetblank/animations/sparkles\";\nimport { Button } from \"@/components/ui/button\";\n\nexport const SparklesDemo = () => {\n  return (\n    <div className=\"w-fit h-full flex items-center justify-center mx-auto\">\n      <Sparkles sparkColor=\"#000\">\n        <Button variant=\"outline\">Click me</Button>\n      </Sparkles>\n    </div>\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/animations/sparkles.tsx"
+    }
+  ]
+}

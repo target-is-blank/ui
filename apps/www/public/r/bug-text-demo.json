@@ -10,7 +10,7 @@
   "files": [
     {
       "path": "registry/demo/text/bug/index.tsx",
-      "content": "import BugText from \"@/components/targetblank/text/bug\";\n\nexport default function BugTextDemo() {\n  return <BugText>Hello world!</BugText>;\n}\n",
+      "content": "import BugText from \"@/components/targetblank/text/bug\";\n\nexport default function BugTextDemo() {\n  return <BugText color=\"#000\">Hello world!</BugText>;\n}\n",
       "type": "registry:ui",
       "target": "components/targetblank/demo/text/bug.tsx"
     }

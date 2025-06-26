@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "objective-bar-demo",
+  "type": "registry:ui",
+  "title": "Objective Bar Demo",
+  "description": "Demo showing a objective bar.",
+  "registryDependencies": ["https://targetblank.dev/r/objective-bar"],
+  "files": [
+    {
+      "path": "registry/demo/components/objective-bar/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/objective-bar.tsx"
+    }
+  ]
+}

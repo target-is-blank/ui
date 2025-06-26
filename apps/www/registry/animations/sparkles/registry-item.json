@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sparkles",
+  "type": "registry:ui",
+  "title": "Sparkles",
+  "description": "A sparkle animation.",
+  "dependencies": [
+    "motion",
+    "lucide-react",
+    "class-variance-authority",
+    "react-particles-js"
+  ],
+  "files": [
+    {
+      "path": "registry/animations/sparkles/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/animations/sparkles.tsx"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+---
+title: Objective Bar
+description: A bar that displays the current objective
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="objective-bar-demo" />
+
+## Installation
+
+<ComponentInstallation name="objective-bar" />
+
+## Usage
+
+```tsx
+<ObjectiveBar />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    startLabel: {
+      description: "The label to display at the start of the objective bar.",
+      type: "string",
+      required: false,
+    },
+    endLabel: {
+      description: "The label to display at the end of the objective bar.",
+      type: "string",
+      required: false,
+    },
+    bgColor: {
+      description: "The background color of the objective bar.",
+      type: "string",
+      required: false,
+    },
+    accentColor: {
+      description: "The accent color of the objective bar.",
+      type: "string",
+      required: false,
+    },
+    icon: {
+      description: "The icon to display in the objective bar.",
+      type: "React.ElementType",
+      required: false,
+      default: "PackageIcon",
+    },
+    steps: {
+      description: "The number of steps in the objective bar.",
+      type: "number",
+      required: false,
+    },
+    currentStep: {
+      description: "The current step of the objective bar.",
+      type: "number",
+      required: false,
+    },
+    children: {
+      description: "The children to display in the objective bar.",
+      type: "React.ReactNode",
+      required: true,
+    },
+  }}
+/>
+
+## Credits
+
+- Credits to [@MarkKnd](https://x.com/MarkKnd) for the inspiration.

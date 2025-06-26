@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sparkles-demo",
+  "type": "registry:ui",
+  "title": "Sparkles Demo",
+  "description": "Demo showing a sparkle animation.",
+  "registryDependencies": ["https://targetblank.dev/r/sparkle"],
+  "files": [
+    {
+      "path": "registry/demo/animations/sparkles/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/animations/sparkles.tsx"
+    }
+  ]
+}

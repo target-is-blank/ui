@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "objective-bar-demo",
+  "type": "registry:ui",
+  "title": "Objective Bar Demo",
+  "description": "Demo showing a objective bar.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/objective-bar"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/objective-bar/index.tsx",
+      "content": "import ObjectiveBar from \"@/components/targetblank/components/objective-bar\";\nimport { CheckIcon, LucideIcon, TruckIcon } from \"lucide-react\";\nimport { motion } from \"motion/react\";\nimport * as React from \"react\";\n\nconst STEPS = 6;\n\nexport const ObjectiveBarDemo = () => {\n  const [currentStep, setCurrentStep] = React.useState<number>(0);\n  const [isFinished, setIsFinished] = React.useState<boolean>(false);\n  const [icon, setIcon] = React.useState<LucideIcon | undefined>(undefined);\n\n  React.useEffect(() => {\n    switch (currentStep) {\n      case 0:\n        setIcon(CheckIcon);\n        break;\n      case 3:\n      case 5:\n        setIcon(TruckIcon);\n        break;\n      default:\n        setIcon(undefined);\n    }\n\n    const interval = setInterval(() => {\n      setCurrentStep((prev) => (STEPS - prev === 1 ? 0 : prev + 1));\n      if (STEPS - currentStep === 1) {\n        setIsFinished(true);\n      } else {\n        setIsFinished(false);\n      }\n    }, 1000);\n    return () => clearInterval(interval);\n  }, [currentStep]);\n\n  return (\n    <ObjectiveBar steps={STEPS} currentStep={currentStep} icon={icon}>\n      <div className=\"flex flex-col gap-2 text-center mt-2\">\n        {isFinished ? (\n          <motion.span\n            key=\"finished\"\n            className=\"text-sm\"\n            initial={{ opacity: 0, y: 10 }}\n            animate={{ opacity: 1, y: 0 }}\n            exit={{ opacity: 0, y: -10 }}\n            transition={{ duration: 0.3 }}\n          >\n            All done! 🎉\n          </motion.span>\n        ) : (\n          <motion.span\n            key=\"not-finished\"\n            className=\"text-sm\"\n            initial={{ opacity: 0, y: 10 }}\n            animate={{ opacity: 1, y: 0 }}\n            exit={{ opacity: 0, y: -10 }}\n            transition={{ duration: 0.3 }}\n          >\n            {`Only ${STEPS - currentStep} ${\n              STEPS - currentStep === 1 ? \"step\" : \"steps\"\n            } left`}\n          </motion.span>\n        )}\n      </div>\n    </ObjectiveBar>\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/objective-bar.tsx"
+    }
+  ]
+}

@@ -18,6 +18,25 @@
       "files": []
     },
     {
+      "name": "sparkles",
+      "type": "registry:ui",
+      "title": "Sparkles",
+      "description": "A sparkle animation.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority",
+        "react-particles-js"
+      ],
+      "files": [
+        {
+          "path": "registry/animations/sparkles/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/animations/sparkles.tsx"
+        }
+      ]
+    },
+    {
       "name": "transfer",
       "type": "registry:ui",
       "title": "Transfer",
@@ -163,6 +182,24 @@
       ]
     },
     {
+      "name": "objective-bar",
+      "type": "registry:ui",
+      "title": "Objective Bar",
+      "description": "A bar that displays the current objective.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/components/objective-bar/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/objective-bar.tsx"
+        }
+      ]
+    },
+    {
       "name": "step-bar",
       "type": "registry:ui",
       "title": "Step Bar",
@@ -193,6 +230,22 @@
           "path": "registry/components/wheel-selector/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/components/wheel-selector.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sparkles-demo",
+      "type": "registry:ui",
+      "title": "Sparkles Demo",
+      "description": "Demo showing a sparkle animation.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/sparkle"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/animations/sparkles/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/animations/sparkles.tsx"
         }
       ]
     },
@@ -321,6 +374,22 @@
           "path": "registry/demo/components/loading-bar/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/loading-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "objective-bar-demo",
+      "type": "registry:ui",
+      "title": "Objective Bar Demo",
+      "description": "Demo showing a objective bar.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/objective-bar"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/objective-bar/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/objective-bar.tsx"
         }
       ]
     },
