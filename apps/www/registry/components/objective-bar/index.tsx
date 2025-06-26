@@ -68,15 +68,18 @@ const ObjectiveBar = ({
         <motion.div
           ref={currentStepRef}
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 shadow-sm flex items-center justify-center rounded-full bg-primary-foreground p-2 z-30 border",
+            "absolute top-1/2 -translate-y-1/2 shadow-sm flex items-center justify-center rounded-full p-2 z-30 border",
             currentStep !== 0 && "-translate-x-1/2",
           )}
+          style={{
+            background: secondaryColor,
+          }}
           animate={{
             left: `calc(${(currentStep / (steps - 1)) * 100}% - 2px)`,
           }}
           transition={{ type: "spring", stiffness: 120, damping: 20 }}
         >
-          <Icon className="size-6" />
+          <Icon className="size-6" style={{ color: primaryColor }} />
         </motion.div>
         {endLabel && (
           <span
