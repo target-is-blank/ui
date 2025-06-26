@@ -143,16 +143,16 @@ const CounterButton = ({
       {...props}
     >
       <div className="flex-1 flex flex-col items-start justify-center">
-        <div className="flex items-baseline gap-2">
+        <motion.div
+          className="flex items-baseline gap-2"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
           <div className="flex items-baseline gap-1">
-            <motion.span
-              className="text-xl md:text-2xl font-bold tabular-nums"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
+            <span className="text-xl md:text-2xl font-bold tabular-nums">
               {minutes}
-            </motion.span>
+            </span>
             <span className="text-md md:text-lg text-gray-500">M</span>
           </div>
           <div className="flex items-baseline gap-1">
@@ -161,14 +161,18 @@ const CounterButton = ({
             </span>
             <span className="text-md md:text-lg text-gray-500">S</span>
           </div>
-        </div>
+        </motion.div>
         {label && (
-          <span className="text-gray-500 font-medium text-sm md:text-md">
+          <motion.span
+            className="text-gray-500 font-medium text-sm md:text-md"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
             {label}
-          </span>
+          </motion.span>
         )}
       </div>
-      {/* Gauge */}
       <svg
         width="120"
         height="120"
