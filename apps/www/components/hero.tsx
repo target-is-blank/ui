@@ -74,7 +74,7 @@ export const Hero = () => {
               className="px-3 py-1.5 bg-neutral-200 dark:bg-neutral-800 text-sm text-neutral-700 dark:text-neutral-300 h-10 hover:bg-neutral-200/90 dark:hover:bg-neutral-800/90"
               asChild
             >
-              <Link href="/docs/components" className="p-0 h-fit">
+              <Link href="/docs/animations/transfer" className="p-0 h-fit">
                 Browse Components
               </Link>
             </Button>
