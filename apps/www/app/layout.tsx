@@ -1,4 +1,5 @@
 import { jsonLd } from "@/lib/json-ld";
+import { Analytics } from "@vercel/analytics/next";
 import config from "@workspace/ui/config";
 import "@workspace/ui/globals.css";
 import { RootProvider } from "fumadocs-ui/provider";
@@ -99,6 +100,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <body className="flex flex-col min-h-screen">
         <RootProvider>{children}</RootProvider>
       </body>
+      <Analytics />
     </html>
   );
 }
