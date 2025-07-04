@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     site: "@xehoss",
     title: "Target Blank",
     description:
-      "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
+      "Distribution of open-source components developed entirely in collaboration with designers, built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Explore a range of components, each more unique than the last.",
     images: [
       {
         url: `${config.url}/og-image.png`,
