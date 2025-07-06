@@ -1,10 +1,17 @@
 import StepBar from "@/registry/components/step-bar";
+import { useTheme } from "next-themes";
 import * as React from "react";
 
 export const StepBarDemo = () => {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
   const [currentStep, setCurrentStep] = React.useState(1);
   const [isFinished, setIsFinished] = React.useState(false);
   const TOTAL_STEPS = 5;
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleNext = React.useCallback(() => {
     if (currentStep < TOTAL_STEPS + 1) {
@@ -54,8 +61,11 @@ export const StepBarDemo = () => {
     [isFinished],
   );
 
+  const color = mounted ? (theme === "dark" ? "#FFF" : "#000") : "#000";
+
   return (
     <StepBar
+      color={color}
       currentStep={currentStep}
       finished={isFinished}
       steps={TOTAL_STEPS}

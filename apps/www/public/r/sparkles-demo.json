@@ -10,7 +10,7 @@
   "files": [
     {
       "path": "registry/demo/animations/sparkles/index.tsx",
-      "content": "import Sparkles from \"@/components/targetblank/animations/sparkles\";\nimport { Button } from \"@/components/ui/button\";\n\nexport const SparklesDemo = () => {\n  return (\n    <div className=\"w-fit h-full flex items-center justify-center mx-auto\">\n      <Sparkles sparkColor=\"#000\">\n        <Button variant=\"outline\">Click me</Button>\n      </Sparkles>\n    </div>\n  );\n};\n",
+      "content": "import Sparkles from \"@/components/targetblank/animations/sparkles\";\nimport { Button } from \"@/components/ui/button\";\nimport { useTheme } from \"next-themes\";\n\nexport const SparklesDemo = () => {\n  const { theme } = useTheme();\n\n  return (\n    <div className=\"w-fit h-full flex items-center justify-center mx-auto\">\n      <Sparkles sparkColor={theme === \"dark\" ? \"#FFF\" : \"#000\"}>\n        <Button variant=\"outline\">Click me</Button>\n      </Sparkles>\n    </div>\n  );\n};\n",
       "type": "registry:ui",
       "target": "components/targetblank/demo/animations/sparkles.tsx"
     }

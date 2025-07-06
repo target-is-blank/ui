@@ -1,7 +1,9 @@
 import LoadingBar from "@/registry/components/loading-bar";
+import { useTheme } from "next-themes";
 import * as React from "react";
 
 export const LoadingBarDemo = () => {
+  const { theme } = useTheme();
   const [progress, setProgress] = React.useState(0);
   const [isComplete, setIsComplete] = React.useState(false);
   const [elapsedTime, setElapsedTime] = React.useState(0);
@@ -44,6 +46,7 @@ export const LoadingBarDemo = () => {
 
   return (
     <LoadingBar
+      color={theme === "dark" ? "#FFF" : "#000"}
       progress={progress}
       indicator={indicator}
       completed={isComplete}

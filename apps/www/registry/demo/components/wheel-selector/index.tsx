@@ -51,15 +51,15 @@ const WheelSelectorDemo = () => {
             <div
               className={`flex h-full w-full items-center justify-center rounded-lg font-bold transition-all duration-200 ${
                 isSelected
-                  ? "text-muted bg-primary dark:bg-muted dark:text-primary"
-                  : "text-primary bg-muted dark:bg-primary dark:text-muted"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "bg-muted text-muted-foreground hover:bg-muted/80"
               }`}
             >
               {item}
             </div>
           )}
         />
-        <p className="text-xs text-center text-muted dark:text-primary">
+        <p className="text-xs text-center text-muted-foreground mt-2">
           Try to grab it
         </p>
       </div>
