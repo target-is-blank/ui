@@ -1,0 +1,50 @@
+---
+title: Number Mosaic
+description: A number mosaic component
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="number-mosaic-demo" />
+
+## Installation
+
+<ComponentInstallation name="number-mosaic" />
+
+## Usage
+
+```tsx
+<NumberMosaic value={1234567890} gap={3} random />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    value: {
+      description: "The value to display.",
+      type: "number",
+      required: false,
+      default: 128,
+    },
+    random: {
+      description: "Whether to randomize the value.",
+      type: "boolean",
+      required: false,
+      default: false,
+    },
+    gap: {
+      description: "The gap between the digits.",
+      type: "number",
+      required: false,
+      default: 1,
+    },
+    charset: {
+      description: "The charset to use for the random mode.",
+      type: "string",
+      required: false,
+      default: "0123456789",
+    },
+  }}
+/>

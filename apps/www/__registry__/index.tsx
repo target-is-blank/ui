@@ -356,6 +356,44 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/loading-bar",
   },
+  "number-mosaic": {
+    name: "number-mosaic",
+    description: "A number mosaic component.",
+    type: "registry:ui",
+    dependencies: [],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/components/number-mosaic/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/components/number-mosaic.tsx",
+        content:
+          'import { cn } from "@/lib/utils";\nimport React, { useEffect, useMemo, useState } from "react";\n\nexport interface NumberMosaicProps\n  extends React.HTMLAttributes<HTMLPreElement> {\n  value: number | string;\n  random?: boolean;\n  className?: string;\n  gap?: number;\n  charset?: string;\n}\n\nconst DIGIT_PATTERNS: Record<string, string[]> = {\n  "0": ["11111", "10001", "10001", "10001", "10001", "10001", "11111"],\n  "1": ["00100", "01100", "00100", "00100", "00100", "00100", "01110"],\n  "2": ["11111", "00001", "00001", "11111", "10000", "10000", "11111"],\n  "3": ["11111", "00001", "00001", "11111", "00001", "00001", "11111"],\n  "4": ["10001", "10001", "10001", "11111", "00001", "00001", "00001"],\n  "5": ["11111", "10000", "10000", "11111", "00001", "00001", "11111"],\n  "6": ["11111", "10000", "10000", "11111", "10001", "10001", "11111"],\n  "7": ["11111", "00001", "00001", "00010", "00100", "01000", "01000"],\n  "8": ["11111", "10001", "10001", "11111", "10001", "10001", "11111"],\n  "9": ["11111", "10001", "10001", "11111", "00001", "00001", "11111"],\n  "-": ["00000", "00000", "00000", "11111", "00000", "00000", "00000"],\n  " ": Array(7).fill("00000"),\n  ".": ["00000", "00000", "00000", "00000", "00000", "00100", "00100"],\n};\n\nconst ROWS = DIGIT_PATTERNS["0"].length;\n\nfunction randomChar(charset: string): string {\n  if (!charset) return "#";\n  const idx = Math.floor(Math.random() * charset.length);\n  return charset.charAt(idx);\n}\n\nexport function buildNumberMosaic(\n  value: number | string,\n  random: boolean = false,\n  gap: number = 1,\n  charset: string = "0123456789",\n): string {\n  const str = String(value);\n  const lineParts: string[][] = Array.from({ length: ROWS }, () => []);\n\n  for (let i = 0; i < str.length; i++) {\n    const ch = str[i];\n    const pattern = DIGIT_PATTERNS[ch] ?? DIGIT_PATTERNS[" "];\n    for (let r = 0; r < ROWS; r++) {\n      const patRow = pattern[r];\n      let outRow = "";\n      for (let c = 0; c < patRow.length; c++) {\n        if (patRow[c] === "1") {\n          outRow += random ? randomChar(charset) : ch;\n        } else {\n          outRow += " ";\n        }\n      }\n      lineParts[r].push(outRow);\n    }\n\n    if (i < str.length - 1) {\n      const spacer = " ".repeat(Math.max(0, gap));\n      for (let r = 0; r < ROWS; r++) {\n        lineParts[r].push(spacer);\n      }\n    }\n  }\n\n  return lineParts.map((chunks) => chunks.join("")).join("\\n");\n}\n\nexport const NumberMosaic: React.FC<NumberMosaicProps> = ({\n  value,\n  random = false,\n  gap = 1,\n  className,\n  charset = "0123456789",\n  ...props\n}) => {\n  const [isClient, setIsClient] = useState(false);\n\n  useEffect(() => {\n    setIsClient(true);\n  }, []);\n\n  const mosaic = useMemo(\n    () => buildNumberMosaic(value, random && isClient, gap, charset),\n    [value, random, gap, charset, isClient],\n  );\n\n  return (\n    <pre\n      aria-label={String(value)}\n      className={cn("whitespace-pre leading-none", className)}\n      {...props}\n    >\n      {mosaic}\n    </pre>\n  );\n};\n\nexport default NumberMosaic;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/components/number-mosaic/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "number-mosaic";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/number-mosaic",
+  },
   "objective-bar": {
     name: "objective-bar",
     description: "A bar that displays the current objective.",
@@ -836,6 +874,44 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/loading-bar-demo",
+  },
+  "number-mosaic-demo": {
+    name: "number-mosaic-demo",
+    description: "Demo showing a number mosaic.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/number-mosaic"],
+    files: [
+      {
+        path: "registry/demo/components/number-mosaic/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/components/number-mosaic.tsx",
+        content:
+          '"use client";\n\nimport { NumberMosaic } from "@/components/targetblank/components/number-mosaic";\n\nexport const NumberMosaicDemo = () => {\n  return <NumberMosaic value={1234567890} random gap={3} />;\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/components/number-mosaic/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "number-mosaic-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/number-mosaic-demo",
   },
   "objective-bar-demo": {
     name: "objective-bar-demo",

@@ -182,6 +182,20 @@
       ]
     },
     {
+      "name": "number-mosaic",
+      "title": "Number Mosaic",
+      "description": "A number mosaic component.",
+      "type": "registry:ui",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/components/number-mosaic/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/number-mosaic.tsx"
+        }
+      ]
+    },
+    {
       "name": "objective-bar",
       "type": "registry:ui",
       "title": "Objective Bar",
@@ -392,6 +406,22 @@
           "path": "registry/demo/components/loading-bar/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/loading-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "number-mosaic-demo",
+      "type": "registry:ui",
+      "title": "Number Mosaic Demo",
+      "description": "Demo showing a number mosaic.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/number-mosaic"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/number-mosaic/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/number-mosaic.tsx"
         }
       ]
     },
