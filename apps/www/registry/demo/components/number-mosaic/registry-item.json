@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "number-mosaic-demo",
+  "type": "registry:ui",
+  "title": "Number Mosaic Demo",
+  "description": "Demo showing a number mosaic.",
+  "registryDependencies": ["https://targetblank.dev/r/number-mosaic"],
+  "files": [
+    {
+      "path": "registry/demo/components/number-mosaic/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/number-mosaic.tsx"
+    }
+  ]
+}

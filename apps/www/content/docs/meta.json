@@ -18,6 +18,7 @@
     "buttons/particles",
     "---Components---",
     "components/card",
+    "components/number-mosaic",
     "components/loading-bar",
     "components/objective-bar",
     "components/signature",
