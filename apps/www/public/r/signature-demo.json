@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "signature-demo",
+  "type": "registry:ui",
+  "title": "Signature Demo",
+  "description": "Demo showing a signature.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/signature"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/signature/index.tsx",
+      "content": "\"use client\";\n\nimport { Signature } from \"@/components/targetblank/components/signature\";\nimport { useTheme } from \"next-themes\";\n\nexport const SignatureDemo = () => {\n  const { theme } = useTheme();\n  return <Signature strokeStyle={theme === \"dark\" ? \"#FFF\" : \"#000\"} />;\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/signature.tsx"
+    }
+  ]
+}

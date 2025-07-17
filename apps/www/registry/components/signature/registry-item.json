@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "signature",
+  "title": "Signature",
+  "description": "A signature card component.",
+  "type": "registry:ui",
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/components/signature/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/signature.tsx"
+    }
+  ]
+}

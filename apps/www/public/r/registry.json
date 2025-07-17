@@ -200,6 +200,24 @@
       ]
     },
     {
+      "name": "signature",
+      "title": "Signature",
+      "description": "A signature card component.",
+      "type": "registry:ui",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/components/signature/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/signature.tsx"
+        }
+      ]
+    },
+    {
       "name": "step-bar",
       "type": "registry:ui",
       "title": "Step Bar",
@@ -390,6 +408,22 @@
           "path": "registry/demo/components/objective-bar/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/objective-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "signature-demo",
+      "type": "registry:ui",
+      "title": "Signature Demo",
+      "description": "Demo showing a signature.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/signature"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/signature/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/signature.tsx"
         }
       ]
     },

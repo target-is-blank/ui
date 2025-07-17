@@ -1,0 +1,92 @@
+---
+title: Signature
+description: A signature card component
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="signature-demo" />
+
+## Installation
+
+<ComponentInstallation name="signature" />
+
+## Usage
+
+```tsx
+<Signature />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    width: {
+      description: "The width of the signature pad.",
+      type: "number",
+      required: false,
+      default: 128,
+    },
+    strokeStyle: {
+      description: "The stroke style of the signature pad.",
+      type: "string",
+      required: false,
+      default: "#000",
+    },
+    preview: {
+      description: "Whether to show the preview of the signature.",
+      type: "boolean",
+      required: false,
+      default: false,
+    },
+    onFinish: {
+      description: "The function to call when the signature is finished.",
+      type: "function",
+      required: false,
+      default: undefined,
+    },
+    onClear: {
+      description:
+        "The function to call when the signature is cleared (also triggered when the signature is canceled).",
+      type: "function",
+      required: false,
+      default: undefined,
+    },
+    onStart: {
+      description: "The function to call when the signature is started.",
+      type: "function",
+      required: false,
+      default: undefined,
+    },
+    onSignature: {
+      description: "The function to call when the signature is drawn.",
+      type: "function",
+      required: false,
+      default: undefined,
+    },
+    onCancel: {
+      description: "The function to call when the signature is canceled.",
+      type: "function",
+      required: false,
+      default: undefined,
+    },
+    lineWidth: {
+      description: "The line width of the signature pad.",
+      type: "number",
+      required: false,
+      default: 2,
+    },
+    height: {
+      description: "The height of the signature pad.",
+      type: "number",
+      required: false,
+      default: 128,
+    },
+    className: {
+      description: "The class name of the signature pad.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>

@@ -20,6 +20,7 @@
     "components/card",
     "components/loading-bar",
     "components/objective-bar",
+    "components/signature",
     "components/step-bar",
     "components/wheel-selector",
     "---Hooks---",
