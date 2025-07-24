@@ -10,7 +10,7 @@
   "files": [
     {
       "path": "registry/demo/components/ai-input/index.tsx",
-      "content": "import AiInput from \"@/components/targetblank/components/ai-input\";\n\nexport const AiInputDemo = () => {\n  return (\n    <AiInput\n      onSend={async (text) => {\n        await new Promise((resolve) => setTimeout(resolve, 1000));\n      }}\n    />\n  );\n};\n",
+      "content": "import AiInput from \"@/components/targetblank/components/ai-input\";\n\nexport const AiInputDemo = () => {\n  return (\n    <AiInput\n      showCharCount\n      onSend={async (text) => {\n        await new Promise((resolve) => setTimeout(resolve, 1000));\n      }}\n    />\n  );\n};\n",
       "type": "registry:ui",
       "target": "components/targetblank/demo/components/ai-input.tsx"
     }
