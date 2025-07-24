@@ -10,7 +10,7 @@
   "files": [
     {
       "path": "registry/demo/components/number-mosaic/index.tsx",
-      "content": "\"use client\";\n\nimport { NumberMosaic } from \"@/components/targetblank/components/number-mosaic\";\n\nexport const NumberMosaicDemo = () => {\n  return <NumberMosaic value={1234567890} random gap={3} />;\n};\n",
+      "content": "\"use client\";\n\nimport { NumberMosaic } from \"@/components/targetblank/components/number-mosaic\";\nimport { useIsMobile } from \"@/hooks/use-mobile\";\n\nexport const NumberMosaicDemo = () => {\n  const isMobile = useIsMobile();\n  return <NumberMosaic value={isMobile ? 1234 : 123456} random gap={3} />;\n};\n",
       "type": "registry:ui",
       "target": "components/targetblank/demo/components/number-mosaic.tsx"
     }

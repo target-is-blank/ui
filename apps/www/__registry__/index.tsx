@@ -284,6 +284,49 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/particles-button",
   },
+  "ai-input": {
+    name: "ai-input",
+    description: "A AI input component.",
+    type: "registry:ui",
+    dependencies: [
+      "motion",
+      "lucide-react",
+      "class-variance-authority",
+      "react-hook-form",
+      "zod",
+      "zod-resolvers",
+    ],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/components/ai-input/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/components/ai-input.tsx",
+        content:
+          '"use client";\n\nimport { zodResolver } from "@hookform/resolvers/zod";\nimport { cn } from "@/lib/utils";\nimport { Loader } from "lucide-react";\nimport React, { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";\nimport { useForm } from "react-hook-form";\nimport { z } from "zod";\n\nfunction useAutosizeTextArea(\n  ref: React.RefObject<HTMLTextAreaElement | null>,\n  value: string,\n  maxRows = 8,\n) {\n  useLayoutEffect(() => {\n    const el = ref.current;\n    if (!el) return;\n\n    const text = typeof value === "string" ? value : "";\n\n    el.style.height = "auto";\n\n    const computed = window.getComputedStyle(el);\n    const lineHeight = parseInt(computed.lineHeight || "24", 10);\n    const maxHeight = lineHeight * maxRows;\n\n    let extraHeight = 0;\n    if (text.length > 0) {\n      const trailingBreaks = text.match(/\\n+$/)?.[0].length ?? 0;\n      extraHeight = Math.max(trailingBreaks - 1, 0) * lineHeight;\n    }\n\n    const newHeight = Math.min(el.scrollHeight + extraHeight, maxHeight);\n    el.style.height = newHeight + "px";\n    el.style.overflowY =\n      el.scrollHeight + extraHeight > maxHeight ? "auto" : "hidden";\n  }, [ref, value, maxRows]);\n}\n\nconst inputSchema = z.object({\n  text: z.string().min(1, "Text is required"),\n});\n\nexport type AiInputProps = {\n  onSend?: (text: string) => Promise<void>;\n  disabled?: boolean;\n  placeholder?: string;\n  maxRows?: number;\n  showCharCount?: boolean;\n  className?: string;\n};\n\nexport default function AiInput({\n  onSend,\n  disabled = false,\n  placeholder = "Ask thumbnail",\n  maxRows = 8,\n  showCharCount = false,\n  className,\n}: AiInputProps) {\n  const [isSending, setIsSending] = useState(false);\n  const textareaRef = useRef<HTMLTextAreaElement | null>(null);\n\n  const form = useForm<z.infer<typeof inputSchema>>({\n    resolver: zodResolver(inputSchema),\n    defaultValues: { text: "" },\n  });\n\n  const value = form.watch("text", "");\n\n  useAutosizeTextArea(textareaRef, value, maxRows);\n\n  const triggerSend = async (data: z.infer<typeof inputSchema>) => {\n    const trimmed = data.text.trim();\n    if (!trimmed) return;\n    setIsSending(true);\n    try {\n      await onSend?.(trimmed);\n      form.reset();\n    } finally {\n      setIsSending(false);\n    }\n  };\n\n  const onSubmit = (data: z.infer<typeof inputSchema>) => {\n    void triggerSend(data);\n  };\n\n  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {\n    if (e.key === "Enter" && !e.shiftKey) {\n      e.preventDefault();\n      form.handleSubmit(onSubmit)();\n    }\n  };\n\n  const isDisabled = (type: "textarea" | "button") => {\n    const empty = !value || !value.trim();\n    if (type === "textarea") return disabled || isSending;\n    if (type === "button") return disabled || isSending || empty;\n    return false;\n  };\n\n  const { ref: rhfRef, ...field } = form.register("text");\n  const mergeRefs = (el: HTMLTextAreaElement | null) => {\n    textareaRef.current = el;\n    rhfRef(el);\n  };\n\n  return (\n    <form\n      onSubmit={form.handleSubmit(onSubmit)}\n      className={cn(\n        "relative w-full border border-zinc-300 dark:border-zinc-700 rounded-2xl p-3 bg-white dark:bg-zinc-900 flex flex-col gap-2 transition-colors",\n        className,\n      )}\n    >\n      <div className="flex items-end gap-2">\n        <textarea\n          ref={mergeRefs}\n          {...field}\n          className="flex-1 resize-none bg-transparent outline-none text-primary placeholder-zinc-400 text-base leading-6 max-h-[40vh]"\n          placeholder={placeholder}\n          disabled={isDisabled("textarea")}\n          rows={1}\n          onKeyDown={handleKeyDown}\n        />\n\n        <button\n          type="submit"\n          disabled={isDisabled("button")}\n          className="p-2 rounded-full disabled:opacity-40 disabled:cursor-not-allowed hover:bg-indigo-600 hover:text-white bg-indigo-500 text-white transition-colors"\n          aria-label="Send"\n        >\n          {isSending ? (\n            <Loader className="w-5 h-5 animate-spin" />\n          ) : (\n            <svg\n              xmlns="http://www.w3.org/2000/svg"\n              viewBox="0 0 24 24"\n              fill="none"\n              stroke="currentColor"\n              strokeWidth="2"\n              strokeLinecap="round"\n              strokeLinejoin="round"\n              className="w-5 h-5"\n            >\n              <path d="M22 2 11 13" />\n              <path d="m22 2-7 20-4-9-9-4Z" />\n            </svg>\n          )}\n        </button>\n      </div>\n\n      {showCharCount && (\n        <div className="text-xs text-zinc-400 self-end mt-1">\n          {value.length} characters\n        </div>\n      )}\n    </form>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/components/ai-input/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "ai-input";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/ai-input",
+  },
   card: {
     name: "card",
     description: "A card component.",
@@ -801,6 +844,44 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/particles-button-demo",
   },
+  "ai-input-demo": {
+    name: "ai-input-demo",
+    description: "Demo showing an AI input component.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/ai-input"],
+    files: [
+      {
+        path: "registry/demo/components/ai-input/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/components/ai-input.tsx",
+        content:
+          'import AiInput from "@/components/targetblank/components/ai-input";\n\nexport const AiInputDemo = () => {\n  return (\n    <AiInput\n      onSend={async (text) => {\n        await new Promise((resolve) => setTimeout(resolve, 1000));\n      }}\n    />\n  );\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/components/ai-input/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "ai-input-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/ai-input-demo",
+  },
   "card-demo": {
     name: "card-demo",
     description: "Demo showing a card component.",
@@ -888,7 +969,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/targetblank/demo/components/number-mosaic.tsx",
         content:
-          '"use client";\n\nimport { NumberMosaic } from "@/components/targetblank/components/number-mosaic";\n\nexport const NumberMosaicDemo = () => {\n  return <NumberMosaic value={1234567890} random gap={3} />;\n};',
+          '"use client";\n\nimport { NumberMosaic } from "@/components/targetblank/components/number-mosaic";\nimport { useIsMobile } from "@/hooks/use-mobile";\n\nexport const NumberMosaicDemo = () => {\n  const isMobile = useIsMobile();\n  return <NumberMosaic value={isMobile ? 1234 : 123456} random gap={3} />;\n};',
       },
     ],
     keywords: [],

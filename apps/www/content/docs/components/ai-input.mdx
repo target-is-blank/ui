@@ -1,0 +1,70 @@
+---
+title: AI Input
+description: A AI input component
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="ai-input-demo" />
+
+## Installation
+
+<ComponentInstallation name="ai-input" />
+
+## Usage
+
+```tsx
+<AiInput
+  onSend={async (text) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }}
+/>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    onSend: {
+      description: "The function to call when the user sends a message.",
+      type: "number",
+      required: false,
+      default: 70,
+    },
+    disabled: {
+      description: "Whether the input is disabled.",
+      type: "string",
+      required: false,
+      default: "rgba(0, 0, 0, 0)",
+    },
+    placeholder: {
+      description: "The placeholder of the input.",
+      type: "number",
+      required: false,
+      default: 70,
+    },
+    maxRows: {
+      description: "The maximum number of rows of the input.",
+      type: "number",
+      required: false,
+      default: 40,
+    },
+    showCharCount: {
+      description: "Whether to show the character count.",
+      type: "string",
+      required: false,
+      default: "rgba(255, 255, 255, 0.5)",
+    },
+    className: {
+      description: "The class name of the input.",
+      type: "number",
+      required: false,
+      default: 40,
+    },
+  }}
+/>
+
+## Credits
+
+- Credits to [Blurr](https://blurr.design/) for the step bar component.

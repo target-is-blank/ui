@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-input",
+  "type": "registry:ui",
+  "title": "AI Input",
+  "description": "A AI input component.",
+  "dependencies": [
+    "motion",
+    "lucide-react",
+    "class-variance-authority",
+    "react-hook-form",
+    "zod",
+    "zod-resolvers"
+  ],
+  "files": [
+    {
+      "path": "registry/components/ai-input/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/ai-input.tsx"
+    }
+  ]
+}

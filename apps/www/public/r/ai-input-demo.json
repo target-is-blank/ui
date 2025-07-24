@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-input-demo",
+  "type": "registry:ui",
+  "title": "AI Input Demo",
+  "description": "Demo showing an AI input component.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/ai-input"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/ai-input/index.tsx",
+      "content": "import AiInput from \"@/components/targetblank/components/ai-input\";\n\nexport const AiInputDemo = () => {\n  return (\n    <AiInput\n      onSend={async (text) => {\n        await new Promise((resolve) => setTimeout(resolve, 1000));\n      }}\n    />\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/ai-input.tsx"
+    }
+  ]
+}
