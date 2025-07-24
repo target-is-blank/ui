@@ -294,7 +294,7 @@ export const index: Record<string, any> = {
       "class-variance-authority",
       "react-hook-form",
       "zod",
-      "zod-resolvers",
+      "@hookform/resolvers",
     ],
     devDependencies: undefined,
     registryDependencies: undefined,

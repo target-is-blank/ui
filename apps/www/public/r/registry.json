@@ -156,7 +156,7 @@
         "class-variance-authority",
         "react-hook-form",
         "zod",
-        "zod-resolvers"
+        "@hookform/resolvers"
       ],
       "files": [
         {
