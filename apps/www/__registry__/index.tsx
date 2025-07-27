@@ -26,12 +26,7 @@ export const index: Record<string, any> = {
     name: "sparkles",
     description: "A sparkle animation.",
     type: "registry:ui",
-    dependencies: [
-      "motion",
-      "lucide-react",
-      "class-variance-authority",
-      "react-particles-js",
-    ],
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
     devDependencies: undefined,
     registryDependencies: undefined,
     files: [
@@ -67,12 +62,7 @@ export const index: Record<string, any> = {
     name: "transfer",
     description: "A transfer animation.",
     type: "registry:ui",
-    dependencies: [
-      "motion",
-      "lucide-react",
-      "class-variance-authority",
-      "react-particles-js",
-    ],
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
     devDependencies: undefined,
     registryDependencies: undefined,
     files: [

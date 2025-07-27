@@ -4,12 +4,7 @@
   "type": "registry:ui",
   "title": "Transfer",
   "description": "A transfer animation.",
-  "dependencies": [
-    "motion",
-    "lucide-react",
-    "class-variance-authority",
-    "react-particles-js"
-  ],
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
   "files": [
     {
       "path": "registry/animations/transfer/index.tsx",

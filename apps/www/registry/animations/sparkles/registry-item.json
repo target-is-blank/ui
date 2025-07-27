@@ -4,12 +4,7 @@
   "type": "registry:ui",
   "title": "Sparkles",
   "description": "A sparkle animation.",
-  "dependencies": [
-    "motion",
-    "lucide-react",
-    "class-variance-authority",
-    "react-particles-js"
-  ],
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
   "files": [
     {
       "path": "registry/animations/sparkles/index.tsx",
