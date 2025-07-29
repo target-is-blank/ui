@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "loading-bar",
-  "type": "registry:ui",
   "title": "Loading Bar",
   "description": "A loading bar with a gradient background.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/components/loading-bar.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

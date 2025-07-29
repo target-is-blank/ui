@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "use-undo-redo-demo",
-  "type": "registry:ui",
   "title": "Use Undo Redo Demo",
   "description": "Demo for the useUndoRedo hook.",
   "registryDependencies": [
@@ -14,5 +13,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/demo/hooks/use-undo-redo.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

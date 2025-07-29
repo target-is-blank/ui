@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-range-timeline-demo",
+  "type": "registry:example",
+  "title": "Date Range Timeline Demo",
+  "description": "Demo of the date range timeline component.",
+  "registryDependencies": ["date-range-timeline"],
+  "files": [
+    {
+      "path": "registry/demo/components/date-range-timeline/index.tsx",
+      "type": "registry:example",
+      "target": "components/demo/date-range-timeline-demo.tsx"
+    }
+  ]
+}

@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "particles-button",
-  "type": "registry:ui",
   "title": "Particles Button",
   "description": "A button with a particles animation.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/buttons/particles.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

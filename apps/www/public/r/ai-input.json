@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ai-input",
-  "type": "registry:ui",
   "title": "AI Input",
   "description": "A AI input component.",
   "dependencies": [
@@ -19,5 +18,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/components/ai-input.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

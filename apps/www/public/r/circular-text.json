@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "circular-text",
-  "type": "registry:ui",
   "title": "Circular Text",
   "description": "Circular text component.",
   "dependencies": [
@@ -14,5 +13,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/text/circular/index.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

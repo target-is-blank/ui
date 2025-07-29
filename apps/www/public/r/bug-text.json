@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "bug-text",
-  "type": "registry:ui",
   "title": "Bug Text",
   "description": "Bug text component.",
   "dependencies": [
@@ -14,5 +13,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/text/bug/index.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

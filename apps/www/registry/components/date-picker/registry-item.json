@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-picker",
+  "type": "registry:ui",
+  "title": "Date Picker",
+  "description": "A smooth animated date picker with spring physics.",
+  "dependencies": ["motion", "date-fns", "lucide-react", "radix-ui"],
+  "files": [
+    {
+      "path": "registry/components/date-picker/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/date-picker.tsx"
+    }
+  ]
+}

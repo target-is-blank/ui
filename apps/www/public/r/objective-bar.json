@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "objective-bar",
-  "type": "registry:ui",
   "title": "Objective Bar",
   "description": "A bar that displays the current objective.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/components/objective-bar.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

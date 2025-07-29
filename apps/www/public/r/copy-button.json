@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "copy-button",
-  "type": "registry:ui",
   "title": "Copy Button",
   "description": "A button with a copy to clipboard animation.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/buttons/copy.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

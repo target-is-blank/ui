@@ -1,0 +1,77 @@
+---
+title: Date Picker
+description: A smooth animated date picker with direction-aware month transitions and spring physics.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="date-picker-demo" />
+
+## Installation
+
+<ComponentInstallation name="date-picker" />
+
+## Usage
+
+```tsx
+import { DatePicker, DatePickerInput } from "@/components/targetblank/components/date-picker";
+
+// Standalone calendar
+<DatePicker value={date} onChange={setDate} />
+
+// Input trigger with popover
+<DatePickerInput value={date} onChange={setDate} placeholder="Pick a date" />
+```
+
+## Props
+
+### DatePicker
+
+<TypeTable
+  type={{
+    value: {
+      description: "The currently selected date.",
+      type: "Date",
+      required: false,
+    },
+    onChange: {
+      description: "Callback fired when a day is selected.",
+      type: "(date: Date) => void",
+      required: false,
+    },
+    className: {
+      description: "Additional class names applied to the calendar wrapper.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>
+
+### DatePickerInput
+
+<TypeTable
+  type={{
+    value: {
+      description: "The currently selected date.",
+      type: "Date",
+      required: false,
+    },
+    onChange: {
+      description: "Callback fired when a day is selected.",
+      type: "(date: Date) => void",
+      required: false,
+    },
+    placeholder: {
+      description: "Placeholder text shown when no date is selected.",
+      type: "string",
+      required: false,
+      default: '"Pick a date"',
+    },
+    className: {
+      description: "Additional class names applied to the trigger button.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>

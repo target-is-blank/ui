@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "card",
-  "type": "registry:ui",
   "title": "Card",
   "description": "A card component.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/components/card.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

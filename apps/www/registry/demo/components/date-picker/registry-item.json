@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-picker-demo",
+  "type": "registry:example",
+  "title": "Date Picker Demo",
+  "description": "A demo of the date picker component.",
+  "registryDependencies": ["date-picker"],
+  "files": [
+    {
+      "path": "registry/demo/components/date-picker/index.tsx",
+      "type": "registry:example",
+      "target": "components/demo/date-picker-demo.tsx"
+    }
+  ]
+}

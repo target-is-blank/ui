@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "wheel-selector",
-  "type": "registry:ui",
   "title": "Wheel Selector",
   "description": "A wheel selector for picking a number.",
   "dependencies": [
@@ -14,5 +13,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/components/wheel-selector.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

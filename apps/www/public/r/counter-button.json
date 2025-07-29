@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "counter-button",
-  "type": "registry:ui",
   "title": "Counter Button",
   "description": "A button with a counter animation.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/buttons/counter.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

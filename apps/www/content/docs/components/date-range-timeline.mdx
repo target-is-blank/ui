@@ -1,0 +1,65 @@
+---
+title: Date Range Timeline
+description: A smooth horizontal timeline scrubber for selecting date ranges. Think Linear/Vercel analytics date range selector.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="date-range-timeline-demo" />
+
+## Installation
+
+<ComponentInstallation name="date-range-timeline" />
+
+## Usage
+
+```tsx
+import { DateRangeTimeline } from "@/components/targetblank/components/date-range-timeline";
+import { subDays } from "date-fns";
+import React from "react";
+
+export default function Example() {
+  const [range, setRange] = React.useState({
+    from: subDays(new Date(), 30),
+    to: new Date(),
+  });
+
+  return (
+    <DateRangeTimeline
+      value={range}
+      onChange={setRange}
+      className="w-full max-w-2xl"
+    />
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    value: {
+      description: "The currently selected date range ({ from, to }).",
+      type: "{ from: Date; to: Date }",
+      required: false,
+    },
+    onChange: {
+      description: "Callback fired whenever the selected range changes.",
+      type: "(range: { from: Date; to: Date }) => void",
+      required: false,
+    },
+    historyDays: {
+      description:
+        "How many days back the timeline ruler shows. Use the scroll-back chevron to reveal even earlier history.",
+      type: "number",
+      required: false,
+      default: 120,
+    },
+    className: {
+      description: "Additional CSS classes applied to the root card element.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>

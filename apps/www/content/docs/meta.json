@@ -25,6 +25,8 @@
     "components/objective-bar",
     "components/signature",
     "components/step-bar",
+    "components/date-picker",
+    "components/date-range-timeline",
     "components/wheel-selector",
     "---Hooks---",
     "hooks/debounce",

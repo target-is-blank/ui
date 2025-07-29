@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "particles-background-demo",
-  "type": "registry:ui",
   "title": "Particles Background Demo",
   "description": "Demo showing an animated background with particles effect.",
   "registryDependencies": [
@@ -14,5 +13,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/demo/backgrounds/particles.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

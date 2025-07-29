@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-range-timeline-demo",
+  "title": "Date Range Timeline Demo",
+  "description": "Demo of the date range timeline component.",
+  "registryDependencies": [
+    "date-range-timeline"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/date-range-timeline/index.tsx",
+      "content": "\"use client\";\n\nimport { DateRangeTimeline } from \"@/components/targetblank/components/date-range-timeline\";\nimport { startOfMonth } from \"date-fns\";\nimport React from \"react\";\n\nexport default function DateRangeTimelineDemo() {\n  const [range, setRange] = React.useState({\n    from: startOfMonth(new Date()),\n    to: new Date(),\n  });\n\n  return (\n    <div className=\"flex items-center justify-center p-8 w-full\">\n      <DateRangeTimeline\n        value={range}\n        onChange={setRange}\n        className=\"w-full max-w-2xl\"\n      />\n    </div>\n  );\n}\n",
+      "type": "registry:example",
+      "target": "components/demo/date-range-timeline-demo.tsx"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "number-mosaic",
-  "type": "registry:ui",
   "title": "Number Mosaic",
   "description": "A number mosaic component.",
   "dependencies": [],
@@ -12,5 +11,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/components/number-mosaic.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

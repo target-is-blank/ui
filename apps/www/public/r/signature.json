@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "signature",
-  "type": "registry:ui",
   "title": "Signature",
   "description": "A signature card component.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/components/signature.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-range-timeline",
+  "type": "registry:ui",
+  "title": "Date Range Timeline",
+  "description": "A smooth horizontal timeline scrubber for selecting date ranges.",
+  "dependencies": ["motion", "date-fns", "lucide-react"],
+  "files": [
+    {
+      "path": "registry/components/date-range-timeline/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/date-range-timeline.tsx"
+    }
+  ]
+}

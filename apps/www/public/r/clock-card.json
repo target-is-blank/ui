@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "clock-card",
-  "type": "registry:ui",
   "title": "Clock card",
   "description": "A clock card component.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/components/clock-card.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

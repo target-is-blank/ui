@@ -201,6 +201,43 @@
       ]
     },
     {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "A smooth animated date picker with spring physics.",
+      "dependencies": [
+        "motion",
+        "date-fns",
+        "lucide-react",
+        "radix-ui"
+      ],
+      "files": [
+        {
+          "path": "registry/components/date-picker/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/date-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-range-timeline",
+      "type": "registry:ui",
+      "title": "Date Range Timeline",
+      "description": "A smooth horizontal timeline scrubber for selecting date ranges.",
+      "dependencies": [
+        "motion",
+        "date-fns",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/components/date-range-timeline/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/date-range-timeline.tsx"
+        }
+      ]
+    },
+    {
       "name": "loading-bar",
       "type": "registry:ui",
       "title": "Loading Bar",
@@ -459,6 +496,38 @@
           "path": "registry/demo/components/clock-card/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/clock-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-picker-demo",
+      "type": "registry:example",
+      "title": "Date Picker Demo",
+      "description": "A demo of the date picker component.",
+      "registryDependencies": [
+        "date-picker"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/date-picker/index.tsx",
+          "type": "registry:example",
+          "target": "components/demo/date-picker-demo.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-range-timeline-demo",
+      "type": "registry:example",
+      "title": "Date Range Timeline Demo",
+      "description": "Demo of the date range timeline component.",
+      "registryDependencies": [
+        "date-range-timeline"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/date-range-timeline/index.tsx",
+          "type": "registry:example",
+          "target": "components/demo/date-range-timeline-demo.tsx"
         }
       ]
     },

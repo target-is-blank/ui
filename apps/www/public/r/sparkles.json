@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "sparkles",
-  "type": "registry:ui",
   "title": "Sparkles",
   "description": "A sparkle animation.",
   "dependencies": [
@@ -16,5 +15,6 @@
       "type": "registry:ui",
       "target": "components/targetblank/animations/sparkles.tsx"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }
