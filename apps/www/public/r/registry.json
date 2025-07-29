@@ -183,6 +183,24 @@
       ]
     },
     {
+      "name": "clock-card",
+      "type": "registry:ui",
+      "title": "Clock card",
+      "description": "A clock card component.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/components/clock-card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/clock-card.tsx"
+        }
+      ]
+    },
+    {
       "name": "loading-bar",
       "type": "registry:ui",
       "title": "Loading Bar",
@@ -425,6 +443,22 @@
           "path": "registry/demo/components/card/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "clock-card-demo",
+      "type": "registry:ui",
+      "title": "Clock Card Demo",
+      "description": "Demo showing a clock card component.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/clock-card"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/clock-card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/clock-card.tsx"
         }
       ]
     },

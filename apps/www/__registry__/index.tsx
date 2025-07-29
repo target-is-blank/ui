@@ -353,6 +353,42 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/card",
   },
+  "clock-card": {
+    name: "clock-card",
+    description: "A clock card component.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/components/clock-card/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/components/clock-card.tsx",
+        content:
+          'import { cn } from "@/lib/utils";\nimport { HTMLMotionProps, motion, Variants } from "motion/react";\nimport { useMemo } from "react";\n\ntype ClockCardProps = HTMLMotionProps<"div"> & {\n  children: React.ReactNode;\n  date?: string;\n  hour?: string;\n  format?: "12h" | "24h";\n};\n\nconst cardVariants: Variants = {\n  rest: {\n    scale: 1,\n    y: 0,\n    transition: { type: "spring", stiffness: 260, damping: 25 },\n  },\n  hover: {\n    scale: 1.03,\n    y: -4,\n    transition: { type: "spring", stiffness: 260, damping: 20 },\n  },\n};\n\nconst contentVariants: Variants = {\n  rest: {\n    opacity: 0,\n    height: 0,\n    y: 10,\n    transition: { duration: 0.3, delay: 0.5 },\n  },\n  hover: {\n    opacity: 1,\n    height: "auto",\n    y: 0,\n    transition: { duration: 0.3, delay: 0.5 },\n  },\n};\n\nexport const ClockCard = ({\n  children,\n  className,\n  date,\n  hour,\n  format = "24h",\n  ...props\n}: ClockCardProps) => {\n  const resolvedDate = useMemo(() => {\n    return (\n      date ??\n      new Date().toLocaleDateString("en-US", {\n        weekday: "long",\n        month: "long",\n        day: "numeric",\n      })\n    );\n  }, [date]);\n\n  const resolvedHour = useMemo(() => {\n    if (hour) return hour;\n    const now = new Date();\n    return `${now.getHours().toString().padStart(2, "0")}:${now\n      .getMinutes()\n      .toString()\n      .padStart(2, "0")}`;\n  }, [hour]);\n\n  const { displayHour, meridiem } = useMemo(() => {\n    const [hStr = "00", mStr = "00"] = resolvedHour.split(":");\n    const hNum = parseInt(hStr, 10);\n\n    if (format === "12h") {\n      const isPM = hNum >= 12;\n      const h12 = (((hNum + 11) % 12) + 1).toString().padStart(2, "0");\n      return {\n        displayHour: `${h12}:${mStr}`,\n        meridiem: isPM ? "PM" : "AM",\n      } as const;\n    }\n\n    return {\n      displayHour: `${hStr.padStart(2, "0")}:${mStr}`,\n      meridiem: null,\n    } as const;\n  }, [resolvedHour, format]);\n\n  return (\n    <motion.div\n      variants={cardVariants}\n      initial="rest"\n      animate="rest"\n      whileHover="hover"\n      className={cn(\n        "bg-neutral-100 border-2 border-white rounded-3xl shadow-md",\n        className,\n      )}\n      {...props}\n    >\n      <div\n        className={cn(\n          "flex flex-col items-center justify-center font-semibold text-primary-foreground bg-cover bg-bottom rounded-3xl h-[150px]",\n        )}\n        style={{\n          backgroundImage: `url(\'https://images.unsplash.com/photo-1574610758891-5b809b6e6e2e?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\')`,\n        }}\n      >\n        <div className="flex items-center justify-center gap-1">\n          <span className="text-[50px] font-bold leading-none text-transparent bg-gradient-to-b from-white/90 via-white/50 to-white/20 bg-clip-text">\n            {displayHour}\n          </span>\n\n          {meridiem && (\n            <div className="flex flex-col items-center text-center gap-1">\n              <span className="text-sm leading-none h-3 flex items-center justify-center text-transparent bg-gradient-to-b from-white/90 via-white/50 to-white/20 bg-clip-text">\n                {meridiem.charAt(0)}\n              </span>\n              <span className="text-sm leading-none h-3 flex items-center justify-center text-transparent bg-gradient-to-b from-white/90 via-white/50 to-white/20 bg-clip-text">\n                {meridiem.charAt(1)}\n              </span>\n            </div>\n          )}\n        </div>\n\n        <div className="w-full text-center">\n          <span className="text-sm text-transparent bg-gradient-to-b from-white/90 via-white/50 to-white/20 bg-clip-text">\n            {resolvedDate}\n          </span>\n        </div>\n      </div>\n\n      <motion.div\n        variants={contentVariants}\n        className="flex flex-col gap-2 px-4 overflow-hidden"\n      >\n        {children}\n      </motion.div>\n    </motion.div>\n  );\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/components/clock-card/index.tsx");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "clock-card";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/clock-card",
+  },
   "loading-bar": {
     name: "loading-bar",
     description: "A loading bar with a gradient background.",
@@ -907,6 +943,44 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/card-demo",
+  },
+  "clock-card-demo": {
+    name: "clock-card-demo",
+    description: "Demo showing a clock card component.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/clock-card"],
+    files: [
+      {
+        path: "registry/demo/components/clock-card/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/components/clock-card.tsx",
+        content:
+          'import { ClockCard } from "@/components/targetblank/components/clock-card";\nimport { CalendarClock, LayoutList } from "lucide-react";\n\nexport const ClockCardDemo = () => {\n  return (\n    <ClockCard format="12h">\n      <div className="flex flex-wrap items-center justify-center p-3 font-medium max-w-2xs">\n        <span className="text-neutral-400 mr-1">You have</span>\n        <span className="flex items-center gap-1 mr-1">\n          2 meetings <CalendarClock className="size-4" />\n        </span>\n        <span className="text-neutral-400">and</span>\n        <span className="flex items-center gap-1 mr-1">\n          4 tasks <LayoutList className="size-4" />\n        </span>\n        <span className="text-neutral-400">to complete today</span>\n      </div>\n    </ClockCard>\n  );\n};',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/components/clock-card/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "clock-card-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/clock-card-demo",
   },
   "loading-bar-demo": {
     name: "loading-bar-demo",

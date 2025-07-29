@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "clock-card-demo",
+  "type": "registry:ui",
+  "title": "Clock Card Demo",
+  "description": "Demo showing a clock card component.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/clock-card"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/clock-card/index.tsx",
+      "content": "import { ClockCard } from \"@/components/targetblank/components/clock-card\";\nimport { CalendarClock, LayoutList } from \"lucide-react\";\n\nexport const ClockCardDemo = () => {\n  return (\n    <ClockCard format=\"12h\">\n      <div className=\"flex flex-wrap items-center justify-center p-3 font-medium max-w-2xs\">\n        <span className=\"text-neutral-400 mr-1\">You have</span>\n        <span className=\"flex items-center gap-1 mr-1\">\n          2 meetings <CalendarClock className=\"size-4\" />\n        </span>\n        <span className=\"text-neutral-400\">and</span>\n        <span className=\"flex items-center gap-1 mr-1\">\n          4 tasks <LayoutList className=\"size-4\" />\n        </span>\n        <span className=\"text-neutral-400\">to complete today</span>\n      </div>\n    </ClockCard>\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/clock-card.tsx"
+    }
+  ]
+}

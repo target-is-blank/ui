@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "clock-card",
+  "type": "registry:ui",
+  "title": "Clock card",
+  "description": "A clock card component.",
+  "dependencies": ["motion", "lucide-react", "class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/components/clock-card/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/clock-card.tsx"
+    }
+  ]
+}

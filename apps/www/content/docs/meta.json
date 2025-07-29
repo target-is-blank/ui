@@ -19,6 +19,7 @@
     "---Components---",
     "components/ai-input",
     "components/card",
+    "components/clock-card",
     "components/number-mosaic",
     "components/loading-bar",
     "components/objective-bar",
