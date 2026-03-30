@@ -28,7 +28,7 @@ export interface DateRangeTimelineProps {
 interface Preset {
   label: string;
   getDates: () => { from: Date; to: Date };
-  matchByDays?: number; // if set, match by day count instead of exact dates
+  matchByDays?: number;
 }
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -80,7 +80,6 @@ export function DateRangeTimeline({
   const today = React.useMemo(() => startOfDay(new Date()), []);
   const presets = React.useMemo(() => buildPresets(today), [today]);
 
-  // Internal range state (used when uncontrolled)
   const [internalRange, setInternalRange] = React.useState<{
     from: Date;
     to: Date;
@@ -96,9 +95,8 @@ export function DateRangeTimeline({
     [onChange],
   );
 
-  // How far back to scroll (in extra days beyond historyDays)
   const [scrollOffset, setScrollOffset] = React.useState(0);
-  const scrollLevel = scrollOffset / SCROLL_STEP; // 0, 1 or 2
+  const scrollLevel = scrollOffset / SCROLL_STEP;
 
   const handleScrollBack = React.useCallback(() => {
     setScrollOffset((prev) =>
@@ -106,7 +104,6 @@ export function DateRangeTimeline({
     );
   }, []);
 
-  // Full timeline: from (historyDays + scrollOffset) ago → today
   const timelineDays = React.useMemo(() => {
     const start = subDays(today, historyDays - 1 + scrollOffset);
     return eachDayOfInterval({ start, end: today });
@@ -115,7 +112,6 @@ export function DateRangeTimeline({
   const totalDays = timelineDays.length;
   const oldest = timelineDays[0];
 
-  // Convert date → percentage (0–100) along the timeline
   const dateToPct = React.useCallback(
     (date: Date) => {
       const idx = differenceInCalendarDays(date, oldest);
@@ -126,7 +122,6 @@ export function DateRangeTimeline({
     [oldest, totalDays],
   );
 
-  // Convert clientX → date using live container rect
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   const xToDate = React.useCallback(
@@ -139,21 +134,18 @@ export function DateRangeTimeline({
     [timelineDays, totalDays],
   );
 
-  // ── Drag state stored in a ref to avoid stale closures ──────────────────
   const dragRef = React.useRef<{
     mode: "resize-left" | "resize-right" | "move";
     startClientX: number;
     startFrom: Date;
     startTo: Date;
-    duration: number; // days, for move mode
+    duration: number;
   } | null>(null);
 
-  // ── Derived display values (needed before drag handlers) ───────────────
   const startPct = dateToPct(range.from);
   const endPct = dateToPct(range.to);
   const bandWidthPct = endPct - startPct;
 
-  // Show "Days" label only if the band is wide enough
   const bandPx =
     (bandWidthPct / 100) * (containerRef.current?.offsetWidth ?? 600);
   const showDaysWord = bandPx > 52;
@@ -163,6 +155,37 @@ export function DateRangeTimeline({
   const [hoveredEdge, setHoveredEdge] = React.useState<"left" | "right" | null>(
     null,
   );
+
+  // Detect dark mode for animated color values
+  const [isDark, setIsDark] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    // Also handle class-based dark mode (Tailwind)
+    const checkDark = () =>
+      setIsDark(
+        document.documentElement.classList.contains("dark") || mq.matches,
+      );
+    checkDark();
+    mq.addEventListener("change", checkDark);
+    const observer = new MutationObserver(checkDark);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => {
+      mq.removeEventListener("change", checkDark);
+      observer.disconnect();
+    };
+  }, []);
+
+  const colors = {
+    handle: isDark ? "#6b7280" : "#9ca3af",
+    handleActive: isDark ? "#818cf8" : "#6366f1",
+    chevronL0: isDark ? "#6b7280" : "#9ca3af",
+    chevronL1: isDark ? "#9ca3af" : "#6b7280",
+    chevronL2: isDark ? "#d1d5db" : "#374151",
+    band: isDark ? "rgba(148, 163, 184, 0.15)" : "rgba(180, 195, 215, 0.22)",
+  };
 
   const handleBandPointerMove = React.useCallback((e: React.PointerEvent) => {
     if (dragRef.current) return;
@@ -200,7 +223,6 @@ export function DateRangeTimeline({
         duration,
       };
 
-      // Update hoveredEdge so inline style cursor reflects drag mode
       setHoveredEdge(
         mode === "resize-left"
           ? "left"
@@ -230,7 +252,6 @@ export function DateRangeTimeline({
             });
           }
         } else {
-          // Move entire band, preserve duration
           const dx = ev.clientX - dragRef.current.startClientX;
           const pctDelta = dx / rect.width;
           const daysDelta = Math.round(pctDelta * (totalDays - 1));
@@ -240,12 +261,10 @@ export function DateRangeTimeline({
           );
           let newTo = new Date(newFrom.getTime() + duration * 86_400_000);
 
-          // Clamp: don't go past today on the right
           if (newTo > today) {
             newTo = today;
             newFrom = subDays(today, duration);
           }
-          // Clamp: don't go past oldest on the left
           if (newFrom < oldest) {
             newFrom = oldest;
             newTo = new Date(oldest.getTime() + duration * 86_400_000);
@@ -268,8 +287,6 @@ export function DateRangeTimeline({
     [range, xToDate, today, oldest, totalDays, setRange],
   );
 
-  // (startPct and bandWidthPct declared above, before drag handlers)
-
   const activePreset = React.useMemo(() => {
     const dc = differenceInCalendarDays(range.to, range.from) + 1;
     return (
@@ -285,13 +302,11 @@ export function DateRangeTimeline({
     ? "Today"
     : format(range.to, "MMM d");
 
-  // A month is bold if it's fully contained in the selected range
   const isMonthFullySelected = React.useCallback(
     (mFrom: Date, mTo: Date) => mFrom >= range.from && mTo <= range.to,
     [range],
   );
 
-  // Month labels positioned at start of each month
   const monthLabels = React.useMemo(() => {
     const result: { label: string; pct: number; from: Date; to: Date }[] = [];
     let i = 0;
@@ -311,7 +326,7 @@ export function DateRangeTimeline({
       const midIdx = Math.floor((i + j - 1) / 2);
       result.push({
         label: format(firstDay, "MMMM"),
-        pct: (midIdx / (totalDays - 1)) * 100, // center of month
+        pct: (midIdx / (totalDays - 1)) * 100,
         from: firstDay,
         to: lastDay,
       });
@@ -323,13 +338,13 @@ export function DateRangeTimeline({
   return (
     <div
       className={cn(
-        "bg-white border border-gray-200 rounded-2xl overflow-hidden",
+        "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden",
         className,
       )}
     >
       {/* ── Top bar ──────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between px-6 py-5">
-        <span className="text-base font-semibold text-gray-900 tabular-nums">
+        <span className="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums">
           {fromLabel} – {toLabel}
         </span>
         <Tabs
@@ -350,22 +365,22 @@ export function DateRangeTimeline({
       </div>
 
       {/* ── Divider ──────────────────────────────────────────────────────── */}
-      <div className="h-px bg-gray-100" />
+      <div className="h-px bg-gray-100 dark:bg-gray-700" />
 
       {/* ── Timeline area ────────────────────────────────────────────────── */}
       <div className="px-6 pt-6 pb-5">
         <div className="flex items-start gap-4">
-          {/* Back chevron — cycles through 0 → +1mo → +2mo → reset */}
+          {/* Back chevron */}
           <motion.button
             onClick={handleScrollBack}
             className="flex-shrink-0 h-5 flex items-center leading-none select-none"
             animate={{
               color:
                 scrollLevel === 0
-                  ? "#9ca3af"
+                  ? colors.chevronL0
                   : scrollLevel === 1
-                    ? "#6b7280"
-                    : "#374151",
+                    ? colors.chevronL1
+                    : colors.chevronL2,
             }}
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -399,7 +414,7 @@ export function DateRangeTimeline({
                   <div key={i} className="flex-1 flex justify-center items-end">
                     <div
                       className={cn(
-                        "w-px bg-gray-300",
+                        "w-px bg-gray-300 dark:bg-gray-600",
                         isFirst ? "h-4" : "h-2.5",
                       )}
                     />
@@ -430,8 +445,8 @@ export function DateRangeTimeline({
                     className={cn(
                       "absolute leading-none text-xs transition-colors",
                       isMonthFullySelected(mFrom, mTo)
-                        ? "font-semibold text-gray-700 hover:text-gray-900"
-                        : "font-normal text-gray-400 hover:text-gray-500",
+                        ? "font-semibold text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white"
+                        : "font-normal text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400",
                     )}
                     style={{ left: `${pct}%`, transform: "translateX(-50%)" }}
                   >
@@ -441,14 +456,14 @@ export function DateRangeTimeline({
               )}
             </div>
 
-            {/* ── Selection band (overlays tick area) ────────────────── */}
+            {/* ── Selection band ─────────────────────────────────────── */}
             <motion.div
               ref={bandRef}
               className="absolute top-0 h-5 rounded"
               style={{
                 left: `${startPct}%`,
                 width: `${bandWidthPct}%`,
-                background: "rgba(180, 195, 215, 0.22)",
+                background: colors.band,
                 cursor: hoveredEdge ? "ew-resize" : "grab",
                 touchAction: "none",
               }}
@@ -465,7 +480,9 @@ export function DateRangeTimeline({
                 animate={{
                   width: hoveredEdge === "left" ? 3 : 2,
                   backgroundColor:
-                    hoveredEdge === "left" ? "#6366f1" : "#9ca3af",
+                    hoveredEdge === "left"
+                      ? colors.handleActive
+                      : colors.handle,
                 }}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
@@ -476,7 +493,9 @@ export function DateRangeTimeline({
                 animate={{
                   width: hoveredEdge === "right" ? 3 : 2,
                   backgroundColor:
-                    hoveredEdge === "right" ? "#6366f1" : "#9ca3af",
+                    hoveredEdge === "right"
+                      ? colors.handleActive
+                      : colors.handle,
                 }}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
@@ -495,14 +514,14 @@ export function DateRangeTimeline({
                         stiffness: 400,
                         damping: 30,
                       }}
-                      className="text-xs font-medium text-gray-600 tabular-nums block"
+                      className="text-xs font-medium text-gray-600 dark:text-gray-400 tabular-nums block"
                     >
                       {dayCount}
                     </motion.span>
                   </AnimatePresence>
                 </div>
                 {showDaysWord && (
-                  <span className="text-xs font-medium text-gray-600 whitespace-nowrap">
+                  <span className="text-xs font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">
                     {dayCount === 1 ? "Day" : "Days"}
                   </span>
                 )}
