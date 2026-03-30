@@ -1,6 +1,7 @@
 import { CodeBlock, CodeBlockProps, Pre } from "@/components/docs/codeblock";
 import { ColorPalette } from "@/components/docs/color-palette";
 import { DocsAuthor } from "@/components/docs/docs-author";
+import { DocsCredits } from "@/components/docs/docs-credits";
 import { DocsBreadcrumb } from "@/components/docs/docs-breadcrumb";
 import { ComponentPreview } from "@/components/docs/docs-component-preview";
 import { ComponentInstallation } from "@/components/docs/docs-components-installation";
@@ -41,6 +42,10 @@ export default async function Page(props: {
 
       {page.data.author && (
         <DocsAuthor name={page.data.author.name} url={page.data.author?.url} />
+      )}
+
+      {page.data.credits && page.data.credits.length > 0 && (
+        <DocsCredits credits={page.data.credits} />
       )}
 
       <div className="flex flex-row gap-2 items-center">

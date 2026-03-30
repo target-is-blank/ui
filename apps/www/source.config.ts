@@ -19,6 +19,14 @@ export const docs = defineDocs({
           url: z.string().optional(),
         })
         .optional(),
+      credits: z
+        .array(
+          z.object({
+            name: z.string(),
+            url: z.string().optional(),
+          }),
+        )
+        .optional(),
     }),
   },
 });
