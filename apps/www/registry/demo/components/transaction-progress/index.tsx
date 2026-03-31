@@ -18,14 +18,13 @@ const STEPS = [
 ];
 
 const SEQUENCE: StepStatus[][] = [
-  ["idle", "idle"],
   ["loading", "idle"],
   ["complete", "idle"],
   ["complete", "loading"],
   ["complete", "complete"],
 ];
 
-const DELAYS = [800, 1800, 800, 1800, 2000];
+const DELAYS = [1800, 800, 1800, 2000];
 
 function MetaMaskIcon() {
   return (
