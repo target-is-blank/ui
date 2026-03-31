@@ -33,27 +33,23 @@ const ACCENT_GREEN = "#45B649";
 const THEMES = {
   light: {
     surface: "#FFFFFF",
-    stepSurface: "#FFFFFF",
-    border: "#D7D9DE",
     mutedText: "#8E949F",
     bodyText: "#17191C",
     hairline: "#EEF0F3",
     cardBg: "#FBFBFC",
     icon: "#8B9099",
+    connector: "#D7D9DE",
     shadow: "0 14px 32px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.03)",
-    processingGlow: "rgba(69, 182, 73, 0.08)",
   },
   dark: {
     surface: "#171A1F",
-    stepSurface: "#171A1F",
-    border: "#3A404A",
     mutedText: "#A4ABB6",
     bodyText: "#F3F5F7",
     hairline: "#2A2F38",
     cardBg: "#1D2128",
     icon: "#98A0AA",
+    connector: "#3A404A",
     shadow: "0 18px 48px rgba(0, 0, 0, 0.34), 0 2px 10px rgba(0, 0, 0, 0.22)",
-    processingGlow: "rgba(69, 182, 73, 0.16)",
   },
 } as const;
 
@@ -63,7 +59,7 @@ function SpinnerCircle() {
   return (
     <motion.div
       animate={{ rotate: 360 }}
-      transition={{ duration: 1.55, repeat: Infinity, ease: "linear" }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
       style={{ width: 56, height: 56, position: "absolute" }}
     >
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
@@ -73,10 +69,10 @@ function SpinnerCircle() {
           r="24"
           fill="none"
           stroke={ACCENT_GREEN}
-          strokeWidth="2.1"
+          strokeWidth="2.15"
           strokeLinecap="round"
-          animate={{ strokeDasharray: ["22 128", "30 120", "22 128"] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ strokeDasharray: ["24 126", "33 117", "24 126"] }}
+          transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}
         />
       </svg>
     </motion.div>
@@ -91,9 +87,9 @@ function CheckmarkIcon() {
       viewBox="0 0 22 22"
       fill="none"
       aria-hidden="true"
-      initial={{ scale: 0.92, opacity: 0 }}
+      initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.24, ease: "easeOut" }}
+      transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
     >
       <motion.path
         d="M4.5 11.5l5 5 8-9"
@@ -104,7 +100,7 @@ function CheckmarkIcon() {
         fill="none"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 0.36, ease: "easeOut" }}
+        transition={{ duration: 0.34, ease: "easeOut" }}
       />
     </motion.svg>
   );
@@ -136,42 +132,13 @@ function StepCircle({
         justifyContent: "center",
       }}
     >
-      <motion.div
-        initial={false}
-        animate={{
-          borderColor: isComplete ? ACCENT_GREEN : tokens.border,
-          borderWidth: isComplete ? 2.5 : 2,
-          scale: isLoading ? 1.015 : 1,
-        }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        style={{
-          position: "absolute",
-          inset: 2,
-          borderRadius: "50%",
-          borderStyle: "solid",
-          background: tokens.stepSurface,
-        }}
-      />
-      {isLoading && (
-        <motion.div
-          aria-hidden="true"
-          animate={{ opacity: [0.18, 0.34, 0.18], scale: [0.96, 1.02, 0.96] }}
-          transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: "999px",
-            background: tokens.processingGlow,
-          }}
-        />
-      )}
       {isLoading && <SpinnerCircle />}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={isComplete ? "complete" : isLoading ? "loading" : `idle-${index}`}
-          initial={{ opacity: 0, scale: 0.94, y: 1 }}
+          key={isComplete ? "complete" : `idle-${index}`}
+          initial={{ opacity: 0, scale: 0.96, y: 1 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.94, y: -1 }}
+          exit={{ opacity: 0, scale: 0.96, y: -1 }}
           transition={{ duration: 0.22, ease: "easeOut" }}
           style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
         >
@@ -205,16 +172,19 @@ function DotsConnector({
   tokens: ThemeTokens;
 }) {
   const dots = [0, 1, 2, 3, 4];
+  const isFlowing = leftStatus === "complete" && rightStatus === "loading";
 
   return (
     <div
       aria-hidden="true"
       style={{
+        position: "relative",
         display: "flex",
         alignItems: "center",
         gap: 6,
         marginLeft: 10,
         marginRight: 10,
+        width: 44,
         flexShrink: 0,
       }}
     >
@@ -222,23 +192,22 @@ function DotsConnector({
         const activeCount = leftStatus === "complete" ? 3 : leftStatus === "loading" ? 1 : 0;
         const active = i < activeCount;
         const pulsing = leftStatus === "loading" && i === 0;
-        const settling = leftStatus === "complete" && rightStatus === "loading" && i === 2;
 
         return (
           <motion.div
             key={i}
             initial={false}
             animate={{
-              backgroundColor: active ? ACCENT_GREEN : tokens.border,
-              opacity: active ? 1 : 0.9,
-              scale: pulsing ? [0.96, 1.18, 0.96] : settling ? [1, 1.08, 1] : active ? 1 : 0.96,
+              backgroundColor: active ? ACCENT_GREEN : tokens.connector,
+              opacity: active ? 1 : 0.88,
+              scale: pulsing ? [0.96, 1.16, 0.96] : active ? 1 : 0.96,
             }}
             transition={{
-              backgroundColor: { duration: 0.24, delay: i * 0.04, ease: "easeOut" },
-              opacity: { duration: 0.24, delay: i * 0.04, ease: "easeOut" },
-              scale: pulsing || settling
-                ? { duration: pulsing ? 1.25 : 0.55, repeat: pulsing ? Infinity : 0, ease: "easeInOut", delay: i * 0.02 }
-                : { duration: 0.22, ease: "easeOut" },
+              backgroundColor: { duration: 0.22, delay: i * 0.035, ease: "easeOut" },
+              opacity: { duration: 0.22, delay: i * 0.035, ease: "easeOut" },
+              scale: pulsing
+                ? { duration: 1.15, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0.2, ease: "easeOut" },
             }}
             style={{
               width: 4,
@@ -248,6 +217,44 @@ function DotsConnector({
           />
         );
       })}
+
+      {isFlowing && (
+        <>
+          <motion.div
+            initial={{ x: 0, scaleX: 0.3, opacity: 0.9 }}
+            animate={{ x: 44, scaleX: 1, opacity: 0 }}
+            transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              position: "absolute",
+              left: 0,
+              top: "50%",
+              width: 20,
+              height: 10,
+              borderRadius: 999,
+              background: `linear-gradient(90deg, ${ACCENT_GREEN} 0%, rgba(69,182,73,0.55) 70%, rgba(69,182,73,0) 100%)`,
+              transform: "translateY(-50%)",
+              transformOrigin: "left center",
+              filter: "blur(0.4px)",
+            }}
+          />
+          <motion.div
+            initial={{ x: 0, scale: 0.85, opacity: 0.95 }}
+            animate={{ x: 44, scale: [0.85, 1.1, 0.68], opacity: [0.95, 1, 0] }}
+            transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              position: "absolute",
+              left: 0,
+              top: "50%",
+              width: 10,
+              height: 10,
+              borderRadius: "45% 55% 60% 40% / 45% 45% 55% 55%",
+              background: ACCENT_GREEN,
+              transform: "translateY(-50%)",
+              boxShadow: "0 0 0 1px rgba(69,182,73,0.06)",
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
