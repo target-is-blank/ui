@@ -197,7 +197,7 @@ export function MultiStepModal({
   return (
     <div
       className={cn(
-        "bg-white rounded-[32px] shadow-2xl w-full max-w-md mx-auto px-8 py-7 flex flex-col gap-7",
+        "bg-white rounded-[32px] shadow-2xl w-[420px] mx-auto px-8 py-7 flex flex-col gap-7",
         className,
       )}
     >
