@@ -447,6 +447,39 @@ export const index: Record<string, any> = {
     })(),
     command: 'https://targetblank.dev/r/loading-bar',
   },
+  "multi-step-modal": {
+    name: "multi-step-modal",
+    description: "A multi-step progress modal with animated step indicators, spinning arc loaders, and checkmark completions.",
+    type: "registry:ui",
+    dependencies: ["motion/react","lucide-react"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+  {
+    "path": "registry/components/multi-step-modal/index.tsx",
+    "type": "registry:ui",
+    "target": "components/targetblank/components/multi-step-modal.tsx",
+    "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { ChevronLeft, X, Check, AlertCircle } from \"lucide-react\";\nimport * as React from \"react\";\n\nexport interface Step {\n  label: string;\n}\n\nexport interface DetailRow {\n  label: string;\n  value: React.ReactNode;\n  icon?: React.ReactNode;\n}\n\nexport interface MultiStepModalProps {\n  title?: string;\n  steps: Step[];\n  currentStep: number;\n  stepStatus: \"loading\" | \"success\" | \"error\";\n  statusTitle: string;\n  statusDescription?: string;\n  details?: DetailRow[];\n  onBack?: () => void;\n  onClose?: () => void;\n  className?: string;\n}\n\n// Spinning arc SVG for the loading state\nconst SpinningArc = () => {\n  const radius = 20;\n  const circumference = 2 * Math.PI * radius;\n  // ~270° arc\n  const dashArray = (270 / 360) * circumference;\n  const dashOffset = 0;\n\n  return (\n    <motion.g\n      animate={{ rotate: 360 }}\n      transition={{ duration: 1.2, repeat: Infinity, ease: \"linear\" }}\n      style={{ originX: \"50%\", originY: \"50%\", transformOrigin: \"24px 24px\" }}\n    >\n      <circle\n        cx={24}\n        cy={24}\n        r={radius}\n        fill=\"none\"\n        stroke=\"#111827\"\n        strokeWidth={2.5}\n        strokeLinecap=\"round\"\n        strokeDasharray={`${dashArray} ${circumference - dashArray}`}\n        strokeDashoffset={dashOffset}\n      />\n    </motion.g>\n  );\n};\n\ninterface StepCircleProps {\n  index: number;\n  currentStep: number;\n  stepStatus: \"loading\" | \"success\" | \"error\";\n}\n\nconst StepCircle = ({ index, currentStep, stepStatus }: StepCircleProps) => {\n  const isCompleted = index < currentStep;\n  const isCurrent = index === currentStep;\n  const isActive = isCurrent;\n\n  return (\n    <div className=\"relative flex items-center justify-center w-12 h-12\">\n      {/* Base circle */}\n      <div\n        className={cn(\n          \"w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors duration-300\",\n          isCompleted\n            ? \"bg-green-500 border-green-500\"\n            : isActive\n              ? \"bg-white border-gray-200\"\n              : \"bg-gray-100 border-gray-200\",\n        )}\n      >\n        <AnimatePresence mode=\"wait\">\n          {isCompleted ? (\n            <motion.div\n              key=\"check\"\n              initial={{ scale: 0 }}\n              animate={{ scale: [0, 1.2, 1] }}\n              exit={{ scale: 0 }}\n              transition={{ duration: 0.3, ease: \"easeOut\" }}\n            >\n              <Check className=\"w-4 h-4 text-white\" strokeWidth={3} />\n            </motion.div>\n          ) : isActive && stepStatus === \"error\" ? (\n            <motion.div\n              key=\"error\"\n              initial={{ scale: 0 }}\n              animate={{ scale: [0, 1.2, 1] }}\n              exit={{ scale: 0 }}\n              transition={{ duration: 0.3, ease: \"easeOut\" }}\n            >\n              <AlertCircle className=\"w-4 h-4 text-red-500\" />\n            </motion.div>\n          ) : (\n            <motion.span\n              key=\"number\"\n              initial={{ scale: 0, opacity: 0 }}\n              animate={{ scale: 1, opacity: 1 }}\n              exit={{ scale: 0, opacity: 0 }}\n              transition={{ duration: 0.2 }}\n              className={cn(\n                \"text-sm font-semibold\",\n                isActive ? \"text-gray-800\" : \"text-gray-400\",\n              )}\n            >\n              {index + 1}\n            </motion.span>\n          )}\n        </AnimatePresence>\n      </div>\n\n      {/* Spinning arc overlay for loading state */}\n      <AnimatePresence>\n        {isActive && stepStatus === \"loading\" && (\n          <motion.div\n            key=\"spinner\"\n            initial={{ opacity: 0 }}\n            animate={{ opacity: 1 }}\n            exit={{ opacity: 0 }}\n            transition={{ duration: 0.2 }}\n            className=\"absolute inset-0 flex items-center justify-center\"\n          >\n            <svg\n              width={48}\n              height={48}\n              viewBox=\"0 0 48 48\"\n              className=\"absolute inset-0\"\n            >\n              <SpinningArc />\n            </svg>\n          </motion.div>\n        )}\n      </AnimatePresence>\n    </div>\n  );\n};\n\nconst MultiStepModal = ({\n  title = \"Processing\",\n  steps,\n  currentStep,\n  stepStatus,\n  statusTitle,\n  statusDescription,\n  details,\n  onBack,\n  onClose,\n  className,\n}: MultiStepModalProps) => {\n  return (\n    <div\n      className={cn(\n        \"bg-white rounded-3xl shadow-2xl w-full max-w-sm mx-auto p-6 flex flex-col gap-6\",\n        className,\n      )}\n    >\n      {/* Header */}\n      <div className=\"flex items-center justify-between\">\n        <button\n          onClick={onBack}\n          aria-label=\"Go back\"\n          className={cn(\n            \"w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-500\",\n            !onBack && \"opacity-0 pointer-events-none\",\n          )}\n        >\n          <ChevronLeft className=\"w-5 h-5\" />\n        </button>\n        <span className=\"font-bold text-gray-900 text-base\">{title}</span>\n        <button\n          onClick={onClose}\n          aria-label=\"Close\"\n          className={cn(\n            \"w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-500\",\n            !onClose && \"opacity-0 pointer-events-none\",\n          )}\n        >\n          <X className=\"w-4 h-4\" />\n        </button>\n      </div>\n\n      {/* Step indicators */}\n      <div className=\"flex items-center justify-center gap-0\">\n        {steps.map((step: Step, index: number) => (\n          <React.Fragment key={step.label}>\n            <div className=\"flex flex-col items-center gap-1.5\">\n              <StepCircle\n                index={index}\n                currentStep={currentStep}\n                stepStatus={stepStatus}\n              />\n              <span\n                className={cn(\n                  \"text-xs font-medium transition-colors duration-300\",\n                  index < currentStep\n                    ? \"text-green-600\"\n                    : index === currentStep\n                      ? \"text-gray-800\"\n                      : \"text-gray-400\",\n                )}\n              >\n                {step.label}\n              </span>\n            </div>\n            {index < steps.length - 1 && (\n              <div\n                className=\"flex-1 border-t-2 border-dashed border-gray-200 mx-2 mb-6\"\n                aria-hidden=\"true\"\n              />\n            )}\n          </React.Fragment>\n        ))}\n      </div>\n\n      {/* Status text */}\n      <AnimatePresence mode=\"wait\">\n        <motion.div\n          key={`${currentStep}-${stepStatus}`}\n          initial={{ opacity: 0, y: 8 }}\n          animate={{ opacity: 1, y: 0 }}\n          exit={{ opacity: 0, y: -8 }}\n          transition={{ duration: 0.25, ease: \"easeInOut\" }}\n          className=\"text-center flex flex-col gap-1\"\n        >\n          <p\n            className={cn(\n              \"text-sm font-semibold\",\n              stepStatus === \"error\" ? \"text-red-600\" : \"text-gray-900\",\n            )}\n          >\n            {statusTitle}\n          </p>\n          {statusDescription && (\n            <p className=\"text-xs text-gray-500\">{statusDescription}</p>\n          )}\n        </motion.div>\n      </AnimatePresence>\n\n      {/* Details card */}\n      {details && details.length > 0 && (\n        <div className=\"bg-gray-50 rounded-2xl overflow-hidden\">\n          {details.map((row: DetailRow, index: number) => (\n            <React.Fragment key={row.label}>\n              <div className=\"flex items-center justify-between px-4 py-3\">\n                <div className=\"flex items-center gap-2 text-xs text-gray-500 font-medium\">\n                  {row.icon && (\n                    <span className=\"flex-shrink-0\">{row.icon}</span>\n                  )}\n                  {row.label}\n                </div>\n                <div className=\"text-xs font-semibold text-gray-800 flex items-center gap-1\">\n                  {row.value}\n                </div>\n              </div>\n              {index < details.length - 1 && (\n                <div className=\"h-px bg-gray-200 mx-4\" />\n              )}\n            </React.Fragment>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n};\n\nexport default MultiStepModal;"
+  }
+],
+    keywords: [],
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/components/multi-step-modal/index.tsx");
+        const exportName = Object.keys(mod).find(
+          key => typeof mod[key] === 'function' || typeof mod[key] === 'object'
+        ) || "multi-step-modal";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: 'https://targetblank.dev/r/multi-step-modal',
+  },
   "number-mosaic": {
     name: "number-mosaic",
     description: "A number mosaic component.",
@@ -578,6 +611,39 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: 'https://targetblank.dev/r/step-bar',
+  },
+  "transaction-progress": {
+    name: "transaction-progress",
+    description: "A multi-step transaction progress modal with animated spinners, checkmarks, and status transitions.",
+    type: "registry:ui",
+    dependencies: ["motion/react"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+  {
+    "path": "registry/components/transaction-progress/index.tsx",
+    "type": "registry:ui",
+    "target": "components/targetblank/components/transaction-progress.tsx",
+    "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport * as React from \"react\";\n\nexport type StepStatus = \"idle\" | \"loading\" | \"complete\";\n\nexport interface TransactionStep {\n  label: string;\n  description: string;\n}\n\nexport interface TransactionDetail {\n  label: string;\n  value: React.ReactNode;\n}\n\nexport interface TransactionProgressProps {\n  title?: string;\n  steps: TransactionStep[];\n  statuses: StepStatus[];\n  details?: TransactionDetail[];\n  onBack?: () => void;\n  onClose?: () => void;\n  className?: string;\n}\n\nfunction SpinnerCircle() {\n  return (\n    <motion.div\n      animate={{ rotate: 360 }}\n      transition={{ duration: 1.2, repeat: Infinity, ease: \"linear\" }}\n      style={{ width: 32, height: 32 }}\n    >\n      <svg\n        width=\"32\"\n        height=\"32\"\n        viewBox=\"0 0 32 32\"\n        fill=\"none\"\n        aria-hidden=\"true\"\n      >\n        <circle\n          cx=\"16\"\n          cy=\"16\"\n          r=\"11\"\n          fill=\"none\"\n          stroke=\"#333\"\n          strokeWidth=\"2\"\n          strokeDasharray=\"17 52\"\n          strokeLinecap=\"round\"\n        />\n      </svg>\n    </motion.div>\n  );\n}\n\nfunction CheckmarkCircle() {\n  return (\n    <svg\n      width=\"32\"\n      height=\"32\"\n      viewBox=\"0 0 32 32\"\n      fill=\"none\"\n      aria-hidden=\"true\"\n    >\n      <motion.path\n        d=\"M9 16l5 5 9-9\"\n        stroke=\"#22c55e\"\n        strokeWidth=\"2\"\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n        fill=\"none\"\n        initial={{ pathLength: 0 }}\n        animate={{ pathLength: 1 }}\n        transition={{ duration: 0.4, ease: \"easeOut\" }}\n      />\n    </svg>\n  );\n}\n\nfunction StepCircle({\n  index,\n  status,\n}: {\n  index: number;\n  status: StepStatus;\n}) {\n  const isComplete = status === \"complete\";\n  const isLoading = status === \"loading\";\n\n  return (\n    <div\n      className=\"relative flex items-center justify-center w-10 h-10 rounded-full border-2 transition-colors duration-300 bg-white\"\n      style={{\n        borderColor: isComplete ? \"#22c55e\" : \"#d1d5db\",\n      }}\n    >\n      {isComplete ? (\n        <CheckmarkCircle />\n      ) : isLoading ? (\n        <SpinnerCircle />\n      ) : (\n        <span\n          className=\"text-sm font-medium\"\n          style={{ color: \"#9ca3af\" }}\n        >\n          {index + 1}\n        </span>\n      )}\n    </div>\n  );\n}\n\nexport function TransactionProgress({\n  title = \"Deposit\",\n  steps,\n  statuses,\n  details,\n  onBack,\n  onClose,\n  className,\n}: TransactionProgressProps) {\n  // Find the active step (first non-complete, or last if all complete)\n  const activeIndex = statuses.findIndex((s) => s !== \"complete\");\n  const displayIndex = activeIndex === -1 ? statuses.length - 1 : activeIndex;\n\n  const currentStep = steps[displayIndex];\n  const currentStatus = statuses[displayIndex];\n\n  return (\n    <div\n      className={cn(\n        \"bg-white rounded-2xl shadow-xl w-full max-w-[400px] overflow-hidden\",\n        className,\n      )}\n    >\n      {/* Header */}\n      <div className=\"flex items-center justify-between px-5 py-4 border-b border-gray-100\">\n        <button\n          type=\"button\"\n          onClick={onBack}\n          className=\"flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 transition-colors text-gray-500\"\n          aria-label=\"Go back\"\n        >\n          <svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 16 16\"\n            fill=\"none\"\n            aria-hidden=\"true\"\n          >\n            <path\n              d=\"M10 12L6 8l4-4\"\n              stroke=\"currentColor\"\n              strokeWidth=\"1.5\"\n              strokeLinecap=\"round\"\n              strokeLinejoin=\"round\"\n            />\n          </svg>\n        </button>\n        <span className=\"text-sm font-semibold text-gray-900\">{title}</span>\n        <button\n          type=\"button\"\n          onClick={onClose}\n          className=\"flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 transition-colors text-gray-500\"\n          aria-label=\"Close\"\n        >\n          <svg\n            width=\"14\"\n            height=\"14\"\n            viewBox=\"0 0 14 14\"\n            fill=\"none\"\n            aria-hidden=\"true\"\n          >\n            <path\n              d=\"M1 1l12 12M13 1L1 13\"\n              stroke=\"currentColor\"\n              strokeWidth=\"1.5\"\n              strokeLinecap=\"round\"\n            />\n          </svg>\n        </button>\n      </div>\n\n      {/* Body */}\n      <div className=\"px-5 pt-6 pb-5 flex flex-col gap-5\">\n        {/* Step indicators */}\n        <div className=\"flex items-center justify-center gap-0\">\n          {steps.map((_, i) => (\n            <React.Fragment key={i}>\n              <StepCircle index={i} status={statuses[i] ?? \"idle\"} />\n              {i < steps.length - 1 && (\n                <div\n                  className=\"flex-1 border-t-2 border-dashed mx-2\"\n                  style={{ borderColor: \"#e5e7eb\", minWidth: 32 }}\n                  aria-hidden=\"true\"\n                />\n              )}\n            </React.Fragment>\n          ))}\n        </div>\n\n        {/* Status text */}\n        <div className=\"text-center min-h-[44px] flex flex-col items-center justify-center\">\n          <AnimatePresence mode=\"wait\">\n            <motion.div\n              key={`${displayIndex}-${currentStatus}`}\n              initial={{ opacity: 0, y: 6 }}\n              animate={{ opacity: 1, y: 0 }}\n              exit={{ opacity: 0, y: -6 }}\n              transition={{ duration: 0.2 }}\n              className=\"flex flex-col items-center gap-1\"\n            >\n              {currentStep && (\n                <>\n                  <p\n                    className=\"text-base font-semibold text-gray-900 leading-snug\"\n                    style={{ fontSize: 16 }}\n                  >\n                    {currentStep.label}\n                  </p>\n                  <p\n                    className=\"text-sm text-gray-500 leading-snug\"\n                    style={{ fontSize: 14 }}\n                  >\n                    {currentStep.description}\n                  </p>\n                </>\n              )}\n            </motion.div>\n          </AnimatePresence>\n        </div>\n\n        {/* Details card */}\n        {details && details.length > 0 && (\n          <div\n            className=\"rounded-xl overflow-hidden\"\n            style={{ background: \"#f9fafb\" }}\n          >\n            {details.map((detail, i) => (\n              <div key={i}>\n                {i > 0 && (\n                  <div\n                    className=\"mx-4\"\n                    style={{ height: 1, background: \"#e5e7eb\" }}\n                  />\n                )}\n                <div className=\"flex items-center justify-between px-4 py-3\">\n                  <span\n                    className=\"text-sm text-gray-500\"\n                    style={{ fontSize: 13 }}\n                  >\n                    {detail.label}\n                  </span>\n                  <span\n                    className=\"text-sm font-medium text-gray-900 flex items-center gap-1\"\n                    style={{ fontSize: 13 }}\n                  >\n                    {detail.value}\n                  </span>\n                </div>\n              </div>\n            ))}\n          </div>\n        )}\n      </div>\n    </div>\n  );\n}\n\nexport default TransactionProgress;"
+  }
+],
+    keywords: [],
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/components/transaction-progress/index.tsx");
+        const exportName = Object.keys(mod).find(
+          key => typeof mod[key] === 'function' || typeof mod[key] === 'object'
+        ) || "transaction-progress";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: 'https://targetblank.dev/r/transaction-progress',
   },
   "two-factor-setup": {
     name: "two-factor-setup",
@@ -1074,6 +1140,39 @@ export const index: Record<string, any> = {
     })(),
     command: 'https://targetblank.dev/r/loading-bar-demo',
   },
+  "multi-step-modal-demo": {
+    name: "multi-step-modal-demo",
+    description: "Demo showing a multi-step progress modal simulating a 2-step deposit flow.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/multi-step-modal"],
+    files: [
+  {
+    "path": "registry/demo/components/multi-step-modal/index.tsx",
+    "type": "registry:ui",
+    "target": "components/targetblank/demo/components/multi-step-modal.tsx",
+    "content": "\"use client\";\n\nimport MultiStepModal, {\n  type Step,\n  type DetailRow,\n} from \"@/components/targetblank/components/multi-step-modal\";\nimport * as React from \"react\";\n\nconst STEPS: Step[] = [\n  { label: \"Initiate\" },\n  { label: \"Confirm\" },\n];\n\nexport const MultiStepModalDemo = () => {\n  const [currentStep, setCurrentStep] = React.useState(0);\n  const [stepStatus, setStepStatus] = React.useState<\n    \"loading\" | \"success\" | \"error\"\n  >(\"loading\");\n  const [fillStatus, setFillStatus] = React.useState(\"Processing\");\n\n  React.useEffect(() => {\n    let cancelled = false;\n\n    const run = async () => {\n      // Step 0: loading for 2s\n      setCurrentStep(0);\n      setStepStatus(\"loading\");\n      setFillStatus(\"Processing\");\n\n      await new Promise((r) => setTimeout(r, 2000));\n      if (cancelled) return;\n\n      // Step 0: success\n      setStepStatus(\"success\");\n      setFillStatus(\"Confirmed\");\n\n      await new Promise((r) => setTimeout(r, 1000));\n      if (cancelled) return;\n\n      // Step 1: loading for 2s\n      setCurrentStep(1);\n      setStepStatus(\"loading\");\n      setFillStatus(\"Processing\");\n\n      await new Promise((r) => setTimeout(r, 2000));\n      if (cancelled) return;\n\n      // Step 1: success\n      setStepStatus(\"success\");\n      setFillStatus(\"Confirmed\");\n\n      // Restart after 2s\n      await new Promise((r) => setTimeout(r, 2000));\n      if (cancelled) return;\n\n      run();\n    };\n\n    run();\n\n    return () => {\n      cancelled = true;\n    };\n  }, []);\n\n  const statusTitle =\n    currentStep === 0\n      ? stepStatus === \"loading\"\n        ? \"Initiating transaction...\"\n        : \"Transaction initiated\"\n      : stepStatus === \"loading\"\n        ? \"Waiting for confirmation...\"\n        : \"Transaction confirmed!\";\n\n  const statusDescription =\n    currentStep === 0\n      ? stepStatus === \"loading\"\n        ? \"Please wait while we process your request.\"\n        : \"Your transaction has been sent to the network.\"\n      : stepStatus === \"loading\"\n        ? \"Waiting for network confirmation.\"\n        : \"Your transaction is complete.\";\n\n  const details: DetailRow[] = [\n    {\n      label: \"Fill status\",\n      value: (\n        <span\n          className={\n            fillStatus === \"Confirmed\" ? \"text-green-600\" : \"text-amber-500\"\n          }\n        >\n          {fillStatus}\n        </span>\n      ),\n    },\n    {\n      label: \"Wallet\",\n      value: \"MetaMask\",\n      icon: <span>🦊</span>,\n    },\n  ];\n\n  return (\n    <div className=\"flex items-center justify-center w-full py-8\">\n      <MultiStepModal\n        title=\"Deposit\"\n        steps={STEPS}\n        currentStep={currentStep}\n        stepStatus={stepStatus}\n        statusTitle={statusTitle}\n        statusDescription={statusDescription}\n        details={details}\n        onClose={() => {}}\n      />\n    </div>\n  );\n};"
+  }
+],
+    keywords: [],
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/components/multi-step-modal/index.tsx");
+        const exportName = Object.keys(mod).find(
+          key => typeof mod[key] === 'function' || typeof mod[key] === 'object'
+        ) || "multi-step-modal-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: 'https://targetblank.dev/r/multi-step-modal-demo',
+  },
   "number-mosaic-demo": {
     name: "number-mosaic-demo",
     description: "Demo showing a number mosaic.",
@@ -1205,6 +1304,39 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: 'https://targetblank.dev/r/step-bar-demo',
+  },
+  "transaction-progress-demo": {
+    name: "transaction-progress-demo",
+    description: "Demo showing a multi-step transaction progress modal with animated spinners, checkmarks, and status transitions.",
+    type: "registry:example",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/transaction-progress"],
+    files: [
+  {
+    "path": "registry/demo/components/transaction-progress/index.tsx",
+    "type": "registry:example",
+    "target": "components/targetblank/demo/components/transaction-progress.tsx",
+    "content": "\"use client\";\n\nimport {\n  TransactionProgress,\n  type StepStatus,\n} from \"@/components/targetblank/components/transaction-progress\";\nimport * as React from \"react\";\n\nconst STEPS = [\n  {\n    label: \"Submitting transaction...\",\n    description: \"Filling your transaction on the blockchain.\",\n  },\n  {\n    label: \"Confirming transaction...\",\n    description: \"Waiting for blockchain confirmation.\",\n  },\n];\n\nconst SEQUENCE: StepStatus[][] = [\n  [\"idle\", \"idle\"],\n  [\"loading\", \"idle\"],\n  [\"complete\", \"idle\"],\n  [\"complete\", \"loading\"],\n  [\"complete\", \"complete\"],\n];\n\nconst DELAYS = [800, 1800, 800, 1800, 2000];\n\nfunction MetaMaskIcon() {\n  return (\n    <svg\n      width=\"16\"\n      height=\"16\"\n      viewBox=\"0 0 32 32\"\n      fill=\"none\"\n      aria-label=\"MetaMask\"\n    >\n      <rect width=\"32\" height=\"32\" rx=\"8\" fill=\"#F6851B\" />\n      <path\n        d=\"M26.5 5L17.9 11.3l1.6-3.7L26.5 5z\"\n        fill=\"#E2761B\"\n        stroke=\"#E2761B\"\n        strokeWidth=\"0.2\"\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n      />\n      <path\n        d=\"M5.5 5l8.5 6.4-1.5-3.7L5.5 5zM23.4 21.3l-2.3 3.5 4.9 1.4 1.4-4.8-4-0.1zM4.7 21.4l1.4 4.8 4.9-1.4-2.3-3.5-4 0.1z\"\n        fill=\"#E4761B\"\n        stroke=\"#E4761B\"\n        strokeWidth=\"0.2\"\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n      />\n      <path\n        d=\"M11.7 14.3l-1.4 2.1 4.9.2-.2-5.3-3.3 3zM20.3 14.3l-3.4-3.1-.1 5.3 4.9-.2-1.4-2zM11 24.8l2.9-1.4-2.5-2-0.4 3.4zM18.1 23.4l2.9 1.4-.4-3.4-2.5 2z\"\n        fill=\"#E4761B\"\n        stroke=\"#E4761B\"\n        strokeWidth=\"0.2\"\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n      />\n    </svg>\n  );\n}\n\nfunction ExternalLinkIcon() {\n  return (\n    <svg\n      width=\"12\"\n      height=\"12\"\n      viewBox=\"0 0 12 12\"\n      fill=\"none\"\n      aria-hidden=\"true\"\n    >\n      <path\n        d=\"M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7\"\n        stroke=\"#9ca3af\"\n        strokeWidth=\"1.2\"\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n      />\n    </svg>\n  );\n}\n\nexport const TransactionProgressDemo = () => {\n  const [phase, setPhase] = React.useState(0);\n\n  React.useEffect(() => {\n    const timer = setTimeout(\n      () => {\n        setPhase((prev) => (prev + 1) % SEQUENCE.length);\n      },\n      DELAYS[phase % DELAYS.length],\n    );\n    return () => clearTimeout(timer);\n  }, [phase]);\n\n  const statuses = SEQUENCE[phase] ?? [\"idle\", \"idle\"];\n\n  const details = [\n    {\n      label: \"Wallet\",\n      value: (\n        <span className=\"flex items-center gap-1.5\">\n          <MetaMaskIcon />\n          <span>Metamask</span>\n          <ExternalLinkIcon />\n        </span>\n      ),\n    },\n    {\n      label: \"Network\",\n      value: \"Ethereum\",\n    },\n    {\n      label: \"Amount\",\n      value: \"0.05 ETH\",\n    },\n  ];\n\n  return (\n    <div className=\"flex items-center justify-center p-6\">\n      <TransactionProgress\n        title=\"Deposit\"\n        steps={STEPS}\n        statuses={statuses}\n        details={details}\n      />\n    </div>\n  );\n};"
+  }
+],
+    keywords: [],
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/components/transaction-progress/index.tsx");
+        const exportName = Object.keys(mod).find(
+          key => typeof mod[key] === 'function' || typeof mod[key] === 'object'
+        ) || "transaction-progress-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: 'https://targetblank.dev/r/transaction-progress-demo',
   },
   "two-factor-setup-demo": {
     name: "two-factor-setup-demo",

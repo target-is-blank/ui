@@ -1,0 +1,79 @@
+---
+title: Transaction Progress
+description: A multi-step transaction progress modal with animated spinners, checkmarks, and status transitions.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="transaction-progress-demo" />
+
+## Installation
+
+<ComponentInstallation name="transaction-progress" />
+
+## Usage
+
+```tsx
+<TransactionProgress
+  title="Deposit"
+  steps={[
+    {
+      label: "Submitting transaction...",
+      description: "Filling your transaction on the blockchain.",
+    },
+    {
+      label: "Confirming transaction...",
+      description: "Waiting for blockchain confirmation.",
+    },
+  ]}
+  statuses={["complete", "loading"]}
+  details={[
+    { label: "Network", value: "Ethereum" },
+    { label: "Amount", value: "0.05 ETH" },
+  ]}
+/>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    title: {
+      description: "The title displayed in the modal header.",
+      type: "string",
+      required: false,
+      default: '"Deposit"',
+    },
+    steps: {
+      description: "Array of step objects with a label and description.",
+      type: "TransactionStep[]",
+      required: true,
+    },
+    statuses: {
+      description: 'Status for each step: "idle", "loading", or "complete".',
+      type: 'StepStatus[]',
+      required: true,
+    },
+    details: {
+      description: "Optional array of detail rows shown in the info card.",
+      type: "TransactionDetail[]",
+      required: false,
+    },
+    onBack: {
+      description: "Callback for the back chevron button.",
+      type: "() => void",
+      required: false,
+    },
+    onClose: {
+      description: "Callback for the close (X) button.",
+      type: "() => void",
+      required: false,
+    },
+    className: {
+      description: "Additional class names applied to the modal container.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>

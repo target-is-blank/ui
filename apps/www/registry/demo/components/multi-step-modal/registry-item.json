@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "multi-step-modal-demo",
+  "type": "registry:ui",
+  "title": "Multi Step Modal Demo",
+  "description": "Demo showing a multi-step progress modal simulating a 2-step deposit flow.",
+  "registryDependencies": ["https://targetblank.dev/r/multi-step-modal"],
+  "files": [
+    {
+      "path": "registry/demo/components/multi-step-modal/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/multi-step-modal.tsx"
+    }
+  ]
+}

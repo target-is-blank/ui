@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "multi-step-modal-demo",
+  "title": "Multi Step Modal Demo",
+  "description": "Demo showing a multi-step progress modal simulating a 2-step deposit flow.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/multi-step-modal"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/multi-step-modal/index.tsx",
+      "content": "\"use client\";\n\nimport MultiStepModal, {\n  type Step,\n  type DetailRow,\n} from \"@/components/targetblank/components/multi-step-modal\";\nimport * as React from \"react\";\n\nconst STEPS: Step[] = [\n  { label: \"Initiate\" },\n  { label: \"Confirm\" },\n];\n\nexport const MultiStepModalDemo = () => {\n  const [currentStep, setCurrentStep] = React.useState(0);\n  const [stepStatus, setStepStatus] = React.useState<\n    \"loading\" | \"success\" | \"error\"\n  >(\"loading\");\n  const [fillStatus, setFillStatus] = React.useState(\"Processing\");\n\n  React.useEffect(() => {\n    let cancelled = false;\n\n    const run = async () => {\n      // Step 0: loading for 2s\n      setCurrentStep(0);\n      setStepStatus(\"loading\");\n      setFillStatus(\"Processing\");\n\n      await new Promise((r) => setTimeout(r, 2000));\n      if (cancelled) return;\n\n      // Step 0: success\n      setStepStatus(\"success\");\n      setFillStatus(\"Confirmed\");\n\n      await new Promise((r) => setTimeout(r, 1000));\n      if (cancelled) return;\n\n      // Step 1: loading for 2s\n      setCurrentStep(1);\n      setStepStatus(\"loading\");\n      setFillStatus(\"Processing\");\n\n      await new Promise((r) => setTimeout(r, 2000));\n      if (cancelled) return;\n\n      // Step 1: success\n      setStepStatus(\"success\");\n      setFillStatus(\"Confirmed\");\n\n      // Restart after 2s\n      await new Promise((r) => setTimeout(r, 2000));\n      if (cancelled) return;\n\n      run();\n    };\n\n    run();\n\n    return () => {\n      cancelled = true;\n    };\n  }, []);\n\n  const statusTitle =\n    currentStep === 0\n      ? stepStatus === \"loading\"\n        ? \"Initiating transaction...\"\n        : \"Transaction initiated\"\n      : stepStatus === \"loading\"\n        ? \"Waiting for confirmation...\"\n        : \"Transaction confirmed!\";\n\n  const statusDescription =\n    currentStep === 0\n      ? stepStatus === \"loading\"\n        ? \"Please wait while we process your request.\"\n        : \"Your transaction has been sent to the network.\"\n      : stepStatus === \"loading\"\n        ? \"Waiting for network confirmation.\"\n        : \"Your transaction is complete.\";\n\n  const details: DetailRow[] = [\n    {\n      label: \"Fill status\",\n      value: (\n        <span\n          className={\n            fillStatus === \"Confirmed\" ? \"text-green-600\" : \"text-amber-500\"\n          }\n        >\n          {fillStatus}\n        </span>\n      ),\n    },\n    {\n      label: \"Wallet\",\n      value: \"MetaMask\",\n      icon: <span>🦊</span>,\n    },\n  ];\n\n  return (\n    <div className=\"flex items-center justify-center w-full py-8\">\n      <MultiStepModal\n        title=\"Deposit\"\n        steps={STEPS}\n        currentStep={currentStep}\n        stepStatus={stepStatus}\n        statusTitle={statusTitle}\n        statusDescription={statusDescription}\n        details={details}\n        onClose={() => {}}\n      />\n    </div>\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/components/multi-step-modal.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

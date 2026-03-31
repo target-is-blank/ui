@@ -1,0 +1,91 @@
+---
+title: Multi Step Modal
+description: A multi-step progress modal with animated step indicators, spinning arc loaders, and checkmark completions.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="multi-step-modal-demo" />
+
+## Installation
+
+<ComponentInstallation name="multi-step-modal" />
+
+## Usage
+
+```tsx
+import MultiStepModal from "@/components/targetblank/components/multi-step-modal";
+
+<MultiStepModal
+  title="Deposit"
+  steps={[{ label: "Initiate" }, { label: "Confirm" }]}
+  currentStep={0}
+  stepStatus="loading"
+  statusTitle="Initiating transaction..."
+  statusDescription="Please wait while we process your request."
+  details={[
+    { label: "Fill status", value: "Processing" },
+    { label: "Wallet", value: "MetaMask", icon: <span>🦊</span> },
+  ]}
+  onClose={() => {}}
+/>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    title: {
+      description: "The title displayed in the modal header.",
+      type: "string",
+      required: false,
+      default: '"Processing"',
+    },
+    steps: {
+      description: "Array of step objects, each with a label.",
+      type: "Step[]",
+      required: true,
+    },
+    currentStep: {
+      description: "Zero-based index of the currently active step.",
+      type: "number",
+      required: true,
+    },
+    stepStatus: {
+      description: "The status of the current step.",
+      type: '"loading" | "success" | "error"',
+      required: true,
+    },
+    statusTitle: {
+      description: "The main status message shown below the step indicators.",
+      type: "string",
+      required: true,
+    },
+    statusDescription: {
+      description: "An optional secondary description for the current status.",
+      type: "string",
+      required: false,
+    },
+    details: {
+      description: "Optional array of key-value rows shown in the details card.",
+      type: "DetailRow[]",
+      required: false,
+    },
+    onBack: {
+      description: "Callback when the back chevron is clicked. Hidden if not provided.",
+      type: "() => void",
+      required: false,
+    },
+    onClose: {
+      description: "Callback when the close button is clicked. Hidden if not provided.",
+      type: "() => void",
+      required: false,
+    },
+    className: {
+      description: "Additional class names applied to the modal card.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>

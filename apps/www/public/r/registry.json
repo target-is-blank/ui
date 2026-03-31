@@ -256,6 +256,23 @@
       ]
     },
     {
+      "name": "multi-step-modal",
+      "type": "registry:ui",
+      "title": "Multi Step Modal",
+      "description": "A multi-step progress modal with animated step indicators, spinning arc loaders, and checkmark completions.",
+      "dependencies": [
+        "motion/react",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/components/multi-step-modal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/multi-step-modal.tsx"
+        }
+      ]
+    },
+    {
       "name": "number-mosaic",
       "title": "Number Mosaic",
       "description": "A number mosaic component.",
@@ -320,6 +337,22 @@
           "path": "registry/components/step-bar/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/components/step-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "transaction-progress",
+      "type": "registry:ui",
+      "title": "Transaction Progress",
+      "description": "A multi-step transaction progress modal with animated spinners, checkmarks, and status transitions.",
+      "dependencies": [
+        "motion/react"
+      ],
+      "files": [
+        {
+          "path": "registry/components/transaction-progress/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/components/transaction-progress.tsx"
         }
       ]
     },
@@ -563,6 +596,22 @@
       ]
     },
     {
+      "name": "multi-step-modal-demo",
+      "type": "registry:ui",
+      "title": "Multi Step Modal Demo",
+      "description": "Demo showing a multi-step progress modal simulating a 2-step deposit flow.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/multi-step-modal"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/multi-step-modal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/components/multi-step-modal.tsx"
+        }
+      ]
+    },
+    {
       "name": "number-mosaic-demo",
       "type": "registry:ui",
       "title": "Number Mosaic Demo",
@@ -623,6 +672,22 @@
           "path": "registry/demo/components/step-bar/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/step-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "transaction-progress-demo",
+      "type": "registry:example",
+      "title": "Transaction Progress Demo",
+      "description": "Demo showing a multi-step transaction progress modal with animated spinners, checkmarks, and status transitions.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/transaction-progress"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/transaction-progress/index.tsx",
+          "type": "registry:example",
+          "target": "components/targetblank/demo/components/transaction-progress.tsx"
         }
       ]
     },

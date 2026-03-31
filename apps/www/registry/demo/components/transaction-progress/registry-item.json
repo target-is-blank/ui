@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "transaction-progress-demo",
+  "type": "registry:example",
+  "title": "Transaction Progress Demo",
+  "description": "Demo showing a multi-step transaction progress modal with animated spinners, checkmarks, and status transitions.",
+  "registryDependencies": ["https://targetblank.dev/r/transaction-progress"],
+  "files": [
+    {
+      "path": "registry/demo/components/transaction-progress/index.tsx",
+      "type": "registry:example",
+      "target": "components/targetblank/demo/components/transaction-progress.tsx"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "multi-step-modal",
+  "type": "registry:ui",
+  "title": "Multi Step Modal",
+  "description": "A multi-step progress modal with animated step indicators, spinning arc loaders, and checkmark completions.",
+  "dependencies": ["motion/react", "lucide-react"],
+  "files": [
+    {
+      "path": "registry/components/multi-step-modal/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/components/multi-step-modal.tsx"
+    }
+  ]
+}
