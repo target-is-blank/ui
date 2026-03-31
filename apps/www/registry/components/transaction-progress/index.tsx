@@ -30,6 +30,10 @@ export interface TransactionProgressProps {
 
 const ACCENT_GREEN = "#45B649";
 const LOADING_STROKE = "#17191C";
+const TRANSFER_DEFORM_MS = 500;
+const DOT_STEP_MS = 55;
+const DOT_COUNT = 5;
+const NEXT_STEP_DELAY_S = (TRANSFER_DEFORM_MS + DOT_STEP_MS * DOT_COUNT) / 1000;
 
 const THEMES = {
   light: {
@@ -60,11 +64,15 @@ const THEMES = {
 
 type ThemeTokens = (typeof THEMES)[TransactionProgressTheme];
 
-function LoadingRing({ tokens }: { tokens: ThemeTokens }) {
+function LoadingRing({ tokens, delayed = false }: { tokens: ThemeTokens; delayed?: boolean }) {
   return (
     <motion.div
-      animate={{ rotate: 360 }}
-      transition={{ duration: 1.35, repeat: Infinity, ease: "linear" }}
+      initial={delayed ? { opacity: 0 } : false}
+      animate={{ opacity: 1, rotate: 360 }}
+      transition={{
+        opacity: { duration: 0.12, delay: delayed ? NEXT_STEP_DELAY_S : 0 },
+        rotate: { duration: 1.35, repeat: Infinity, ease: "linear", delay: delayed ? NEXT_STEP_DELAY_S : 0 },
+      }}
       style={{ position: "absolute", inset: 0 }}
     >
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
@@ -95,17 +103,12 @@ function CompleteRing({ transferring = false }: { transferring?: boolean }) {
       initial={{ opacity: 0.7, scale: 0.96 }}
       animate={
         transferring
-          ? {
-              opacity: 1,
-              scale: 1,
-              scaleX: [1, 1.1, 1.03, 1],
-              scaleY: [1, 0.92, 0.97, 1],
-            }
+          ? { opacity: 1, scale: 1, scaleX: [1, 1.1, 1.03, 1], scaleY: [1, 0.92, 0.97, 1] }
           : { opacity: 1, scale: 1 }
       }
       transition={
         transferring
-          ? { duration: 0.5, ease: [0.22, 1, 0.36, 1], times: [0, 0.38, 0.7, 1] }
+          ? { duration: TRANSFER_DEFORM_MS / 1000, ease: [0.22, 1, 0.36, 1], times: [0, 0.38, 0.7, 1] }
           : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
       }
     >
@@ -122,17 +125,13 @@ function CheckmarkIcon() {
   );
 }
 
-function StepCircle({ index, status, tokens, transferring }: { index: number; status: StepStatus; tokens: ThemeTokens; transferring?: boolean }) {
+function StepCircle({ index, status, tokens, transferring, delayLoading }: { index: number; status: StepStatus; tokens: ThemeTokens; transferring?: boolean; delayLoading?: boolean }) {
   const isComplete = status === "complete";
   const isLoading = status === "loading";
 
   return (
-    <motion.div
-      layout
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      style={{ position: "relative", width: 56, height: 56, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}
-    >
-      {isComplete ? <CompleteRing transferring={transferring} /> : isLoading ? <LoadingRing tokens={tokens} /> : <IdleRing tokens={tokens} />}
+    <motion.div layout transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} style={{ position: "relative", width: 56, height: 56, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {isComplete ? <CompleteRing transferring={transferring} /> : isLoading ? <LoadingRing tokens={tokens} delayed={delayLoading} /> : <IdleRing tokens={tokens} />}
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
@@ -140,7 +139,7 @@ function StepCircle({ index, status, tokens, transferring }: { index: number; st
           initial={{ opacity: 0, scale: 0.96, y: 1 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: -1 }}
-          transition={{ duration: 0.22, ease: "easeOut" }}
+          transition={{ duration: 0.22, ease: "easeOut", delay: isLoading && delayLoading ? NEXT_STEP_DELAY_S : 0 }}
           style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
         >
           {isComplete ? <CheckmarkIcon /> : <span style={{ fontSize: 17, fontWeight: 500, color: tokens.stepText, lineHeight: 1 }}>{index + 1}</span>}
@@ -150,9 +149,10 @@ function StepCircle({ index, status, tokens, transferring }: { index: number; st
   );
 }
 
-function DotsConnector({ leftStatus, tokens }: { leftStatus: StepStatus; tokens: ThemeTokens }) {
+function DotsConnector({ leftStatus, rightStatus, tokens }: { leftStatus: StepStatus; rightStatus: StepStatus; tokens: ThemeTokens }) {
   const dots = [0, 1, 2, 3, 4];
-  const activeCount = leftStatus === "complete" ? 3 : 0;
+  const transfer = leftStatus === "complete" && rightStatus === "loading";
+  const activeCount = leftStatus === "complete" ? 5 : 0;
   const pulsing = leftStatus === "loading" ? 0 : -1;
 
   return (
@@ -163,14 +163,10 @@ function DotsConnector({ leftStatus, tokens }: { leftStatus: StepStatus; tokens:
           <motion.div
             key={i}
             initial={false}
-            animate={{
-              backgroundColor: active ? ACCENT_GREEN : tokens.connector,
-              opacity: active ? 1 : 0.88,
-              scale: pulsing === i ? [0.96, 1.12, 0.96] : active ? 1 : 0.96,
-            }}
+            animate={{ backgroundColor: active ? ACCENT_GREEN : tokens.connector, opacity: active ? 1 : 0.88, scale: pulsing === i ? [0.96, 1.12, 0.96] : active ? 1 : 0.96 }}
             transition={{
-              backgroundColor: { duration: 0.2, delay: i * 0.03, ease: "easeOut" },
-              opacity: { duration: 0.2, delay: i * 0.03, ease: "easeOut" },
+              backgroundColor: transfer ? { duration: 0.16, delay: TRANSFER_DEFORM_MS / 1000 + i * (DOT_STEP_MS / 1000), ease: "easeOut" } : { duration: 0.2, delay: i * 0.03, ease: "easeOut" },
+              opacity: transfer ? { duration: 0.16, delay: TRANSFER_DEFORM_MS / 1000 + i * (DOT_STEP_MS / 1000), ease: "easeOut" } : { duration: 0.2, delay: i * 0.03, ease: "easeOut" },
               scale: pulsing === i ? { duration: 1.1, repeat: Infinity, ease: "easeInOut" } : { duration: 0.18, ease: "easeOut" },
             }}
             style={{ width: 4, height: 4, borderRadius: "999px" }}
@@ -213,10 +209,11 @@ export function TransactionProgress({ title = "Deposit", steps, statuses, detail
         <motion.div layout transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }} style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 2 }}>
           {steps.map((_, i) => {
             const transferring = statuses[i] === "complete" && statuses[i + 1] === "loading";
+            const delayLoading = statuses[i - 1] === "complete" && statuses[i] === "loading";
             return (
               <React.Fragment key={i}>
-                <StepCircle index={i} status={statuses[i] ?? "idle"} tokens={tokens} transferring={transferring} />
-                {i < steps.length - 1 && <DotsConnector leftStatus={statuses[i] ?? "idle"} tokens={tokens} />}
+                <StepCircle index={i} status={statuses[i] ?? "idle"} tokens={tokens} transferring={transferring} delayLoading={delayLoading} />
+                {i < steps.length - 1 && <DotsConnector leftStatus={statuses[i] ?? "idle"} rightStatus={statuses[i + 1] ?? "idle"} tokens={tokens} />}
               </React.Fragment>
             );
           })}
