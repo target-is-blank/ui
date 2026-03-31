@@ -1,0 +1,12 @@
+{
+  "name": "two-factor-setup-demo",
+  "type": "registry:example",
+  "title": "Two Factor Setup Demo",
+  "registryDependencies": ["two-factor-setup"],
+  "files": [
+    {
+      "path": "registry/demo/components/two-factor-setup/index.tsx",
+      "type": "registry:example"
+    }
+  ]
+}

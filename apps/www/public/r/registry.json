@@ -324,6 +324,21 @@
       ]
     },
     {
+      "name": "two-factor-setup",
+      "type": "registry:component",
+      "title": "Two Factor Setup",
+      "description": "A dark-themed 2FA setup modal with animated QR scanner, backup code display, and OTP input.",
+      "dependencies": [
+        "motion/react"
+      ],
+      "files": [
+        {
+          "path": "registry/components/two-factor-setup/index.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "wheel-selector",
       "type": "registry:ui",
       "title": "Wheel Selector",
@@ -608,6 +623,20 @@
           "path": "registry/demo/components/step-bar/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/step-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "two-factor-setup-demo",
+      "type": "registry:example",
+      "title": "Two Factor Setup Demo",
+      "registryDependencies": [
+        "two-factor-setup"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/components/two-factor-setup/index.tsx",
+          "type": "registry:example"
         }
       ]
     },

@@ -1,0 +1,13 @@
+{
+  "name": "two-factor-setup",
+  "type": "registry:component",
+  "title": "Two Factor Setup",
+  "description": "A dark-themed 2FA setup modal with animated QR scanner, backup code display, and OTP input.",
+  "dependencies": ["motion/react"],
+  "files": [
+    {
+      "path": "registry/components/two-factor-setup/index.tsx",
+      "type": "registry:component"
+    }
+  ]
+}

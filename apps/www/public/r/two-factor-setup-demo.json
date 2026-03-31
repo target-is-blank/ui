@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "two-factor-setup-demo",
+  "title": "Two Factor Setup Demo",
+  "registryDependencies": [
+    "two-factor-setup"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/two-factor-setup/index.tsx",
+      "content": "\"use client\";\n\nimport { TwoFactorSetup } from \"@/components/targetblank/components/two-factor-setup\";\n\nexport default function TwoFactorSetupDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-8 w-full\">\n      <TwoFactorSetup\n        backupCode=\"ORBT-7X92-KLL9-001P\"\n        onVerify={(token) => console.log(\"Token:\", token)}\n        onCancel={() => console.log(\"Cancelled\")}\n        onClose={() => console.log(\"Closed\")}\n      />\n    </div>\n  );\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,68 @@
+---
+title: Two Factor Setup
+description: A dark-themed 2FA setup modal with animated QR scanner, backup code display, copy-to-clipboard, and 6-digit OTP input.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="two-factor-setup-demo" />
+
+## Installation
+
+<ComponentInstallation name="two-factor-setup" />
+
+## Usage
+
+```tsx
+import { TwoFactorSetup } from "@/components/targetblank/components/two-factor-setup";
+
+export default function Example() {
+  return (
+    <TwoFactorSetup
+      backupCode="ORBT-7X92-KLL9-001P"
+      onVerify={(token) => console.log("Token:", token)}
+      onCancel={() => console.log("Cancelled")}
+      onClose={() => console.log("Closed")}
+    />
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    backupCode: {
+      description: "The backup/recovery code shown in the monospace field.",
+      type: "string",
+      required: false,
+      default: '"ORBT-7X92-KLL9-001P"',
+    },
+    qrSrc: {
+      description: "URL or data URI for the QR code image. A placeholder SVG is used when omitted.",
+      type: "string",
+      required: false,
+    },
+    onVerify: {
+      description: "Callback fired when the user submits a complete 6-digit token.",
+      type: "(token: string) => void | Promise<void>",
+      required: false,
+    },
+    onCancel: {
+      description: "Callback fired when the user clicks Cancel.",
+      type: "() => void",
+      required: false,
+    },
+    onClose: {
+      description: "Callback fired when the user clicks the X close button.",
+      type: "() => void",
+      required: false,
+    },
+    className: {
+      description: "Additional CSS classes applied to the root element.",
+      type: "string",
+      required: false,
+    },
+  }}
+/>

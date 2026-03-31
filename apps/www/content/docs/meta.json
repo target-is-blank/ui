@@ -27,6 +27,7 @@
     "components/objective-bar",
     "components/signature",
     "components/step-bar",
+    "components/two-factor-setup",
     "components/wheel-selector",
     "---Hooks---",
     "hooks/debounce",
