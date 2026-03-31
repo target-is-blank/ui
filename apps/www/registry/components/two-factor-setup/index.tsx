@@ -57,8 +57,15 @@ function ScanLine() {
   );
 }
 
-// Placeholder QR (simple SVG grid pattern)
+// Stable seed-based pseudo-random (no Math.random() on render)
+function seededBool(x: number, y: number): boolean {
+  const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+  return n - Math.floor(n) > 0.5;
+}
+
 function PlaceholderQR() {
+  const xs = [40, 45, 50, 55, 60, 65, 70, 75, 80];
+  const ys = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full" fill="white">
       {/* Finder pattern TL */}
@@ -70,13 +77,11 @@ function PlaceholderQR() {
       {/* Finder pattern BL */}
       <rect x="10" y="65" width="25" height="25" fill="none" stroke="white" strokeWidth="3" />
       <rect x="15" y="70" width="15" height="15" />
-      {/* Data modules */}
-      {[40, 45, 50, 55, 60, 65, 70, 75, 80].map((x) =>
-        [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80].map((y) =>
-          Math.random() > 0.5 ? (
-            <rect key={`${x}-${y}`} x={x} y={y} width="4" height="4" />
-          ) : null,
-        ),
+      {/* Data modules — deterministic */}
+      {xs.flatMap((x) =>
+        ys.filter((y) => seededBool(x, y)).map((y) => (
+          <rect key={`${x}-${y}`} x={x} y={y} width="4" height="4" />
+        )),
       )}
     </svg>
   );
