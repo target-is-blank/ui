@@ -242,17 +242,16 @@ export function MultiStepModal({
         ))}
       </div>
 
-      {/* Status text — fixed height to prevent layout shifts */}
-      <div className="min-h-[72px] flex items-center justify-center">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`${currentStep}-${stepStatus}`}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="text-center flex flex-col gap-2"
-          >
+      {/* Status text */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${currentStep}-${stepStatus}`}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="w-full text-center flex flex-col gap-2"
+        >
           <p
             className={cn(
               "text-xl font-bold",
@@ -266,9 +265,8 @@ export function MultiStepModal({
               {statusDescription}
             </p>
           )}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+        </motion.div>
+      </AnimatePresence>
 
       {/* Details card */}
       {details && details.length > 0 && (
