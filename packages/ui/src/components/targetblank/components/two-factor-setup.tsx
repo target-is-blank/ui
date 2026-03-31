@@ -40,26 +40,44 @@ function ScanLine() {
   );
 }
 
-function seededBool(x: number, y: number): boolean {
-  const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+function seedBit(c: number, r: number): boolean {
+  const n = Math.sin(c * 92.3 + r * 157.6 + c * r * 0.37) * 43758.5453;
   return n - Math.floor(n) > 0.5;
 }
 
+function buildQRMatrix(): boolean[][] {
+  const S = 21;
+  const m: boolean[][] = Array.from({ length: S }, () => Array(S).fill(false));
+  const finder = (row: number, col: number) => {
+    for (let dr = 0; dr < 7; dr++)
+      for (let dc = 0; dc < 7; dc++) {
+        const ring = Math.max(Math.abs(dr - 3), Math.abs(dc - 3));
+        m[row + dr][col + dc] = ring !== 1;
+      }
+  };
+  finder(0, 0); finder(0, 14); finder(14, 0);
+  for (let i = 8; i <= 12; i++) { m[6][i] = i % 2 === 0; m[i][6] = i % 2 === 0; }
+  for (let r = 0; r < S; r++)
+    for (let c = 0; c < S; c++) {
+      if (r < 8 && c < 8) continue;
+      if (r < 8 && c >= 13) continue;
+      if (r >= 13 && c < 8) continue;
+      if (r === 6 || c === 6) continue;
+      m[r][c] = seedBit(c, r);
+    }
+  return m;
+}
+
+const QR_MATRIX = buildQRMatrix();
+
 function PlaceholderQR() {
-  const xs = [40, 45, 50, 55, 60, 65, 70, 75, 80];
-  const ys = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
   return (
-    <svg viewBox="0 0 100 100" className="w-full h-full" fill="white">
-      <rect x="10" y="10" width="25" height="25" fill="none" stroke="white" strokeWidth="3" />
-      <rect x="15" y="15" width="15" height="15" />
-      <rect x="65" y="10" width="25" height="25" fill="none" stroke="white" strokeWidth="3" />
-      <rect x="70" y="15" width="15" height="15" />
-      <rect x="10" y="65" width="25" height="25" fill="none" stroke="white" strokeWidth="3" />
-      <rect x="15" y="70" width="15" height="15" />
-      {xs.flatMap((x) =>
-        ys.filter((y) => seededBool(x, y)).map((y) => (
-          <rect key={`${x}-${y}`} x={x} y={y} width="4" height="4" />
-        ))
+    <svg viewBox="0 0 21 21" className="w-full h-full" shapeRendering="crispEdges">
+      <rect width="21" height="21" fill="#141414" />
+      {QR_MATRIX.flatMap((row, r) =>
+        row.map((on, c) =>
+          on ? <rect key={`${r}-${c}`} x={c} y={r} width="1" height="1" fill="white" /> : null,
+        ),
       )}
     </svg>
   );
