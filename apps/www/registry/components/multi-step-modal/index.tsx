@@ -250,7 +250,8 @@ export function MultiStepModal({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}
           transition={{ duration: 0.25, ease: "easeInOut" }}
-          className="w-full text-center flex flex-col gap-2"
+          className="text-center flex flex-col gap-2"
+          style={{ width: "356px" }}
         >
           <p
             className={cn(
