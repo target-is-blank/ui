@@ -69,16 +69,7 @@ function LoadingRing({ tokens }: { tokens: ThemeTokens }) {
     >
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
         <circle cx="28" cy="28" r="20.5" fill="none" stroke={tokens.ring} strokeWidth="1.9" />
-        <circle
-          cx="28"
-          cy="28"
-          r="20.5"
-          fill="none"
-          stroke={LOADING_STROKE}
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeDasharray="18 132"
-        />
+        <circle cx="28" cy="28" r="20.5" fill="none" stroke={LOADING_STROKE} strokeWidth="2.4" strokeLinecap="round" strokeDasharray="18 132" />
       </svg>
     </motion.div>
   );
@@ -92,7 +83,7 @@ function IdleRing({ tokens }: { tokens: ThemeTokens }) {
   );
 }
 
-function CompleteRing() {
+function CompleteRing({ transferring = false }: { transferring?: boolean }) {
   return (
     <motion.svg
       width="56"
@@ -100,10 +91,10 @@ function CompleteRing() {
       viewBox="0 0 56 56"
       fill="none"
       aria-hidden="true"
-      style={{ position: "absolute", inset: 0 }}
+      style={{ position: "absolute", inset: 0, overflow: "visible" }}
       initial={{ opacity: 0.7, scale: 0.96 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      animate={transferring ? { opacity: 1, scale: 1, x: [0, 1.4, 0], scaleX: [1, 1.14, 1], scaleY: [1, 0.93, 1] } : { opacity: 1, scale: 1 }}
+      transition={transferring ? { duration: 0.62, ease: [0.22, 1, 0.36, 1] } : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
     >
       <circle cx="28" cy="28" r="20.5" fill="none" stroke={ACCENT_GREEN} strokeWidth="1.95" />
     </motion.svg>
@@ -112,32 +103,13 @@ function CompleteRing() {
 
 function CheckmarkIcon() {
   return (
-    <motion.svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden="true"
-      initial={{ scale: 0.92, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.24, ease: "easeOut" }}
-    >
-      <motion.path
-        d="M4.25 10.5l4 4 7-7.5"
-        stroke={ACCENT_GREEN}
-        strokeWidth="2.05"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.34, ease: "easeOut" }}
-      />
+    <motion.svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.24, ease: "easeOut" }}>
+      <motion.path d="M4.25 10.5l4 4 7-7.5" stroke={ACCENT_GREEN} strokeWidth="2.05" strokeLinecap="round" strokeLinejoin="round" fill="none" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.34, ease: "easeOut" }} />
     </motion.svg>
   );
 }
 
-function StepCircle({ index, status, tokens }: { index: number; status: StepStatus; tokens: ThemeTokens }) {
+function StepCircle({ index, status, tokens, transferring }: { index: number; status: StepStatus; tokens: ThemeTokens; transferring?: boolean }) {
   const isComplete = status === "complete";
   const isLoading = status === "loading";
 
@@ -145,49 +117,37 @@ function StepCircle({ index, status, tokens }: { index: number; status: StepStat
     <motion.div
       layout
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      style={{
-        position: "relative",
-        width: 56,
-        height: 56,
-        flexShrink: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+      style={{ position: "relative", width: 56, height: 56, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}
     >
-      {isComplete ? <CompleteRing /> : isLoading ? <LoadingRing tokens={tokens} /> : <IdleRing tokens={tokens} />}
+      {isComplete ? <CompleteRing transferring={transferring} /> : isLoading ? <LoadingRing tokens={tokens} /> : <IdleRing tokens={tokens} />}
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={isComplete ? "complete" : `idle-${index}`}
           initial={{ opacity: 0, scale: 0.96, y: 1 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
+          animate={transferring && isComplete ? { opacity: 1, scale: 1, y: 0, x: [0, 0.8, 0] } : { opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: -1 }}
-          transition={{ duration: 0.22, ease: "easeOut" }}
+          transition={transferring && isComplete ? { duration: 0.62, ease: [0.22, 1, 0.36, 1] } : { duration: 0.22, ease: "easeOut" }}
           style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
         >
-          {isComplete ? (
-            <CheckmarkIcon />
-          ) : (
-            <span style={{ fontSize: 17, fontWeight: 500, color: tokens.stepText, lineHeight: 1 }}>
-              {index + 1}
-            </span>
-          )}
+          {isComplete ? <CheckmarkIcon /> : <span style={{ fontSize: 17, fontWeight: 500, color: tokens.stepText, lineHeight: 1 }}>{index + 1}</span>}
         </motion.div>
       </AnimatePresence>
     </motion.div>
   );
 }
 
-function DotsConnector({ leftStatus, tokens }: { leftStatus: StepStatus; tokens: ThemeTokens }) {
+function DotsConnector({ leftStatus, rightStatus, tokens }: { leftStatus: StepStatus; rightStatus: StepStatus; tokens: ThemeTokens }) {
   const dots = [0, 1, 2, 3, 4];
+  const transfer = leftStatus === "complete" && rightStatus === "loading";
   const activeCount = leftStatus === "complete" ? 3 : 0;
   const pulsing = leftStatus === "loading" ? 0 : -1;
 
   return (
-    <div aria-hidden="true" style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 10, marginRight: 10, flexShrink: 0 }}>
+    <div aria-hidden="true" style={{ position: "relative", display: "flex", alignItems: "center", gap: 6, marginLeft: 10, marginRight: 10, flexShrink: 0 }}>
       {dots.map((i) => {
         const active = i < activeCount;
+        const transferringDot = transfer && i < 3;
         return (
           <motion.div
             key={i}
@@ -195,17 +155,43 @@ function DotsConnector({ leftStatus, tokens }: { leftStatus: StepStatus; tokens:
             animate={{
               backgroundColor: active ? ACCENT_GREEN : tokens.connector,
               opacity: active ? 1 : 0.88,
-              scale: pulsing === i ? [0.96, 1.12, 0.96] : active ? 1 : 0.96,
+              scale: transferringDot ? [1, 1.18, 1] : pulsing === i ? [0.96, 1.12, 0.96] : active ? 1 : 0.96,
+              x: transferringDot ? [0, 1.5, 0] : 0,
             }}
             transition={{
               backgroundColor: { duration: 0.2, delay: i * 0.03, ease: "easeOut" },
               opacity: { duration: 0.2, delay: i * 0.03, ease: "easeOut" },
-              scale: pulsing === i ? { duration: 1.1, repeat: Infinity, ease: "easeInOut" } : { duration: 0.18, ease: "easeOut" },
+              scale: transferringDot
+                ? { duration: 0.5, delay: i * 0.045, ease: [0.22, 1, 0.36, 1] }
+                : pulsing === i
+                  ? { duration: 1.1, repeat: Infinity, ease: "easeInOut" }
+                  : { duration: 0.18, ease: "easeOut" },
+              x: transferringDot ? { duration: 0.5, delay: i * 0.045, ease: [0.22, 1, 0.36, 1] } : { duration: 0.18 },
             }}
             style={{ width: 4, height: 4, borderRadius: "999px" }}
           />
         );
       })}
+      {transfer && (
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0.35, x: -2 }}
+          animate={{ opacity: [0, 0.9, 0], scaleX: [0.35, 1, 1.08], x: [0, 6, 16] }}
+          transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            position: "absolute",
+            left: -2,
+            top: "50%",
+            width: 26,
+            height: 8,
+            borderRadius: 999,
+            background: `linear-gradient(90deg, ${ACCENT_GREEN} 0%, rgba(69,182,73,0.6) 68%, rgba(69,182,73,0) 100%)`,
+            transform: "translateY(-50%)",
+            transformOrigin: "left center",
+            filter: "blur(0.2px)",
+            pointerEvents: "none",
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -214,35 +200,16 @@ function ProcessingValue({ children, muted }: { children: React.ReactNode; muted
   return (
     <span style={{ position: "relative", display: "inline-flex", alignItems: "center", gap: 6 }}>
       <span>{children}</span>
-      <motion.span
-        aria-hidden="true"
-        animate={{ opacity: [0.35, 1, 0.35] }}
-        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-        style={{ display: "inline-flex", gap: 3, alignItems: "center" }}
-      >
+      <motion.span aria-hidden="true" animate={{ opacity: [0.35, 1, 0.35] }} transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }} style={{ display: "inline-flex", gap: 3, alignItems: "center" }}>
         {[0, 1, 2].map((dot) => (
-          <motion.span
-            key={dot}
-            animate={{ y: [0, -1.5, 0], opacity: [0.35, 1, 0.35] }}
-            transition={{ duration: 1, repeat: Infinity, ease: "easeInOut", delay: dot * 0.12 }}
-            style={{ width: 3, height: 3, borderRadius: 999, background: muted, display: "block" }}
-          />
+          <motion.span key={dot} animate={{ y: [0, -1.5, 0], opacity: [0.35, 1, 0.35] }} transition={{ duration: 1, repeat: Infinity, ease: "easeInOut", delay: dot * 0.12 }} style={{ width: 3, height: 3, borderRadius: 999, background: muted, display: "block" }} />
         ))}
       </motion.span>
     </span>
   );
 }
 
-export function TransactionProgress({
-  title = "Deposit",
-  steps,
-  statuses,
-  details,
-  onBack,
-  onClose,
-  className,
-  theme = "light",
-}: TransactionProgressProps) {
+export function TransactionProgress({ title = "Deposit", steps, statuses, details, onBack, onClose, className, theme = "light" }: TransactionProgressProps) {
   const activeIndex = statuses.findIndex((s) => s !== "complete");
   const displayIndex = activeIndex === -1 ? statuses.length - 1 : activeIndex;
   const currentStep = steps[displayIndex];
@@ -250,42 +217,30 @@ export function TransactionProgress({
   const tokens = THEMES[theme];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8, scale: 0.985 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("overflow-hidden", className)}
-      style={{ width: 416, minWidth: 416, maxWidth: 416, borderRadius: 26, background: tokens.surface, boxShadow: tokens.shadow, transition: "background-color 0.3s ease, box-shadow 0.3s ease" }}
-    >
+    <motion.div initial={{ opacity: 0, y: 8, scale: 0.985 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }} className={cn("overflow-hidden", className)} style={{ width: 416, minWidth: 416, maxWidth: 416, borderRadius: 26, background: tokens.surface, boxShadow: tokens.shadow, transition: "background-color 0.3s ease, box-shadow 0.3s ease" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 22px 12px" }}>
-        <motion.button whileHover={{ opacity: 0.88 }} whileTap={{ scale: 0.96 }} transition={{ duration: 0.16, ease: "easeOut" }} type="button" onClick={onBack} style={{ width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "none", cursor: "pointer", color: tokens.icon, padding: 0 }} aria-label="Go back">
-          <svg width="9" height="15" viewBox="0 0 9 15" fill="none" aria-hidden="true"><path d="M8 1L2 7.5L8 14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </motion.button>
+        <motion.button whileHover={{ opacity: 0.88 }} whileTap={{ scale: 0.96 }} transition={{ duration: 0.16, ease: "easeOut" }} type="button" onClick={onBack} style={{ width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "none", cursor: "pointer", color: tokens.icon, padding: 0 }} aria-label="Go back"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" aria-hidden="true"><path d="M8 1L2 7.5L8 14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg></motion.button>
         <span style={{ fontSize: 15, fontWeight: 600, color: tokens.bodyText, letterSpacing: "-0.02em" }}>{title}</span>
-        <motion.button whileHover={{ opacity: 0.88 }} whileTap={{ scale: 0.96 }} transition={{ duration: 0.16, ease: "easeOut" }} type="button" onClick={onClose} style={{ width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "none", cursor: "pointer", color: tokens.icon, padding: 0 }} aria-label="Close">
-          <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 1l11 11M12 1L1 12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" /></svg>
-        </motion.button>
+        <motion.button whileHover={{ opacity: 0.88 }} whileTap={{ scale: 0.96 }} transition={{ duration: 0.16, ease: "easeOut" }} type="button" onClick={onClose} style={{ width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "none", cursor: "pointer", color: tokens.icon, padding: 0 }} aria-label="Close"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 1l11 11M12 1L1 12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" /></svg></motion.button>
       </div>
 
       <div style={{ padding: "28px 26px 26px", display: "flex", flexDirection: "column", gap: 26 }}>
         <motion.div layout transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }} style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 2 }}>
-          {steps.map((_, i) => (
-            <React.Fragment key={i}>
-              <StepCircle index={i} status={statuses[i] ?? "idle"} tokens={tokens} />
-              {i < steps.length - 1 && <DotsConnector leftStatus={statuses[i] ?? "idle"} tokens={tokens} />}
-            </React.Fragment>
-          ))}
+          {steps.map((_, i) => {
+            const transferring = statuses[i] === "complete" && statuses[i + 1] === "loading";
+            return (
+              <React.Fragment key={i}>
+                <StepCircle index={i} status={statuses[i] ?? "idle"} tokens={tokens} transferring={transferring} />
+                {i < steps.length - 1 && <DotsConnector leftStatus={statuses[i] ?? "idle"} rightStatus={statuses[i + 1] ?? "idle"} tokens={tokens} />}
+              </React.Fragment>
+            );
+          })}
         </motion.div>
 
         <div style={{ textAlign: "center", width: "100%", minHeight: 72, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 12px" }}>
           <AnimatePresence mode="wait">
             <motion.div key={`${displayIndex}-${currentStatus}`} initial={{ opacity: 0, y: 8, filter: "blur(3px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} exit={{ opacity: 0, y: -6, filter: "blur(2px)" }} transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-              {currentStep && (
-                <>
-                  <p style={{ fontSize: 17, fontWeight: 600, color: tokens.bodyText, margin: 0, lineHeight: 1.2, letterSpacing: "-0.03em" }}>{currentStep.label}</p>
-                  <p style={{ fontSize: 14, color: tokens.mutedText, margin: 0, lineHeight: 1.45, maxWidth: 248 }}>{currentStep.description}</p>
-                </>
-              )}
+              {currentStep && <><p style={{ fontSize: 17, fontWeight: 600, color: tokens.bodyText, margin: 0, lineHeight: 1.2, letterSpacing: "-0.03em" }}>{currentStep.label}</p><p style={{ fontSize: 14, color: tokens.mutedText, margin: 0, lineHeight: 1.45, maxWidth: 248 }}>{currentStep.description}</p></>}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -295,17 +250,7 @@ export function TransactionProgress({
             {details.map((detail, i) => {
               const isFillStatus = typeof detail.label === "string" && detail.label.toLowerCase() === "fill status";
               const isProcessing = isFillStatus && typeof detail.value === "string" && detail.value.toLowerCase() === "processing";
-              return (
-                <motion.div key={i} layout transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
-                  {i > 0 && <div style={{ height: 1, background: tokens.hairline, margin: "0 18px" }} />}
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", gap: 16 }}>
-                    <span style={{ fontSize: 14, color: tokens.mutedText, lineHeight: 1.2 }}>{detail.label}</span>
-                    <span style={{ fontSize: 14, fontWeight: 500, color: isFillStatus ? tokens.mutedText : tokens.bodyText, display: "flex", alignItems: "center", gap: 5, lineHeight: 1.2 }}>
-                      {isProcessing ? <ProcessingValue muted={tokens.mutedText}>{detail.value}</ProcessingValue> : detail.value}
-                    </span>
-                  </div>
-                </motion.div>
-              );
+              return <motion.div key={i} layout transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>{i > 0 && <div style={{ height: 1, background: tokens.hairline, margin: "0 18px" }} />}<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", gap: 16 }}><span style={{ fontSize: 14, color: tokens.mutedText, lineHeight: 1.2 }}>{detail.label}</span><span style={{ fontSize: 14, fontWeight: 500, color: isFillStatus ? tokens.mutedText : tokens.bodyText, display: "flex", alignItems: "center", gap: 5, lineHeight: 1.2 }}>{isProcessing ? <ProcessingValue muted={tokens.mutedText}>{detail.value}</ProcessingValue> : detail.value}</span></div></motion.div>;
             })}
           </motion.div>
         )}
