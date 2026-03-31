@@ -163,7 +163,6 @@ export function TwoFactorSetup({
           <CornerBrackets />
           <div className="absolute inset-3 overflow-hidden rounded">
             {qrSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
               <img src={qrSrc} alt="QR Code" className="w-full h-full object-contain" />
             ) : (
               <PlaceholderQR />
