@@ -93,8 +93,21 @@ function CompleteRing({ transferring = false }: { transferring?: boolean }) {
       aria-hidden="true"
       style={{ position: "absolute", inset: 0, overflow: "visible" }}
       initial={{ opacity: 0.7, scale: 0.96 }}
-      animate={transferring ? { opacity: 1, scale: 1, x: [0, 1.4, 0], scaleX: [1, 1.14, 1], scaleY: [1, 0.93, 1] } : { opacity: 1, scale: 1 }}
-      transition={transferring ? { duration: 0.62, ease: [0.22, 1, 0.36, 1] } : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      animate={
+        transferring
+          ? {
+              opacity: 1,
+              scale: 1,
+              scaleX: [1, 1.1, 1.03, 1],
+              scaleY: [1, 0.92, 0.97, 1],
+            }
+          : { opacity: 1, scale: 1 }
+      }
+      transition={
+        transferring
+          ? { duration: 0.5, ease: [0.22, 1, 0.36, 1], times: [0, 0.38, 0.7, 1] }
+          : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+      }
     >
       <circle cx="28" cy="28" r="20.5" fill="none" stroke={ACCENT_GREEN} strokeWidth="1.95" />
     </motion.svg>
@@ -125,9 +138,9 @@ function StepCircle({ index, status, tokens, transferring }: { index: number; st
         <motion.div
           key={isComplete ? "complete" : `idle-${index}`}
           initial={{ opacity: 0, scale: 0.96, y: 1 }}
-          animate={transferring && isComplete ? { opacity: 1, scale: 1, y: 0, x: [0, 0.8, 0] } : { opacity: 1, scale: 1, y: 0 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: -1 }}
-          transition={transferring && isComplete ? { duration: 0.62, ease: [0.22, 1, 0.36, 1] } : { duration: 0.22, ease: "easeOut" }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
           style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
         >
           {isComplete ? <CheckmarkIcon /> : <span style={{ fontSize: 17, fontWeight: 500, color: tokens.stepText, lineHeight: 1 }}>{index + 1}</span>}
@@ -137,17 +150,15 @@ function StepCircle({ index, status, tokens, transferring }: { index: number; st
   );
 }
 
-function DotsConnector({ leftStatus, rightStatus, tokens }: { leftStatus: StepStatus; rightStatus: StepStatus; tokens: ThemeTokens }) {
+function DotsConnector({ leftStatus, tokens }: { leftStatus: StepStatus; tokens: ThemeTokens }) {
   const dots = [0, 1, 2, 3, 4];
-  const transfer = leftStatus === "complete" && rightStatus === "loading";
   const activeCount = leftStatus === "complete" ? 3 : 0;
   const pulsing = leftStatus === "loading" ? 0 : -1;
 
   return (
-    <div aria-hidden="true" style={{ position: "relative", display: "flex", alignItems: "center", gap: 6, marginLeft: 10, marginRight: 10, flexShrink: 0 }}>
+    <div aria-hidden="true" style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 10, marginRight: 10, flexShrink: 0 }}>
       {dots.map((i) => {
         const active = i < activeCount;
-        const transferringDot = transfer && i < 3;
         return (
           <motion.div
             key={i}
@@ -155,43 +166,17 @@ function DotsConnector({ leftStatus, rightStatus, tokens }: { leftStatus: StepSt
             animate={{
               backgroundColor: active ? ACCENT_GREEN : tokens.connector,
               opacity: active ? 1 : 0.88,
-              scale: transferringDot ? [1, 1.18, 1] : pulsing === i ? [0.96, 1.12, 0.96] : active ? 1 : 0.96,
-              x: transferringDot ? [0, 1.5, 0] : 0,
+              scale: pulsing === i ? [0.96, 1.12, 0.96] : active ? 1 : 0.96,
             }}
             transition={{
               backgroundColor: { duration: 0.2, delay: i * 0.03, ease: "easeOut" },
               opacity: { duration: 0.2, delay: i * 0.03, ease: "easeOut" },
-              scale: transferringDot
-                ? { duration: 0.5, delay: i * 0.045, ease: [0.22, 1, 0.36, 1] }
-                : pulsing === i
-                  ? { duration: 1.1, repeat: Infinity, ease: "easeInOut" }
-                  : { duration: 0.18, ease: "easeOut" },
-              x: transferringDot ? { duration: 0.5, delay: i * 0.045, ease: [0.22, 1, 0.36, 1] } : { duration: 0.18 },
+              scale: pulsing === i ? { duration: 1.1, repeat: Infinity, ease: "easeInOut" } : { duration: 0.18, ease: "easeOut" },
             }}
             style={{ width: 4, height: 4, borderRadius: "999px" }}
           />
         );
       })}
-      {transfer && (
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0.35, x: -2 }}
-          animate={{ opacity: [0, 0.9, 0], scaleX: [0.35, 1, 1.08], x: [0, 6, 16] }}
-          transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            position: "absolute",
-            left: -2,
-            top: "50%",
-            width: 26,
-            height: 8,
-            borderRadius: 999,
-            background: `linear-gradient(90deg, ${ACCENT_GREEN} 0%, rgba(69,182,73,0.6) 68%, rgba(69,182,73,0) 100%)`,
-            transform: "translateY(-50%)",
-            transformOrigin: "left center",
-            filter: "blur(0.2px)",
-            pointerEvents: "none",
-          }}
-        />
-      )}
     </div>
   );
 }
@@ -231,7 +216,7 @@ export function TransactionProgress({ title = "Deposit", steps, statuses, detail
             return (
               <React.Fragment key={i}>
                 <StepCircle index={i} status={statuses[i] ?? "idle"} tokens={tokens} transferring={transferring} />
-                {i < steps.length - 1 && <DotsConnector leftStatus={statuses[i] ?? "idle"} rightStatus={statuses[i + 1] ?? "idle"} tokens={tokens} />}
+                {i < steps.length - 1 && <DotsConnector leftStatus={statuses[i] ?? "idle"} tokens={tokens} />}
               </React.Fragment>
             );
           })}
