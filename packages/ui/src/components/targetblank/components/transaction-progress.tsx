@@ -67,13 +67,13 @@ type ThemeTokens = (typeof THEMES)[TransactionProgressTheme];
 function LoadingRing({ tokens, delayed = false }: { tokens: ThemeTokens; delayed?: boolean }) {
   return (
     <motion.div
-      initial={delayed ? { opacity: 0 } : false}
+      initial={delayed ? { opacity: 0, rotate: 0 } : { opacity: 1, rotate: 0 }}
       animate={{ opacity: 1, rotate: 360 }}
       transition={{
         opacity: { duration: 0.12, delay: delayed ? NEXT_STEP_DELAY_S : 0 },
-        rotate: { duration: 1.35, repeat: Infinity, ease: "linear", delay: delayed ? NEXT_STEP_DELAY_S : 0 },
+        rotate: { duration: 1.1, repeat: Infinity, ease: "linear", delay: delayed ? NEXT_STEP_DELAY_S : 0 },
       }}
-      style={{ position: "absolute", inset: 0 }}
+      style={{ position: "absolute", inset: 0, transformOrigin: "50% 50%" }}
     >
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
         <circle cx="28" cy="28" r="19.75" fill="none" stroke={tokens.ring} strokeWidth="1.9" />
@@ -135,11 +135,11 @@ function StepCircle({ index, status, tokens, transferring, delayLoading }: { ind
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={isComplete ? "complete" : `idle-${index}`}
+          key={`${status}-${index}`}
           initial={{ opacity: 0, scale: 0.96, y: 1 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.96, y: -1 }}
-          transition={{ duration: 0.22, ease: "easeOut", delay: isLoading && delayLoading ? NEXT_STEP_DELAY_S : 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: -1 }}
+          transition={{ duration: isComplete ? 0.14 : 0.18, ease: "easeOut", delay: isLoading && delayLoading ? NEXT_STEP_DELAY_S : 0 }}
           style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
         >
           {isComplete ? <CheckmarkIcon /> : <span style={{ fontSize: 17, fontWeight: 500, color: tokens.stepText, lineHeight: 1 }}>{index + 1}</span>}
