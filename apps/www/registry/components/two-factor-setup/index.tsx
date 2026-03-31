@@ -279,6 +279,13 @@ export function TwoFactorSetup({
 
         {/* Actions */}
         <div className="flex items-center gap-4">
+          <button
+            onClick={onCancel}
+            className="text-gray-400 hover:text-white text-sm transition-colors"
+          >
+            Cancel
+          </button>
+
           <motion.button
             onClick={handleContinue}
             disabled={!isComplete || loading}
@@ -296,13 +303,6 @@ export function TwoFactorSetup({
           >
             {loading ? "Verifying…" : "Continue"}
           </motion.button>
-
-          <button
-            onClick={onCancel}
-            className="text-gray-400 hover:text-white text-sm transition-colors"
-          >
-            Cancel
-          </button>
         </div>
       </div>
     </div>
