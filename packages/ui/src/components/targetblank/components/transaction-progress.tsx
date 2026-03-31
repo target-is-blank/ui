@@ -41,6 +41,7 @@ const THEMES = {
     cardBg: "#FBFBFC",
     icon: "#8B9099",
     shadow: "0 14px 32px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.03)",
+    processingGlow: "rgba(69, 182, 73, 0.08)",
   },
   dark: {
     surface: "#171A1F",
@@ -52,6 +53,7 @@ const THEMES = {
     cardBg: "#1D2128",
     icon: "#98A0AA",
     shadow: "0 18px 48px rgba(0, 0, 0, 0.34), 0 2px 10px rgba(0, 0, 0, 0.22)",
+    processingGlow: "rgba(69, 182, 73, 0.16)",
   },
 } as const;
 
@@ -61,19 +63,20 @@ function SpinnerCircle() {
   return (
     <motion.div
       animate={{ rotate: 360 }}
-      transition={{ duration: 1.35, repeat: Infinity, ease: "linear" }}
+      transition={{ duration: 1.55, repeat: Infinity, ease: "linear" }}
       style={{ width: 56, height: 56, position: "absolute" }}
     >
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
-        <circle
+        <motion.circle
           cx="28"
           cy="28"
           r="24"
           fill="none"
           stroke={ACCENT_GREEN}
-          strokeWidth="2.25"
-          strokeDasharray="26 124"
+          strokeWidth="2.1"
           strokeLinecap="round"
+          animate={{ strokeDasharray: ["22 128", "30 120", "22 128"] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         />
       </svg>
     </motion.div>
@@ -82,7 +85,16 @@ function SpinnerCircle() {
 
 function CheckmarkIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+    <motion.svg
+      width="22"
+      height="22"
+      viewBox="0 0 22 22"
+      fill="none"
+      aria-hidden="true"
+      initial={{ scale: 0.92, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.24, ease: "easeOut" }}
+    >
       <motion.path
         d="M4.5 11.5l5 5 8-9"
         stroke={ACCENT_GREEN}
@@ -92,9 +104,9 @@ function CheckmarkIcon() {
         fill="none"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 0.42, ease: "easeOut" }}
+        transition={{ duration: 0.36, ease: "easeOut" }}
       />
-    </svg>
+    </motion.svg>
   );
 }
 
@@ -111,7 +123,9 @@ function StepCircle({
   const isLoading = status === "loading";
 
   return (
-    <div
+    <motion.div
+      layout
+      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
       style={{
         position: "relative",
         width: 56,
@@ -122,38 +136,74 @@ function StepCircle({
         justifyContent: "center",
       }}
     >
-      <div
+      <motion.div
+        initial={false}
+        animate={{
+          borderColor: isComplete ? ACCENT_GREEN : tokens.border,
+          borderWidth: isComplete ? 2.5 : 2,
+          scale: isLoading ? 1.015 : 1,
+        }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         style={{
           position: "absolute",
           inset: 2,
           borderRadius: "50%",
-          border: `${isComplete ? 2.5 : 2}px solid ${isComplete ? ACCENT_GREEN : tokens.border}`,
+          borderStyle: "solid",
           background: tokens.stepSurface,
-          transition: "border-color 0.3s ease, border-width 0.3s ease, background-color 0.3s ease",
         }}
       />
+      {isLoading && (
+        <motion.div
+          aria-hidden="true"
+          animate={{ opacity: [0.18, 0.34, 0.18], scale: [0.96, 1.02, 0.96] }}
+          transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "999px",
+            background: tokens.processingGlow,
+          }}
+        />
+      )}
       {isLoading && <SpinnerCircle />}
-      <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {isComplete ? (
-          <CheckmarkIcon />
-        ) : (
-          <span
-            style={{
-              fontSize: 17,
-              fontWeight: 500,
-              color: tokens.mutedText,
-              lineHeight: 1,
-            }}
-          >
-            {index + 1}
-          </span>
-        )}
-      </div>
-    </div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={isComplete ? "complete" : isLoading ? "loading" : `idle-${index}`}
+          initial={{ opacity: 0, scale: 0.94, y: 1 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: -1 }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
+          style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          {isComplete ? (
+            <CheckmarkIcon />
+          ) : (
+            <span
+              style={{
+                fontSize: 17,
+                fontWeight: 500,
+                color: tokens.mutedText,
+                lineHeight: 1,
+              }}
+            >
+              {index + 1}
+            </span>
+          )}
+        </motion.div>
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
-function DotsConnector({ leftComplete, tokens }: { leftComplete: boolean; tokens: ThemeTokens }) {
+function DotsConnector({
+  leftStatus,
+  rightStatus,
+  tokens,
+}: {
+  leftStatus: StepStatus;
+  rightStatus: StepStatus;
+  tokens: ThemeTokens;
+}) {
   const dots = [0, 1, 2, 3, 4];
 
   return (
@@ -169,13 +219,27 @@ function DotsConnector({ leftComplete, tokens }: { leftComplete: boolean; tokens
       }}
     >
       {dots.map((i) => {
-        const active = leftComplete && i < 3;
+        const activeCount = leftStatus === "complete" ? 3 : leftStatus === "loading" ? 1 : 0;
+        const active = i < activeCount;
+        const pulsing = leftStatus === "loading" && i === 0;
+        const settling = leftStatus === "complete" && rightStatus === "loading" && i === 2;
+
         return (
           <motion.div
             key={i}
             initial={false}
-            animate={{ backgroundColor: active ? ACCENT_GREEN : tokens.border, scale: active ? 1 : 0.96 }}
-            transition={{ duration: 0.24, delay: i * 0.045, ease: "easeOut" }}
+            animate={{
+              backgroundColor: active ? ACCENT_GREEN : tokens.border,
+              opacity: active ? 1 : 0.9,
+              scale: pulsing ? [0.96, 1.18, 0.96] : settling ? [1, 1.08, 1] : active ? 1 : 0.96,
+            }}
+            transition={{
+              backgroundColor: { duration: 0.24, delay: i * 0.04, ease: "easeOut" },
+              opacity: { duration: 0.24, delay: i * 0.04, ease: "easeOut" },
+              scale: pulsing || settling
+                ? { duration: pulsing ? 1.25 : 0.55, repeat: pulsing ? Infinity : 0, ease: "easeInOut", delay: i * 0.02 }
+                : { duration: 0.22, ease: "easeOut" },
+            }}
             style={{
               width: 4,
               height: 4,
@@ -185,6 +249,29 @@ function DotsConnector({ leftComplete, tokens }: { leftComplete: boolean; tokens
         );
       })}
     </div>
+  );
+}
+
+function ProcessingValue({ children, muted }: { children: React.ReactNode; muted: string }) {
+  return (
+    <span style={{ position: "relative", display: "inline-flex", alignItems: "center", gap: 6 }}>
+      <span>{children}</span>
+      <motion.span
+        aria-hidden="true"
+        animate={{ opacity: [0.35, 1, 0.35] }}
+        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+        style={{ display: "inline-flex", gap: 3, alignItems: "center" }}
+      >
+        {[0, 1, 2].map((dot) => (
+          <motion.span
+            key={dot}
+            animate={{ y: [0, -1.5, 0], opacity: [0.35, 1, 0.35] }}
+            transition={{ duration: 1, repeat: Infinity, ease: "easeInOut", delay: dot * 0.12 }}
+            style={{ width: 3, height: 3, borderRadius: 999, background: muted, display: "block" }}
+          />
+        ))}
+      </motion.span>
+    </span>
   );
 }
 
@@ -206,7 +293,10 @@ export function TransactionProgress({
   const tokens = THEMES[theme];
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 8, scale: 0.985 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
       className={cn("overflow-hidden", className)}
       style={{
         width: 416,
@@ -226,7 +316,10 @@ export function TransactionProgress({
           padding: "18px 22px 12px",
         }}
       >
-        <button
+        <motion.button
+          whileHover={{ opacity: 0.88 }}
+          whileTap={{ scale: 0.96 }}
+          transition={{ duration: 0.16, ease: "easeOut" }}
           type="button"
           onClick={onBack}
           style={{
@@ -247,9 +340,12 @@ export function TransactionProgress({
           <svg width="9" height="15" viewBox="0 0 9 15" fill="none" aria-hidden="true">
             <path d="M8 1L2 7.5L8 14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-        </button>
+        </motion.button>
         <span style={{ fontSize: 15, fontWeight: 600, color: tokens.bodyText, letterSpacing: "-0.02em" }}>{title}</span>
-        <button
+        <motion.button
+          whileHover={{ opacity: 0.88 }}
+          whileTap={{ scale: 0.96 }}
+          transition={{ duration: 0.16, ease: "easeOut" }}
           type="button"
           onClick={onClose}
           style={{
@@ -270,18 +366,28 @@ export function TransactionProgress({
           <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true">
             <path d="M1 1l11 11M12 1L1 12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
           </svg>
-        </button>
+        </motion.button>
       </div>
 
       <div style={{ padding: "28px 26px 26px", display: "flex", flexDirection: "column", gap: 26 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 2 }}>
+        <motion.div
+          layout
+          transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 2 }}
+        >
           {steps.map((_, i) => (
             <React.Fragment key={i}>
               <StepCircle index={i} status={statuses[i] ?? "idle"} tokens={tokens} />
-              {i < steps.length - 1 && <DotsConnector leftComplete={statuses[i] === "complete"} tokens={tokens} />}
+              {i < steps.length - 1 && (
+                <DotsConnector
+                  leftStatus={statuses[i] ?? "idle"}
+                  rightStatus={statuses[i + 1] ?? "idle"}
+                  tokens={tokens}
+                />
+              )}
             </React.Fragment>
           ))}
-        </div>
+        </motion.div>
 
         <div
           style={{
@@ -298,10 +404,10 @@ export function TransactionProgress({
           <AnimatePresence mode="wait">
             <motion.div
               key={`${displayIndex}-${currentStatus}`}
-              initial={{ opacity: 0, y: 7 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -7 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -6, filter: "blur(2px)" }}
+              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
               style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}
             >
               {currentStep && (
@@ -336,7 +442,9 @@ export function TransactionProgress({
         </div>
 
         {details && details.length > 0 && (
-          <div
+          <motion.div
+            layout
+            transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
             style={{
               background: tokens.cardBg,
               borderRadius: 16,
@@ -344,39 +452,44 @@ export function TransactionProgress({
               border: `1px solid ${tokens.hairline}`,
             }}
           >
-            {details.map((detail, i) => (
-              <div key={i}>
-                {i > 0 && <div style={{ height: 1, background: tokens.hairline, margin: "0 18px" }} />}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "14px 18px",
-                    gap: 16,
-                  }}
-                >
-                  <span style={{ fontSize: 14, color: tokens.mutedText, lineHeight: 1.2 }}>{detail.label}</span>
-                  <span
+            {details.map((detail, i) => {
+              const isFillStatus = typeof detail.label === "string" && detail.label.toLowerCase() === "fill status";
+              const isProcessing = isFillStatus && typeof detail.value === "string" && detail.value.toLowerCase() === "processing";
+
+              return (
+                <motion.div key={i} layout transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                  {i > 0 && <div style={{ height: 1, background: tokens.hairline, margin: "0 18px" }} />}
+                  <div
                     style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      color: detail.label === "Fill status" ? tokens.mutedText : tokens.bodyText,
                       display: "flex",
                       alignItems: "center",
-                      gap: 5,
-                      lineHeight: 1.2,
+                      justifyContent: "space-between",
+                      padding: "14px 18px",
+                      gap: 16,
                     }}
                   >
-                    {detail.value}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+                    <span style={{ fontSize: 14, color: tokens.mutedText, lineHeight: 1.2 }}>{detail.label}</span>
+                    <span
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        color: isFillStatus ? tokens.mutedText : tokens.bodyText,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 5,
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {isProcessing ? <ProcessingValue muted={tokens.mutedText}>{detail.value}</ProcessingValue> : detail.value}
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
