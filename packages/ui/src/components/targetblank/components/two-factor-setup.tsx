@@ -70,14 +70,31 @@ function buildQRMatrix(): boolean[][] {
 
 const QR_MATRIX = buildQRMatrix();
 
+const M = 0.72;
+const P = 1.5;
+
 function PlaceholderQR() {
+  const size = 21 + P * 2;
   return (
-    <svg viewBox="0 0 21 21" className="w-full h-full" shapeRendering="crispEdges">
-      <rect width="21" height="21" fill="#141414" />
+    <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full">
+      <rect width={size} height={size} rx="1" fill="#0f0f0f" />
       {QR_MATRIX.flatMap((row, r) =>
-        row.map((on, c) =>
-          on ? <rect key={`${r}-${c}`} x={c} y={r} width="1" height="1" fill="white" /> : null,
-        ),
+        row.map((on, c) => {
+          if (!on) return null;
+          const isFinder = (r < 7 && c < 7) || (r < 7 && c >= 14) || (r >= 14 && c < 7);
+          const rx = isFinder ? 0.18 : 0.22;
+          return (
+            <rect
+              key={`${r}-${c}`}
+              x={P + c + (1 - M) / 2}
+              y={P + r + (1 - M) / 2}
+              width={M}
+              height={M}
+              rx={rx}
+              fill="white"
+            />
+          );
+        }),
       )}
     </svg>
   );
