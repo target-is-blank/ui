@@ -68,11 +68,11 @@ function LoadingRing({ tokens }: { tokens: ThemeTokens }) {
       style={{ position: "absolute", inset: 0 }}
     >
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
-        <circle cx="28" cy="28" r="21.5" fill="none" stroke={tokens.ring} strokeWidth="1.9" />
+        <circle cx="28" cy="28" r="20.5" fill="none" stroke={tokens.ring} strokeWidth="1.9" />
         <circle
           cx="28"
           cy="28"
-          r="21.5"
+          r="20.5"
           fill="none"
           stroke={LOADING_STROKE}
           strokeWidth="2.4"
@@ -87,7 +87,7 @@ function LoadingRing({ tokens }: { tokens: ThemeTokens }) {
 function IdleRing({ tokens }: { tokens: ThemeTokens }) {
   return (
     <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true" style={{ position: "absolute", inset: 0 }}>
-      <circle cx="28" cy="28" r="21.5" fill="none" stroke={tokens.ring} strokeWidth="1.9" />
+      <circle cx="28" cy="28" r="20.5" fill="none" stroke={tokens.ring} strokeWidth="1.9" />
     </svg>
   );
 }
@@ -105,7 +105,7 @@ function CompleteRing() {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
     >
-      <circle cx="28" cy="28" r="21.5" fill="none" stroke={ACCENT_GREEN} strokeWidth="1.95" />
+      <circle cx="28" cy="28" r="20.5" fill="none" stroke={ACCENT_GREEN} strokeWidth="1.95" />
     </motion.svg>
   );
 }
