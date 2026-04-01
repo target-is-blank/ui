@@ -26,6 +26,7 @@
     "components/multi-step-modal",
     "components/number-mosaic",
     "components/objective-bar",
+    "components/sidebar",
     "components/signature",
     "components/step-bar",
     "components/transaction-progress",
