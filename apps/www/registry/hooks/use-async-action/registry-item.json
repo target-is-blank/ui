@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-async-action-hook",
+  "type": "registry:ui",
+  "title": "Use Async Action Hook",
+  "description": "Hook for tracking the status of an async function call with loading, success, and error states.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-async-action/index.ts",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-async-action/index.ts"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-previous-distinct-hook",
+  "type": "registry:ui",
+  "title": "Use Previous Distinct Hook",
+  "description": "Hook that returns the last distinct value, skipping renders where the value did not change.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-previous-distinct/index.ts",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-previous-distinct/index.ts"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-async-action-demo",
+  "title": "Use Async Action Demo",
+  "description": "Demo for the useAsyncAction hook.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/use-async-action"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-async-action/index.tsx",
+      "content": "import useAsyncAction from \"@/components/targetblank/hooks/use-async-action\";\nimport { Button } from \"@/components/ui/button\";\n\nfunction fakeUpload(): Promise<{ url: string }> {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      if (Math.random() > 0.35) {\n        resolve({ url: \"https://cdn.example.com/file-\" + Date.now() });\n      } else {\n        reject(new Error(\"Upload failed — server error\"));\n      }\n    }, 1400);\n  });\n}\n\nexport default function AsyncActionDemo() {\n  const { execute, status, data, error, reset, isLoading } = useAsyncAction(\n    fakeUpload,\n    { preventConcurrent: true },\n  );\n\n  return (\n    <div className=\"flex flex-col gap-4 w-[360px]\">\n      <div className=\"flex items-center gap-3\">\n        <span className=\"capitalize text-xs font-medium px-2 py-0.5 rounded-full border border-current\">\n          {status}\n        </span>\n        {data && (\n          <span className=\"text-xs text-muted-foreground truncate\">\n            {data.url}\n          </span>\n        )}\n        {error && (\n          <span className=\"text-xs text-destructive\">{error.message}</span>\n        )}\n      </div>\n      <div className=\"flex gap-2\">\n        <Button size=\"sm\" onClick={() => execute()} disabled={isLoading}>\n          {isLoading ? \"Uploading…\" : \"Upload file\"}\n        </Button>\n        {status !== \"idle\" && (\n          <Button size=\"sm\" variant=\"outline\" onClick={reset}>\n            Reset\n          </Button>\n        )}\n      </div>\n      <p className=\"text-xs text-muted-foreground\">\n        ~65% success rate. Click upload to trigger the async action.\n      </p>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-async-action.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

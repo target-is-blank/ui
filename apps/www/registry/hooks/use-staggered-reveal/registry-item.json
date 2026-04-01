@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-staggered-reveal-hook",
+  "type": "registry:ui",
+  "title": "Use Staggered Reveal Hook",
+  "description": "Hook for revealing items one by one with a staggered delay.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-staggered-reveal/index.ts",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-staggered-reveal/index.ts"
+    }
+  ]
+}

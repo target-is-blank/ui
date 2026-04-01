@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-async-action-demo",
+  "type": "registry:ui",
+  "title": "Use Async Action Demo",
+  "description": "Demo for the useAsyncAction hook.",
+  "registryDependencies": ["https://targetblank.dev/r/use-async-action"],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-async-action/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-async-action.tsx"
+    }
+  ]
+}

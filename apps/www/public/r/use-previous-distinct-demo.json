@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-previous-distinct-demo",
+  "title": "Use Previous Distinct Demo",
+  "description": "Demo for the usePreviousDistinct hook.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/use-previous-distinct"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-previous-distinct/index.tsx",
+      "content": "import usePreviousDistinct from \"@/components/targetblank/hooks/use-previous-distinct\";\nimport { Button } from \"@/components/ui/button\";\n\nimport { useState } from \"react\";\n\nconst COLORS = [\"Crimson\", \"Cobalt\", \"Emerald\", \"Amber\", \"Violet\"];\n\nexport default function PreviousDistinctDemo() {\n  const [index, setIndex] = useState(0);\n  const current = COLORS[index];\n  const previous = usePreviousDistinct(current);\n\n  function next() {\n    setIndex((i) => (i + 1) % COLORS.length);\n  }\n\n  function same() {\n    setIndex((i) => i); // triggers re-render but same value\n  }\n\n  return (\n    <div className=\"flex flex-col gap-5 w-[360px]\">\n      <div className=\"flex flex-col gap-2\">\n        <div className=\"flex items-center gap-2\">\n          <span className=\"text-sm text-muted-foreground w-24\">Current</span>\n          <span className=\"text-sm font-medium px-2 py-0.5 rounded bg-foreground text-background\">\n            {current}\n          </span>\n        </div>\n        <div className=\"flex items-center gap-2\">\n          <span className=\"text-sm text-muted-foreground w-24\">\n            Prev distinct\n          </span>\n          <span className=\"text-sm font-medium px-2 py-0.5 rounded bg-muted border border-border\">\n            {previous ?? \"—\"}\n          </span>\n        </div>\n      </div>\n      <div className=\"flex gap-2\">\n        <Button size=\"sm\" onClick={next}>\n          Next color\n        </Button>\n        <Button size=\"sm\" variant=\"outline\" onClick={same}>\n          Re-render (same)\n        </Button>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-previous-distinct.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

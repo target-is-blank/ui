@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-persisted-state-hook",
+  "type": "registry:ui",
+  "title": "Use Persisted State Hook",
+  "description": "Hook for persisting state to localStorage or sessionStorage with SSR safety and cross-tab sync.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-persisted-state/index.ts",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-persisted-state/index.ts"
+    }
+  ]
+}

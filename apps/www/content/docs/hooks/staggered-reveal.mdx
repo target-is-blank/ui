@@ -1,0 +1,55 @@
+---
+title: useStaggeredReveal
+description: React hook to reveal list items progressively with a stagger delay.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="use-staggered-reveal-demo" />
+
+## Installation
+
+<ComponentInstallation name="use-staggered-reveal-hook" />
+
+## Usage
+
+```tsx
+const { getDelay, isVisible, replay } = useStaggeredReveal({
+  count: items.length,
+  stagger: 60,
+  initialDelay: 0,
+});
+```
+
+## Props
+
+<TypeTable
+  type={{
+    count: {
+      description: "Number of items to reveal.",
+      type: "number",
+      required: true,
+    },
+    stagger: {
+      description: "Delay between each item in milliseconds.",
+      type: "number",
+      required: false,
+    },
+    initialDelay: {
+      description: "Delay before the first item appears in milliseconds.",
+      type: "number",
+      required: false,
+    },
+    enabled: {
+      description: "Whether the reveal animation is active.",
+      type: "boolean",
+      required: false,
+    },
+    triggerKey: {
+      description: "Change this value to re-trigger the animation.",
+      type: "string | number",
+      required: false,
+    },
+  }}
+/>

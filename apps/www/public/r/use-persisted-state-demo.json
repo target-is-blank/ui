@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-persisted-state-demo",
+  "title": "Use Persisted State Demo",
+  "description": "Demo for the usePersistedState hook.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/use-persisted-state"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-persisted-state/index.tsx",
+      "content": "import usePersistedState from \"@/components/targetblank/hooks/use-persisted-state\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\n\nimport React from \"react\";\n\nexport default function PersistedStateDemo() {\n  const [name, setName, clearName] = usePersistedState(\n    \"demo:persisted-name\",\n    \"\",\n  );\n  const [count, setCount, clearCount] = usePersistedState(\n    \"demo:persisted-count\",\n    0,\n  );\n\n  return (\n    <div className=\"flex flex-col gap-4 w-[360px]\">\n      <div className=\"flex flex-col gap-1\">\n        <span className=\"text-xs text-muted-foreground\">\n          Name (localStorage)\n        </span>\n        <div className=\"flex gap-2\">\n          <Input\n            value={name}\n            onChange={(e) => setName(e.target.value)}\n            placeholder=\"Type something and refresh…\"\n            className=\"h-8 text-sm\"\n          />\n          <Button size=\"sm\" variant=\"outline\" onClick={clearName}>\n            Clear\n          </Button>\n        </div>\n      </div>\n      <div className=\"flex items-center gap-3\">\n        <span className=\"text-xs text-muted-foreground w-24\">\n          Count (persisted)\n        </span>\n        <div className=\"flex items-center gap-2\">\n          <Button\n            size=\"icon\"\n            variant=\"outline\"\n            className=\"h-7 w-7 text-base\"\n            onClick={() => setCount((c) => c - 1)}\n          >\n            −\n          </Button>\n          <span className=\"w-10 text-center font-mono text-sm px-2 py-0.5 rounded bg-muted border border-border\">\n            {count}\n          </span>\n          <Button\n            size=\"icon\"\n            variant=\"outline\"\n            className=\"h-7 w-7 text-base\"\n            onClick={() => setCount((c) => c + 1)}\n          >\n            +\n          </Button>\n          <Button size=\"sm\" variant=\"ghost\" onClick={clearCount}>\n            Reset\n          </Button>\n        </div>\n      </div>\n      <p className=\"text-xs text-muted-foreground\">\n        Values survive page refreshes via localStorage.\n      </p>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-persisted-state.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

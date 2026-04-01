@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-persisted-state-hook",
+  "title": "Use Persisted State Hook",
+  "description": "Hook for persisting state to localStorage or sessionStorage with SSR safety and cross-tab sync.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-persisted-state/index.ts",
+      "content": "import * as React from \"react\";\n\ninterface UsePersistedStateOptions<T> {\n  storage?: \"local\" | \"session\";\n  serialize?: (value: T) => string;\n  deserialize?: (raw: string) => T;\n}\n\nfunction getStorage(type: \"local\" | \"session\"): Storage | null {\n  if (typeof window === \"undefined\") return null;\n  return type === \"session\" ? window.sessionStorage : window.localStorage;\n}\n\nfunction usePersistedState<T>(\n  key: string,\n  defaultValue: T,\n  options?: UsePersistedStateOptions<T>,\n): [T, (value: T | ((prev: T) => T)) => void, () => void] {\n  const storageType = options?.storage ?? \"local\";\n  const serialize = options?.serialize ?? JSON.stringify;\n  const deserialize =\n    options?.deserialize ?? ((raw: string): T => JSON.parse(raw) as T);\n\n  const readFromStorage = React.useCallback((): T => {\n    const store = getStorage(storageType);\n    if (!store) return defaultValue;\n    try {\n      const raw = store.getItem(key);\n      if (raw === null) return defaultValue;\n      return deserialize(raw);\n    } catch {\n      return defaultValue;\n    }\n  }, [key, storageType, defaultValue, deserialize]);\n\n  const [value, setValueState] = React.useState<T>(() => readFromStorage());\n\n  const setValue = React.useCallback(\n    (next: T | ((prev: T) => T)) => {\n      setValueState((prev) => {\n        const resolved =\n          typeof next === \"function\" ? (next as (prev: T) => T)(prev) : next;\n        try {\n          const store = getStorage(storageType);\n          store?.setItem(key, serialize(resolved));\n        } catch {\n          // Silently ignore storage errors (e.g., quota exceeded)\n        }\n        return resolved;\n      });\n    },\n    [key, storageType, serialize],\n  );\n\n  const clear = React.useCallback(() => {\n    try {\n      const store = getStorage(storageType);\n      store?.removeItem(key);\n    } catch {\n      // Silently ignore\n    }\n    setValueState(defaultValue);\n  }, [key, storageType, defaultValue]);\n\n  // Sync across tabs (localStorage only)\n  React.useEffect(() => {\n    if (storageType !== \"local\") return;\n\n    function handleStorage(e: StorageEvent) {\n      if (e.key !== key) return;\n      if (e.newValue === null) {\n        setValueState(defaultValue);\n      } else {\n        try {\n          setValueState(deserialize(e.newValue));\n        } catch {\n          setValueState(defaultValue);\n        }\n      }\n    }\n\n    window.addEventListener(\"storage\", handleStorage);\n    return () => window.removeEventListener(\"storage\", handleStorage);\n  }, [key, storageType, defaultValue, deserialize]);\n\n  return [value, setValue, clear];\n}\n\nexport default usePersistedState;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-persisted-state/index.ts"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -722,6 +722,38 @@
       ]
     },
     {
+      "name": "use-async-action-demo",
+      "type": "registry:ui",
+      "title": "Use Async Action Demo",
+      "description": "Demo for the useAsyncAction hook.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/use-async-action"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/hooks/use-async-action/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/hooks/use-async-action.tsx"
+        }
+      ]
+    },
+    {
+      "name": "use-controllable-state-demo",
+      "type": "registry:ui",
+      "title": "Use Controllable State Demo",
+      "description": "Demo for the useControllableState hook.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/use-controllable-state"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/hooks/use-controllable-state/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/hooks/use-controllable-state.tsx"
+        }
+      ]
+    },
+    {
       "name": "use-debounce-demo",
       "type": "registry:ui",
       "title": "Use Debounce Demo",
@@ -754,6 +786,38 @@
       ]
     },
     {
+      "name": "use-persisted-state-demo",
+      "type": "registry:ui",
+      "title": "Use Persisted State Demo",
+      "description": "Demo for the usePersistedState hook.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/use-persisted-state"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/hooks/use-persisted-state/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/hooks/use-persisted-state.tsx"
+        }
+      ]
+    },
+    {
+      "name": "use-previous-distinct-demo",
+      "type": "registry:ui",
+      "title": "Use Previous Distinct Demo",
+      "description": "Demo for the usePreviousDistinct hook.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/use-previous-distinct"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/hooks/use-previous-distinct/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/hooks/use-previous-distinct.tsx"
+        }
+      ]
+    },
+    {
       "name": "use-scroll-position-demo",
       "type": "registry:ui",
       "title": "Use Scroll Position Demo",
@@ -766,6 +830,22 @@
           "path": "registry/demo/hooks/use-scroll-position/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/hooks/use-scroll-position.tsx"
+        }
+      ]
+    },
+    {
+      "name": "use-staggered-reveal-demo",
+      "type": "registry:ui",
+      "title": "Use Staggered Reveal Demo",
+      "description": "Demo for the useStaggeredReveal hook.",
+      "registryDependencies": [
+        "https://targetblank.dev/r/use-staggered-reveal"
+      ],
+      "files": [
+        {
+          "path": "registry/demo/hooks/use-staggered-reveal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/targetblank/demo/hooks/use-staggered-reveal.tsx"
         }
       ]
     },
@@ -818,6 +898,34 @@
       ]
     },
     {
+      "name": "use-async-action-hook",
+      "type": "registry:ui",
+      "title": "Use Async Action Hook",
+      "description": "Hook for tracking the status of an async function call with loading, success, and error states.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/hooks/use-async-action/index.ts",
+          "type": "registry:ui",
+          "target": "components/targetblank/hooks/use-async-action/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "use-controllable-state-hook",
+      "type": "registry:ui",
+      "title": "Use Controllable State Hook",
+      "description": "Hook for building components that support both controlled and uncontrolled state.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/hooks/use-controllable-state/index.ts",
+          "type": "registry:ui",
+          "target": "components/targetblank/hooks/use-controllable-state/index.ts"
+        }
+      ]
+    },
+    {
       "name": "use-debounce-hook",
       "type": "registry:ui",
       "title": "Use Debounce Hook",
@@ -846,6 +954,34 @@
       ]
     },
     {
+      "name": "use-persisted-state-hook",
+      "type": "registry:ui",
+      "title": "Use Persisted State Hook",
+      "description": "Hook for persisting state to localStorage or sessionStorage with SSR safety and cross-tab sync.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/hooks/use-persisted-state/index.ts",
+          "type": "registry:ui",
+          "target": "components/targetblank/hooks/use-persisted-state/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "use-previous-distinct-hook",
+      "type": "registry:ui",
+      "title": "Use Previous Distinct Hook",
+      "description": "Hook that returns the last distinct value, skipping renders where the value did not change.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/hooks/use-previous-distinct/index.ts",
+          "type": "registry:ui",
+          "target": "components/targetblank/hooks/use-previous-distinct/index.ts"
+        }
+      ]
+    },
+    {
       "name": "use-scroll-position-hook",
       "type": "registry:ui",
       "title": "Use Scroll Position Hook",
@@ -856,6 +992,20 @@
           "path": "registry/hooks/use-scroll-position/index.ts",
           "type": "registry:ui",
           "target": "components/targetblank/hooks/use-scroll-position/index.tsx"
+        }
+      ]
+    },
+    {
+      "name": "use-staggered-reveal-hook",
+      "type": "registry:ui",
+      "title": "Use Staggered Reveal Hook",
+      "description": "Hook for revealing items one by one with a staggered delay.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/hooks/use-staggered-reveal/index.ts",
+          "type": "registry:ui",
+          "target": "components/targetblank/hooks/use-staggered-reveal/index.ts"
         }
       ]
     },

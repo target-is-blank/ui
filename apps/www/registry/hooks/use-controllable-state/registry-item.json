@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-controllable-state-hook",
+  "type": "registry:ui",
+  "title": "Use Controllable State Hook",
+  "description": "Hook for building components that support both controlled and uncontrolled state.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-controllable-state/index.ts",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-controllable-state/index.ts"
+    }
+  ]
+}

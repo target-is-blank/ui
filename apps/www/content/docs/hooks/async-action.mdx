@@ -1,0 +1,57 @@
+---
+title: useAsyncAction
+description: React hook to manage async operations with status, data, and error states.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="use-async-action-demo" />
+
+## Installation
+
+<ComponentInstallation name="use-async-action-hook" />
+
+## Usage
+
+```tsx
+const { execute, isLoading, isSuccess, isError, data, error, reset } =
+  useAsyncAction(async (payload) => {
+    return await saveSettings(payload);
+  });
+
+await execute(values);
+```
+
+## Props
+
+<TypeTable
+  type={{
+    fn: {
+      description: "The async function to execute.",
+      type: "(...args: TArgs) => Promise<TData>",
+      required: true,
+    },
+    onSuccess: {
+      description: "Callback fired when the action succeeds.",
+      type: "(data: TData) => void",
+      required: false,
+    },
+    onError: {
+      description: "Callback fired when the action fails.",
+      type: "(error: unknown) => void",
+      required: false,
+    },
+    onSettled: {
+      description:
+        "Callback fired after the action completes (success or error).",
+      type: "() => void",
+      required: false,
+    },
+    preventConcurrent: {
+      description: "Prevent multiple simultaneous executions.",
+      type: "boolean",
+      required: false,
+    },
+  }}
+/>

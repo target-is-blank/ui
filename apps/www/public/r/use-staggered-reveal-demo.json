@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-staggered-reveal-demo",
+  "title": "Use Staggered Reveal Demo",
+  "description": "Demo for the useStaggeredReveal hook.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/use-staggered-reveal"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-staggered-reveal/index.tsx",
+      "content": "import useStaggeredReveal from \"@/components/targetblank/hooks/use-staggered-reveal\";\nimport { Button } from \"@/components/ui/button\";\n\nconst ITEMS = [\"Design\", \"Develop\", \"Deploy\", \"Monitor\", \"Iterate\"];\n\nexport default function StaggeredRevealDemo() {\n  const { isVisible, replay } = useStaggeredReveal({\n    count: ITEMS.length,\n    stagger: 120,\n    initialDelay: 100,\n  });\n\n  return (\n    <div className=\"flex flex-col gap-6 w-[360px]\">\n      <div className=\"flex flex-wrap gap-2 min-h-[40px]\">\n        {ITEMS.map((item, i) => (\n          <div\n            key={item}\n            style={{\n              transition: \"opacity 300ms ease, transform 300ms ease\",\n              opacity: isVisible(i) ? 1 : 0,\n              transform: isVisible(i) ? \"translateY(0)\" : \"translateY(8px)\",\n            }}\n          >\n            <span className=\"text-sm px-3 py-1 rounded-full bg-muted border border-border font-medium\">\n              {item}\n            </span>\n          </div>\n        ))}\n      </div>\n      <Button variant=\"outline\" size=\"sm\" onClick={replay} className=\"w-fit\">\n        Replay\n      </Button>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-staggered-reveal.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

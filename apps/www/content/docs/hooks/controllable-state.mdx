@@ -1,0 +1,46 @@
+---
+title: useControllableState
+description: React hook to support both controlled and uncontrolled component patterns.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="use-controllable-state-demo" />
+
+## Installation
+
+<ComponentInstallation name="use-controllable-state-hook" />
+
+## Usage
+
+```tsx
+const [value, setValue] = useControllableState({
+  value: controlledValue,
+  defaultValue: "default",
+  onChange: (next) => setControlledValue(next),
+});
+```
+
+## Props
+
+<TypeTable
+  type={{
+    value: {
+      description:
+        "Controlled value. If provided, the component is in controlled mode.",
+      type: "T",
+      required: false,
+    },
+    defaultValue: {
+      description: "Default value used when uncontrolled.",
+      type: "T",
+      required: true,
+    },
+    onChange: {
+      description: "Callback fired whenever the value changes.",
+      type: "(next: T) => void",
+      required: false,
+    },
+  }}
+/>

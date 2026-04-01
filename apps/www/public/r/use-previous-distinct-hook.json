@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-previous-distinct-hook",
+  "title": "Use Previous Distinct Hook",
+  "description": "Hook that returns the last distinct value, skipping renders where the value did not change.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-previous-distinct/index.ts",
+      "content": "import * as React from \"react\";\n\ninterface UsePreviousDistinctOptions<T> {\n  isEqual?: (a: T, b: T) => boolean;\n}\n\nfunction defaultIsEqual<T>(a: T, b: T): boolean {\n  return a === b;\n}\n\nfunction usePreviousDistinct<T>(\n  value: T,\n  options?: UsePreviousDistinctOptions<T>,\n): T | undefined {\n  const isEqual = options?.isEqual ?? defaultIsEqual;\n  const previousRef = React.useRef<T | undefined>(undefined);\n  const currentRef = React.useRef<T>(value);\n\n  if (!isEqual(currentRef.current, value)) {\n    previousRef.current = currentRef.current;\n    currentRef.current = value;\n  }\n\n  return previousRef.current;\n}\n\nexport default usePreviousDistinct;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-previous-distinct/index.ts"
+    }
+  ],
+  "type": "registry:ui"
+}

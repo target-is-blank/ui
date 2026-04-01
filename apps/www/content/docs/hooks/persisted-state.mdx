@@ -1,0 +1,56 @@
+---
+title: usePersistedState
+description: React hook to sync state with localStorage or sessionStorage.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="use-persisted-state-demo" />
+
+## Installation
+
+<ComponentInstallation name="use-persisted-state-hook" />
+
+## Usage
+
+```tsx
+const [theme, setTheme, clear] = usePersistedState("theme", "dark");
+
+// With options
+const [value, setValue, clear] = usePersistedState("my-key", defaultValue, {
+  storage: "session",
+});
+```
+
+## Props
+
+<TypeTable
+  type={{
+    key: {
+      description: "The storage key.",
+      type: "string",
+      required: true,
+    },
+    defaultValue: {
+      description: "Default value when nothing is stored.",
+      type: "T",
+      required: true,
+    },
+    storage: {
+      description: 'Storage backend to use. Defaults to "local".',
+      type: '"local" | "session"',
+      required: false,
+    },
+    serialize: {
+      description: "Custom serializer. Defaults to JSON.stringify.",
+      type: "(value: T) => string",
+      required: false,
+    },
+    deserialize: {
+      description: "Custom deserializer. Defaults to JSON.parse.",
+      type: "(value: string) => T",
+      required: false,
+    },
+  }}
+/>

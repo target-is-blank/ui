@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-persisted-state-demo",
+  "type": "registry:ui",
+  "title": "Use Persisted State Demo",
+  "description": "Demo for the usePersistedState hook.",
+  "registryDependencies": ["https://targetblank.dev/r/use-persisted-state"],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-persisted-state/index.tsx",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-persisted-state.tsx"
+    }
+  ]
+}

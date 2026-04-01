@@ -1,0 +1,42 @@
+---
+title: usePreviousDistinct
+description: React hook that returns the last distinct (truly changed) value.
+author:
+  name: lucas
+  url: https://github.com/lucasporrini
+---
+
+<ComponentPreview name="use-previous-distinct-demo" />
+
+## Installation
+
+<ComponentInstallation name="use-previous-distinct-hook" />
+
+## Usage
+
+```tsx
+const previous = usePreviousDistinct(status);
+
+// With custom equality
+const previous = usePreviousDistinct(value, {
+  isEqual: (a, b) => a.id === b.id,
+});
+```
+
+## Props
+
+<TypeTable
+  type={{
+    value: {
+      description: "The value to track.",
+      type: "T",
+      required: true,
+    },
+    isEqual: {
+      description:
+        "Custom equality function. Defaults to strict equality (===).",
+      type: "(a: T, b: T) => boolean",
+      required: false,
+    },
+  }}
+/>

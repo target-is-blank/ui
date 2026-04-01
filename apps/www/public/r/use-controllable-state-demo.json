@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-controllable-state-demo",
+  "title": "Use Controllable State Demo",
+  "description": "Demo for the useControllableState hook.",
+  "registryDependencies": [
+    "https://targetblank.dev/r/use-controllable-state"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/hooks/use-controllable-state/index.tsx",
+      "content": "import useControllableState from \"@/components/targetblank/hooks/use-controllable-state\";\nimport { Button } from \"@/components/ui/button\";\n\nimport React, { useState } from \"react\";\n\nconst OPTIONS = [\"Draft\", \"Review\", \"Published\"];\n\nfunction StatusSelector({\n  value,\n  onChange,\n}: {\n  value?: string;\n  onChange?: (v: string) => void;\n}) {\n  const [status, setStatus] = useControllableState({\n    value,\n    defaultValue: \"Draft\",\n    onChange,\n  });\n\n  return (\n    <div className=\"flex gap-2\">\n      {OPTIONS.map((opt) => (\n        <Button\n          key={opt}\n          size=\"sm\"\n          variant={status === opt ? \"default\" : \"outline\"}\n          onClick={() => setStatus(opt)}\n        >\n          {opt}\n        </Button>\n      ))}\n    </div>\n  );\n}\n\nexport default function ControllableStateDemo() {\n  const [controlled, setControlled] = useState<string>(\"Review\");\n  const [log, setLog] = useState<string[]>([]);\n\n  function handleChange(v: string) {\n    setLog((prev) => [`onChange(\"${v}\")`, ...prev].slice(0, 3));\n  }\n\n  return (\n    <div className=\"flex flex-col gap-5 w-[360px]\">\n      <div className=\"flex flex-col gap-1\">\n        <span className=\"text-xs text-muted-foreground\">Uncontrolled</span>\n        <StatusSelector onChange={handleChange} />\n      </div>\n      <div className=\"flex flex-col gap-1\">\n        <span className=\"text-xs text-muted-foreground\">\n          Controlled — locked to &quot;{controlled}&quot;\n        </span>\n        <div className=\"flex gap-2 items-center\">\n          <StatusSelector value={controlled} onChange={handleChange} />\n          <Button\n            size=\"sm\"\n            variant=\"ghost\"\n            onClick={() =>\n              setControlled(\n                OPTIONS[(OPTIONS.indexOf(controlled) + 1) % OPTIONS.length],\n              )\n            }\n          >\n            Next\n          </Button>\n        </div>\n      </div>\n      <div className=\"flex gap-1 flex-wrap min-h-[24px]\">\n        {log.map((entry, i) => (\n          <span\n            key={i}\n            className=\"font-mono text-xs px-2 py-0.5 rounded border border-border bg-muted\"\n          >\n            {entry}\n          </span>\n        ))}\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/demo/hooks/use-controllable-state.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1595,6 +1595,82 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/wheel-selector-demo",
   },
+  "use-async-action-demo": {
+    name: "use-async-action-demo",
+    description: "Demo for the useAsyncAction hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/use-async-action"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-async-action/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-async-action.tsx",
+        content:
+          'import useAsyncAction from "@/components/targetblank/hooks/use-async-action";\nimport { Button } from "@/components/ui/button";\n\nfunction fakeUpload(): Promise<{ url: string }> {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      if (Math.random() > 0.35) {\n        resolve({ url: "https://cdn.example.com/file-" + Date.now() });\n      } else {\n        reject(new Error("Upload failed — server error"));\n      }\n    }, 1400);\n  });\n}\n\nexport default function AsyncActionDemo() {\n  const { execute, status, data, error, reset, isLoading } = useAsyncAction(\n    fakeUpload,\n    { preventConcurrent: true },\n  );\n\n  return (\n    <div className="flex flex-col gap-4 w-[360px]">\n      <div className="flex items-center gap-3">\n        <span className="capitalize text-xs font-medium px-2 py-0.5 rounded-full border border-current">\n          {status}\n        </span>\n        {data && (\n          <span className="text-xs text-muted-foreground truncate">\n            {data.url}\n          </span>\n        )}\n        {error && (\n          <span className="text-xs text-destructive">{error.message}</span>\n        )}\n      </div>\n      <div className="flex gap-2">\n        <Button size="sm" onClick={() => execute()} disabled={isLoading}>\n          {isLoading ? "Uploading…" : "Upload file"}\n        </Button>\n        {status !== "idle" && (\n          <Button size="sm" variant="outline" onClick={reset}>\n            Reset\n          </Button>\n        )}\n      </div>\n      <p className="text-xs text-muted-foreground">\n        ~65% success rate. Click upload to trigger the async action.\n      </p>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-async-action/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-async-action-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-async-action-demo",
+  },
+  "use-controllable-state-demo": {
+    name: "use-controllable-state-demo",
+    description: "Demo for the useControllableState hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/use-controllable-state"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-controllable-state/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-controllable-state.tsx",
+        content:
+          'import useControllableState from "@/components/targetblank/hooks/use-controllable-state";\nimport { Button } from "@/components/ui/button";\n\nimport React, { useState } from "react";\n\nconst OPTIONS = ["Draft", "Review", "Published"];\n\nfunction StatusSelector({\n  value,\n  onChange,\n}: {\n  value?: string;\n  onChange?: (v: string) => void;\n}) {\n  const [status, setStatus] = useControllableState({\n    value,\n    defaultValue: "Draft",\n    onChange,\n  });\n\n  return (\n    <div className="flex gap-2">\n      {OPTIONS.map((opt) => (\n        <Button\n          key={opt}\n          size="sm"\n          variant={status === opt ? "default" : "outline"}\n          onClick={() => setStatus(opt)}\n        >\n          {opt}\n        </Button>\n      ))}\n    </div>\n  );\n}\n\nexport default function ControllableStateDemo() {\n  const [controlled, setControlled] = useState<string>("Review");\n  const [log, setLog] = useState<string[]>([]);\n\n  function handleChange(v: string) {\n    setLog((prev) => [`onChange("${v}")`, ...prev].slice(0, 3));\n  }\n\n  return (\n    <div className="flex flex-col gap-5 w-[360px]">\n      <div className="flex flex-col gap-1">\n        <span className="text-xs text-muted-foreground">Uncontrolled</span>\n        <StatusSelector onChange={handleChange} />\n      </div>\n      <div className="flex flex-col gap-1">\n        <span className="text-xs text-muted-foreground">\n          Controlled — locked to &quot;{controlled}&quot;\n        </span>\n        <div className="flex gap-2 items-center">\n          <StatusSelector value={controlled} onChange={handleChange} />\n          <Button\n            size="sm"\n            variant="ghost"\n            onClick={() =>\n              setControlled(\n                OPTIONS[(OPTIONS.indexOf(controlled) + 1) % OPTIONS.length],\n              )\n            }\n          >\n            Next\n          </Button>\n        </div>\n      </div>\n      <div className="flex gap-1 flex-wrap min-h-[24px]">\n        {log.map((entry, i) => (\n          <span\n            key={i}\n            className="font-mono text-xs px-2 py-0.5 rounded border border-border bg-muted"\n          >\n            {entry}\n          </span>\n        ))}\n      </div>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-controllable-state/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-controllable-state-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-controllable-state-demo",
+  },
   "use-debounce-demo": {
     name: "use-debounce-demo",
     description: "Demo for the useDebounce hook.",
@@ -1671,6 +1747,82 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/use-online-status-demo",
   },
+  "use-persisted-state-demo": {
+    name: "use-persisted-state-demo",
+    description: "Demo for the usePersistedState hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/use-persisted-state"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-persisted-state/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-persisted-state.tsx",
+        content:
+          'import usePersistedState from "@/components/targetblank/hooks/use-persisted-state";\nimport { Button } from "@/components/ui/button";\nimport { Input } from "@/components/ui/input";\n\nimport React from "react";\n\nexport default function PersistedStateDemo() {\n  const [name, setName, clearName] = usePersistedState(\n    "demo:persisted-name",\n    "",\n  );\n  const [count, setCount, clearCount] = usePersistedState(\n    "demo:persisted-count",\n    0,\n  );\n\n  return (\n    <div className="flex flex-col gap-4 w-[360px]">\n      <div className="flex flex-col gap-1">\n        <span className="text-xs text-muted-foreground">\n          Name (localStorage)\n        </span>\n        <div className="flex gap-2">\n          <Input\n            value={name}\n            onChange={(e) => setName(e.target.value)}\n            placeholder="Type something and refresh…"\n            className="h-8 text-sm"\n          />\n          <Button size="sm" variant="outline" onClick={clearName}>\n            Clear\n          </Button>\n        </div>\n      </div>\n      <div className="flex items-center gap-3">\n        <span className="text-xs text-muted-foreground w-24">\n          Count (persisted)\n        </span>\n        <div className="flex items-center gap-2">\n          <Button\n            size="icon"\n            variant="outline"\n            className="h-7 w-7 text-base"\n            onClick={() => setCount((c) => c - 1)}\n          >\n            −\n          </Button>\n          <span className="w-10 text-center font-mono text-sm px-2 py-0.5 rounded bg-muted border border-border">\n            {count}\n          </span>\n          <Button\n            size="icon"\n            variant="outline"\n            className="h-7 w-7 text-base"\n            onClick={() => setCount((c) => c + 1)}\n          >\n            +\n          </Button>\n          <Button size="sm" variant="ghost" onClick={clearCount}>\n            Reset\n          </Button>\n        </div>\n      </div>\n      <p className="text-xs text-muted-foreground">\n        Values survive page refreshes via localStorage.\n      </p>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-persisted-state/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-persisted-state-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-persisted-state-demo",
+  },
+  "use-previous-distinct-demo": {
+    name: "use-previous-distinct-demo",
+    description: "Demo for the usePreviousDistinct hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/use-previous-distinct"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-previous-distinct/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-previous-distinct.tsx",
+        content:
+          'import usePreviousDistinct from "@/components/targetblank/hooks/use-previous-distinct";\nimport { Button } from "@/components/ui/button";\n\nimport { useState } from "react";\n\nconst COLORS = ["Crimson", "Cobalt", "Emerald", "Amber", "Violet"];\n\nexport default function PreviousDistinctDemo() {\n  const [index, setIndex] = useState(0);\n  const current = COLORS[index];\n  const previous = usePreviousDistinct(current);\n\n  function next() {\n    setIndex((i) => (i + 1) % COLORS.length);\n  }\n\n  function same() {\n    setIndex((i) => i); // triggers re-render but same value\n  }\n\n  return (\n    <div className="flex flex-col gap-5 w-[360px]">\n      <div className="flex flex-col gap-2">\n        <div className="flex items-center gap-2">\n          <span className="text-sm text-muted-foreground w-24">Current</span>\n          <span className="text-sm font-medium px-2 py-0.5 rounded bg-foreground text-background">\n            {current}\n          </span>\n        </div>\n        <div className="flex items-center gap-2">\n          <span className="text-sm text-muted-foreground w-24">\n            Prev distinct\n          </span>\n          <span className="text-sm font-medium px-2 py-0.5 rounded bg-muted border border-border">\n            {previous ?? "—"}\n          </span>\n        </div>\n      </div>\n      <div className="flex gap-2">\n        <Button size="sm" onClick={next}>\n          Next color\n        </Button>\n        <Button size="sm" variant="outline" onClick={same}>\n          Re-render (same)\n        </Button>\n      </div>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-previous-distinct/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-previous-distinct-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-previous-distinct-demo",
+  },
   "use-scroll-position-demo": {
     name: "use-scroll-position-demo",
     description: "Demo for the useScrollPosition hook.",
@@ -1708,6 +1860,44 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/use-scroll-position-demo",
+  },
+  "use-staggered-reveal-demo": {
+    name: "use-staggered-reveal-demo",
+    description: "Demo for the useStaggeredReveal hook.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["https://targetblank.dev/r/use-staggered-reveal"],
+    files: [
+      {
+        path: "registry/demo/hooks/use-staggered-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/targetblank/demo/hooks/use-staggered-reveal.tsx",
+        content:
+          'import useStaggeredReveal from "@/components/targetblank/hooks/use-staggered-reveal";\nimport { Button } from "@/components/ui/button";\n\nconst ITEMS = ["Design", "Develop", "Deploy", "Monitor", "Iterate"];\n\nexport default function StaggeredRevealDemo() {\n  const { isVisible, replay } = useStaggeredReveal({\n    count: ITEMS.length,\n    stagger: 120,\n    initialDelay: 100,\n  });\n\n  return (\n    <div className="flex flex-col gap-6 w-[360px]">\n      <div className="flex flex-wrap gap-2 min-h-[40px]">\n        {ITEMS.map((item, i) => (\n          <div\n            key={item}\n            style={{\n              transition: "opacity 300ms ease, transform 300ms ease",\n              opacity: isVisible(i) ? 1 : 0,\n              transform: isVisible(i) ? "translateY(0)" : "translateY(8px)",\n            }}\n          >\n            <span className="text-sm px-3 py-1 rounded-full bg-muted border border-border font-medium">\n              {item}\n            </span>\n          </div>\n        ))}\n      </div>\n      <Button variant="outline" size="sm" onClick={replay} className="w-fit">\n        Replay\n      </Button>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/hooks/use-staggered-reveal/index.tsx"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-staggered-reveal-demo";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-staggered-reveal-demo",
   },
   "use-undo-redo-demo": {
     name: "use-undo-redo-demo",
@@ -1819,6 +2009,82 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/circular-text-demo",
   },
+  "use-async-action-hook": {
+    name: "use-async-action-hook",
+    description:
+      "Hook for tracking the status of an async function call with loading, success, and error states.",
+    type: "registry:ui",
+    dependencies: [],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/hooks/use-async-action/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-async-action/index.ts",
+        content:
+          'import * as React from "react";\n\ntype AsyncStatus = "idle" | "loading" | "success" | "error";\n\ninterface UseAsyncActionOptions<TData> {\n  onSuccess?: (data: TData) => void;\n  onError?: (error: Error) => void;\n  onSettled?: (data: TData | undefined, error: Error | undefined) => void;\n  preventConcurrent?: boolean;\n}\n\ninterface UseAsyncActionReturn<TData, TArgs extends unknown[]> {\n  execute: (...args: TArgs) => Promise<void>;\n  status: AsyncStatus;\n  data: TData | undefined;\n  error: Error | undefined;\n  reset: () => void;\n  isLoading: boolean;\n  isSuccess: boolean;\n  isError: boolean;\n}\n\nfunction useAsyncAction<TData, TArgs extends unknown[]>(\n  fn: (...args: TArgs) => Promise<TData>,\n  options?: UseAsyncActionOptions<TData>,\n): UseAsyncActionReturn<TData, TArgs> {\n  const [status, setStatus] = React.useState<AsyncStatus>("idle");\n  const [data, setData] = React.useState<TData | undefined>(undefined);\n  const [error, setError] = React.useState<Error | undefined>(undefined);\n  const optionsRef = React.useRef(options);\n  optionsRef.current = options;\n\n  const execute = React.useCallback(\n    async (...args: TArgs) => {\n      if (optionsRef.current?.preventConcurrent && status === "loading") {\n        return;\n      }\n\n      setStatus("loading");\n      setError(undefined);\n\n      try {\n        const result = await fn(...args);\n        setData(result);\n        setStatus("success");\n        optionsRef.current?.onSuccess?.(result);\n        optionsRef.current?.onSettled?.(result, undefined);\n      } catch (err) {\n        const normalized = err instanceof Error ? err : new Error(String(err));\n        setError(normalized);\n        setStatus("error");\n        optionsRef.current?.onError?.(normalized);\n        optionsRef.current?.onSettled?.(undefined, normalized);\n      }\n    },\n    [fn, status],\n  );\n\n  const reset = React.useCallback(() => {\n    setStatus("idle");\n    setData(undefined);\n    setError(undefined);\n  }, []);\n\n  return {\n    execute,\n    status,\n    data,\n    error,\n    reset,\n    isLoading: status === "loading",\n    isSuccess: status === "success",\n    isError: status === "error",\n  };\n}\n\nexport default useAsyncAction;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/hooks/use-async-action/index.ts");
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-async-action-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-async-action-hook",
+  },
+  "use-controllable-state-hook": {
+    name: "use-controllable-state-hook",
+    description:
+      "Hook for building components that support both controlled and uncontrolled state.",
+    type: "registry:ui",
+    dependencies: [],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/hooks/use-controllable-state/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-controllable-state/index.ts",
+        content:
+          'import * as React from "react";\n\ninterface UseControllableStateOptions<T> {\n  value?: T;\n  defaultValue: T;\n  onChange?: (next: T) => void;\n}\n\nfunction useControllableState<T>({\n  value,\n  defaultValue,\n  onChange,\n}: UseControllableStateOptions<T>): [T, (next: T) => void] {\n  const isControlled = value !== undefined;\n  const [internalValue, setInternalValue] = React.useState<T>(defaultValue);\n\n  const currentValue = isControlled ? value : internalValue;\n\n  const setValue = React.useCallback(\n    (next: T) => {\n      if (!isControlled) {\n        setInternalValue(next);\n      }\n      onChange?.(next);\n    },\n    [isControlled, onChange],\n  );\n\n  return [currentValue, setValue];\n}\n\nexport default useControllableState;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/hooks/use-controllable-state/index.ts"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-controllable-state-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-controllable-state-hook",
+  },
   "use-debounce-hook": {
     name: "use-debounce-hook",
     description: "Hook for debouncing a function.",
@@ -1891,6 +2157,84 @@ export const index: Record<string, any> = {
     })(),
     command: "https://targetblank.dev/r/use-online-status-hook",
   },
+  "use-persisted-state-hook": {
+    name: "use-persisted-state-hook",
+    description:
+      "Hook for persisting state to localStorage or sessionStorage with SSR safety and cross-tab sync.",
+    type: "registry:ui",
+    dependencies: [],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/hooks/use-persisted-state/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-persisted-state/index.ts",
+        content:
+          'import * as React from "react";\n\ninterface UsePersistedStateOptions<T> {\n  storage?: "local" | "session";\n  serialize?: (value: T) => string;\n  deserialize?: (raw: string) => T;\n}\n\nfunction getStorage(type: "local" | "session"): Storage | null {\n  if (typeof window === "undefined") return null;\n  return type === "session" ? window.sessionStorage : window.localStorage;\n}\n\nfunction usePersistedState<T>(\n  key: string,\n  defaultValue: T,\n  options?: UsePersistedStateOptions<T>,\n): [T, (value: T | ((prev: T) => T)) => void, () => void] {\n  const storageType = options?.storage ?? "local";\n  const serialize = options?.serialize ?? JSON.stringify;\n  const deserialize =\n    options?.deserialize ?? ((raw: string): T => JSON.parse(raw) as T);\n\n  const readFromStorage = React.useCallback((): T => {\n    const store = getStorage(storageType);\n    if (!store) return defaultValue;\n    try {\n      const raw = store.getItem(key);\n      if (raw === null) return defaultValue;\n      return deserialize(raw);\n    } catch {\n      return defaultValue;\n    }\n  }, [key, storageType, defaultValue, deserialize]);\n\n  const [value, setValueState] = React.useState<T>(() => readFromStorage());\n\n  const setValue = React.useCallback(\n    (next: T | ((prev: T) => T)) => {\n      setValueState((prev) => {\n        const resolved =\n          typeof next === "function" ? (next as (prev: T) => T)(prev) : next;\n        try {\n          const store = getStorage(storageType);\n          store?.setItem(key, serialize(resolved));\n        } catch {\n          // Silently ignore storage errors (e.g., quota exceeded)\n        }\n        return resolved;\n      });\n    },\n    [key, storageType, serialize],\n  );\n\n  const clear = React.useCallback(() => {\n    try {\n      const store = getStorage(storageType);\n      store?.removeItem(key);\n    } catch {\n      // Silently ignore\n    }\n    setValueState(defaultValue);\n  }, [key, storageType, defaultValue]);\n\n  // Sync across tabs (localStorage only)\n  React.useEffect(() => {\n    if (storageType !== "local") return;\n\n    function handleStorage(e: StorageEvent) {\n      if (e.key !== key) return;\n      if (e.newValue === null) {\n        setValueState(defaultValue);\n      } else {\n        try {\n          setValueState(deserialize(e.newValue));\n        } catch {\n          setValueState(defaultValue);\n        }\n      }\n    }\n\n    window.addEventListener("storage", handleStorage);\n    return () => window.removeEventListener("storage", handleStorage);\n  }, [key, storageType, defaultValue, deserialize]);\n\n  return [value, setValue, clear];\n}\n\nexport default usePersistedState;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/hooks/use-persisted-state/index.ts"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-persisted-state-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-persisted-state-hook",
+  },
+  "use-previous-distinct-hook": {
+    name: "use-previous-distinct-hook",
+    description:
+      "Hook that returns the last distinct value, skipping renders where the value did not change.",
+    type: "registry:ui",
+    dependencies: [],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/hooks/use-previous-distinct/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-previous-distinct/index.ts",
+        content:
+          'import * as React from "react";\n\ninterface UsePreviousDistinctOptions<T> {\n  isEqual?: (a: T, b: T) => boolean;\n}\n\nfunction defaultIsEqual<T>(a: T, b: T): boolean {\n  return a === b;\n}\n\nfunction usePreviousDistinct<T>(\n  value: T,\n  options?: UsePreviousDistinctOptions<T>,\n): T | undefined {\n  const isEqual = options?.isEqual ?? defaultIsEqual;\n  const previousRef = React.useRef<T | undefined>(undefined);\n  const currentRef = React.useRef<T>(value);\n\n  if (!isEqual(currentRef.current, value)) {\n    previousRef.current = currentRef.current;\n    currentRef.current = value;\n  }\n\n  return previousRef.current;\n}\n\nexport default usePreviousDistinct;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/hooks/use-previous-distinct/index.ts"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-previous-distinct-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-previous-distinct-hook",
+  },
   "use-scroll-position-hook": {
     name: "use-scroll-position-hook",
     description: "Hook for getting the scroll position of an element.",
@@ -1928,6 +2272,44 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "https://targetblank.dev/r/use-scroll-position-hook",
+  },
+  "use-staggered-reveal-hook": {
+    name: "use-staggered-reveal-hook",
+    description: "Hook for revealing items one by one with a staggered delay.",
+    type: "registry:ui",
+    dependencies: [],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/hooks/use-staggered-reveal/index.ts",
+        type: "registry:ui",
+        target: "components/targetblank/hooks/use-staggered-reveal/index.ts",
+        content:
+          'import * as React from "react";\n\ninterface UseStaggeredRevealOptions {\n  count: number;\n  stagger?: number;\n  initialDelay?: number;\n  enabled?: boolean;\n  triggerKey?: string | number;\n}\n\ninterface UseStaggeredRevealReturn {\n  getDelay: (index: number) => number;\n  isVisible: (index: number) => boolean;\n  replay: () => void;\n}\n\nfunction useStaggeredReveal({\n  count,\n  stagger = 60,\n  initialDelay = 0,\n  enabled = true,\n  triggerKey,\n}: UseStaggeredRevealOptions): UseStaggeredRevealReturn {\n  const [visibleCount, setVisibleCount] = React.useState(0);\n  const [iteration, setIteration] = React.useState(0);\n  const timeoutsRef = React.useRef<ReturnType<typeof setTimeout>[]>([]);\n\n  const clearAllTimeouts = React.useCallback(() => {\n    timeoutsRef.current.forEach(clearTimeout);\n    timeoutsRef.current = [];\n  }, []);\n\n  const startReveal = React.useCallback(() => {\n    clearAllTimeouts();\n    setVisibleCount(0);\n\n    if (!enabled || count === 0) return;\n\n    for (let i = 0; i < count; i++) {\n      const delay = initialDelay + i * stagger;\n      const timeout = setTimeout(() => {\n        setVisibleCount((prev) => Math.max(prev, i + 1));\n      }, delay);\n      timeoutsRef.current.push(timeout);\n    }\n  }, [count, stagger, initialDelay, enabled, clearAllTimeouts]);\n\n  React.useEffect(() => {\n    startReveal();\n    return clearAllTimeouts;\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, [iteration, triggerKey]);\n\n  React.useEffect(() => {\n    startReveal();\n    return clearAllTimeouts;\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  const replay = React.useCallback(() => {\n    setIteration((prev) => prev + 1);\n  }, []);\n\n  const getDelay = React.useCallback(\n    (index: number): number => initialDelay + index * stagger,\n    [initialDelay, stagger],\n  );\n\n  const isVisible = React.useCallback(\n    (index: number): boolean => enabled && index < visibleCount,\n    [enabled, visibleCount],\n  );\n\n  return { getDelay, isVisible, replay };\n}\n\nexport default useStaggeredReveal;',
+      },
+    ],
+    keywords: [],
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/hooks/use-staggered-reveal/index.ts"
+        );
+        const exportName =
+          Object.keys(mod).find(
+            (key) =>
+              typeof mod[key] === "function" || typeof mod[key] === "object",
+          ) || "use-staggered-reveal-hook";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "https://targetblank.dev/r/use-staggered-reveal-hook",
   },
   "use-undo-redo-hook": {
     name: "use-undo-redo-hook",

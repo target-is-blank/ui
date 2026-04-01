@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-staggered-reveal-hook",
+  "title": "Use Staggered Reveal Hook",
+  "description": "Hook for revealing items one by one with a staggered delay.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-staggered-reveal/index.ts",
+      "content": "import * as React from \"react\";\n\ninterface UseStaggeredRevealOptions {\n  count: number;\n  stagger?: number;\n  initialDelay?: number;\n  enabled?: boolean;\n  triggerKey?: string | number;\n}\n\ninterface UseStaggeredRevealReturn {\n  getDelay: (index: number) => number;\n  isVisible: (index: number) => boolean;\n  replay: () => void;\n}\n\nfunction useStaggeredReveal({\n  count,\n  stagger = 60,\n  initialDelay = 0,\n  enabled = true,\n  triggerKey,\n}: UseStaggeredRevealOptions): UseStaggeredRevealReturn {\n  const [visibleCount, setVisibleCount] = React.useState(0);\n  const [iteration, setIteration] = React.useState(0);\n  const timeoutsRef = React.useRef<ReturnType<typeof setTimeout>[]>([]);\n\n  const clearAllTimeouts = React.useCallback(() => {\n    timeoutsRef.current.forEach(clearTimeout);\n    timeoutsRef.current = [];\n  }, []);\n\n  const startReveal = React.useCallback(() => {\n    clearAllTimeouts();\n    setVisibleCount(0);\n\n    if (!enabled || count === 0) return;\n\n    for (let i = 0; i < count; i++) {\n      const delay = initialDelay + i * stagger;\n      const timeout = setTimeout(() => {\n        setVisibleCount((prev) => Math.max(prev, i + 1));\n      }, delay);\n      timeoutsRef.current.push(timeout);\n    }\n  }, [count, stagger, initialDelay, enabled, clearAllTimeouts]);\n\n  React.useEffect(() => {\n    startReveal();\n    return clearAllTimeouts;\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, [iteration, triggerKey]);\n\n  React.useEffect(() => {\n    startReveal();\n    return clearAllTimeouts;\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  const replay = React.useCallback(() => {\n    setIteration((prev) => prev + 1);\n  }, []);\n\n  const getDelay = React.useCallback(\n    (index: number): number => initialDelay + index * stagger,\n    [initialDelay, stagger],\n  );\n\n  const isVisible = React.useCallback(\n    (index: number): boolean => enabled && index < visibleCount,\n    [enabled, visibleCount],\n  );\n\n  return { getDelay, isVisible, replay };\n}\n\nexport default useStaggeredReveal;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-staggered-reveal/index.ts"
+    }
+  ],
+  "type": "registry:ui"
+}

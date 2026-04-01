@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-async-action-hook",
+  "title": "Use Async Action Hook",
+  "description": "Hook for tracking the status of an async function call with loading, success, and error states.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/hooks/use-async-action/index.ts",
+      "content": "import * as React from \"react\";\n\ntype AsyncStatus = \"idle\" | \"loading\" | \"success\" | \"error\";\n\ninterface UseAsyncActionOptions<TData> {\n  onSuccess?: (data: TData) => void;\n  onError?: (error: Error) => void;\n  onSettled?: (data: TData | undefined, error: Error | undefined) => void;\n  preventConcurrent?: boolean;\n}\n\ninterface UseAsyncActionReturn<TData, TArgs extends unknown[]> {\n  execute: (...args: TArgs) => Promise<void>;\n  status: AsyncStatus;\n  data: TData | undefined;\n  error: Error | undefined;\n  reset: () => void;\n  isLoading: boolean;\n  isSuccess: boolean;\n  isError: boolean;\n}\n\nfunction useAsyncAction<TData, TArgs extends unknown[]>(\n  fn: (...args: TArgs) => Promise<TData>,\n  options?: UseAsyncActionOptions<TData>,\n): UseAsyncActionReturn<TData, TArgs> {\n  const [status, setStatus] = React.useState<AsyncStatus>(\"idle\");\n  const [data, setData] = React.useState<TData | undefined>(undefined);\n  const [error, setError] = React.useState<Error | undefined>(undefined);\n  const optionsRef = React.useRef(options);\n  optionsRef.current = options;\n\n  const execute = React.useCallback(\n    async (...args: TArgs) => {\n      if (optionsRef.current?.preventConcurrent && status === \"loading\") {\n        return;\n      }\n\n      setStatus(\"loading\");\n      setError(undefined);\n\n      try {\n        const result = await fn(...args);\n        setData(result);\n        setStatus(\"success\");\n        optionsRef.current?.onSuccess?.(result);\n        optionsRef.current?.onSettled?.(result, undefined);\n      } catch (err) {\n        const normalized = err instanceof Error ? err : new Error(String(err));\n        setError(normalized);\n        setStatus(\"error\");\n        optionsRef.current?.onError?.(normalized);\n        optionsRef.current?.onSettled?.(undefined, normalized);\n      }\n    },\n    [fn, status],\n  );\n\n  const reset = React.useCallback(() => {\n    setStatus(\"idle\");\n    setData(undefined);\n    setError(undefined);\n  }, []);\n\n  return {\n    execute,\n    status,\n    data,\n    error,\n    reset,\n    isLoading: status === \"loading\",\n    isSuccess: status === \"success\",\n    isError: status === \"error\",\n  };\n}\n\nexport default useAsyncAction;\n",
+      "type": "registry:ui",
+      "target": "components/targetblank/hooks/use-async-action/index.ts"
+    }
+  ],
+  "type": "registry:ui"
+}
