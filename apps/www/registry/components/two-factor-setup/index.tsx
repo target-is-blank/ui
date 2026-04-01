@@ -90,7 +90,7 @@ function buildQRMatrix(): boolean[][] {
   // Fill remaining cells with seeded data
   for (let r = 0; r < S; r++) {
     for (let c = 0; c < S; c++) {
-      if (r < 8 && c < 8) continue;   // TL finder + separator
+      if (r < 8 && c < 8) continue; // TL finder + separator
       if (r < 8 && c >= 13) continue; // TR finder + separator
       if (r >= 13 && c < 8) continue; // BL finder + separator
       if (r === 6 || c === 6) continue; // timing (already set)
@@ -103,7 +103,7 @@ function buildQRMatrix(): boolean[][] {
 const QR_MATRIX = buildQRMatrix();
 
 const M = 0.72; // module size (< 1 leaves a gap)
-const P = 1.5;  // padding inside viewBox
+const P = 1.5; // padding inside viewBox
 
 function PlaceholderQR() {
   const size = 21 + P * 2;
@@ -116,9 +116,7 @@ function PlaceholderQR() {
           if (!on) return null;
           // Larger rounded squares for finder pattern cells (ring 0 of each finder)
           const isFinder =
-            (r < 7 && c < 7) ||
-            (r < 7 && c >= 14) ||
-            (r >= 14 && c < 7);
+            (r < 7 && c < 7) || (r < 7 && c >= 14) || (r >= 14 && c < 7);
           const rx = isFinder ? 0.18 : 0.22;
           return (
             <rect
@@ -220,7 +218,11 @@ export function TwoFactorSetup({
           <div className="absolute inset-3 overflow-hidden rounded">
             {qrSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={qrSrc} alt="QR Code" className="w-full h-full object-contain" />
+              <img
+                src={qrSrc}
+                alt="QR Code"
+                className="w-full h-full object-contain"
+              />
             ) : (
               <PlaceholderQR />
             )}
@@ -247,7 +249,12 @@ export function TwoFactorSetup({
           className="absolute top-4 right-4 w-7 h-7 rounded-full bg-[#2a2a2a] flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#333] transition-colors"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path
+              d="M1 1l10 10M11 1L1 11"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
           </svg>
         </button>
 
@@ -259,7 +266,9 @@ export function TwoFactorSetup({
 
         {/* Backup code */}
         <div className="mb-5">
-          <p className="text-white text-xs font-medium mb-2">Manual Backup Code</p>
+          <p className="text-white text-xs font-medium mb-2">
+            Manual Backup Code
+          </p>
           <div className="flex items-center gap-2 bg-[#0d0d0d] border border-teal-500/40 rounded-lg px-4 py-3">
             <span className="flex-1 font-mono text-teal-300 text-sm tracking-widest">
               {backupCode}
@@ -272,25 +281,50 @@ export function TwoFactorSetup({
                 {copied ? (
                   <motion.svg
                     key="check"
-                    width="16" height="16" viewBox="0 0 16 16" fill="none"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.5, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   >
-                    <path d="M3 8l3.5 3.5L13 4" stroke="#2dd4bf" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path
+                      d="M3 8l3.5 3.5L13 4"
+                      stroke="#2dd4bf"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </motion.svg>
                 ) : (
                   <motion.svg
                     key="copy"
-                    width="16" height="16" viewBox="0 0 16 16" fill="none"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.5, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   >
-                    <rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
-                    <path d="M3 11V3.5A1.5 1.5 0 0 1 4.5 2H11" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                    <rect
+                      x="5"
+                      y="5"
+                      width="8"
+                      height="8"
+                      rx="1.5"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                    />
+                    <path
+                      d="M3 11V3.5A1.5 1.5 0 0 1 4.5 2H11"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                    />
                   </motion.svg>
                 )}
               </AnimatePresence>
@@ -303,12 +337,16 @@ export function TwoFactorSetup({
 
         {/* OTP input */}
         <div className="mb-6">
-          <p className="text-white text-xs font-medium mb-3">Verification Token</p>
+          <p className="text-white text-xs font-medium mb-3">
+            Verification Token
+          </p>
           <div className="flex gap-2">
             {otp.map((digit, i) => (
               <input
                 key={i}
-                ref={(el) => { inputRefs.current[i] = el; }}
+                ref={(el) => {
+                  inputRefs.current[i] = el;
+                }}
                 type="text"
                 inputMode="numeric"
                 maxLength={6}

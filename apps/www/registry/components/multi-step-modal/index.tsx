@@ -157,7 +157,7 @@ function StepCircle({ index, currentStep, stepStatus }: StepCircleProps) {
 // ─── Animated connector line between steps ────────────────────────────────────
 
 interface ConnectorProps {
-  stepIndex: number;   // connector between stepIndex and stepIndex+1
+  stepIndex: number; // connector between stepIndex and stepIndex+1
   currentStep: number;
 }
 
@@ -165,7 +165,10 @@ function Connector({ stepIndex, currentStep }: ConnectorProps) {
   const filled = stepIndex < currentStep;
 
   return (
-    <div className="relative flex-1 mx-2 mb-0 h-px overflow-hidden" style={{ marginBottom: 0 }}>
+    <div
+      className="relative flex-1 mx-2 mb-0 h-px overflow-hidden"
+      style={{ marginBottom: 0 }}
+    >
       {/* Dotted base */}
       <div className="absolute inset-0 border-t-2 border-dashed border-gray-200" />
       {/* Animated fill */}
@@ -213,7 +216,9 @@ export function MultiStepModal({
         >
           <ChevronLeft className="w-5 h-5" strokeWidth={2} />
         </button>
-        <span className="font-bold text-gray-900 text-lg tracking-tight">{title}</span>
+        <span className="font-bold text-gray-900 text-lg tracking-tight">
+          {title}
+        </span>
         <button
           onClick={onClose}
           aria-label="Close"

@@ -43,12 +43,14 @@ export default function Example() {
       default: '"ORBT-7X92-KLL9-001P"',
     },
     qrSrc: {
-      description: "URL or data URI for the QR code image. A placeholder SVG is used when omitted.",
+      description:
+        "URL or data URI for the QR code image. A placeholder SVG is used when omitted.",
       type: "string",
       required: false,
     },
     onVerify: {
-      description: "Callback fired when the user submits a complete 6-digit token.",
+      description:
+        "Callback fired when the user submits a complete 6-digit token.",
       type: "(token: string) => void | Promise<void>",
       required: false,
     },

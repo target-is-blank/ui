@@ -29,7 +29,7 @@ import MultiStepModal from "@/components/targetblank/components/multi-step-modal
     { label: "Wallet", value: "MetaMask", icon: <span>🦊</span> },
   ]}
   onClose={() => {}}
-/>
+/>;
 ```
 
 ## Props
@@ -68,17 +68,20 @@ import MultiStepModal from "@/components/targetblank/components/multi-step-modal
       required: false,
     },
     details: {
-      description: "Optional array of key-value rows shown in the details card.",
+      description:
+        "Optional array of key-value rows shown in the details card.",
       type: "DetailRow[]",
       required: false,
     },
     onBack: {
-      description: "Callback when the back chevron is clicked. Hidden if not provided.",
+      description:
+        "Callback when the back chevron is clicked. Hidden if not provided.",
       type: "() => void",
       required: false,
     },
     onClose: {
-      description: "Callback when the close button is clicked. Hidden if not provided.",
+      description:
+        "Callback when the close button is clicked. Hidden if not provided.",
       type: "() => void",
       required: false,
     },
