@@ -305,22 +305,6 @@
       ]
     },
     {
-      "name": "sidebar",
-      "type": "registry:ui",
-      "title": "Sidebar",
-      "description": "A composable sidebar with header, nav items, sections, and footer primitives.",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "files": [
-        {
-          "path": "registry/components/sidebar/index.tsx",
-          "type": "registry:ui",
-          "target": "components/targetblank/components/sidebar.tsx"
-        }
-      ]
-    },
-    {
       "name": "signature",
       "title": "Signature",
       "description": "A signature card component.",
@@ -656,22 +640,6 @@
           "path": "registry/demo/components/objective-bar/index.tsx",
           "type": "registry:ui",
           "target": "components/targetblank/demo/components/objective-bar.tsx"
-        }
-      ]
-    },
-    {
-      "name": "sidebar-demo",
-      "type": "registry:example",
-      "title": "Sidebar Builder",
-      "description": "An interactive sidebar builder — configure nav items, sections, and appearance, then copy the generated TSX component.",
-      "registryDependencies": [
-        "sidebar"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/components/sidebar/index.tsx",
-          "type": "registry:example",
-          "target": "components/demo/sidebar-demo.tsx"
         }
       ]
     },
